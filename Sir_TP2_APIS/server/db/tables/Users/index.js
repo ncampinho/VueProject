@@ -17,14 +17,23 @@ db.login = (username,password) => {
 
 db.register = (userData) => {
     return new Promise((resolve, reject) => {
-        
-       pool.query('INSERT INTO user(username,password,name,nif,email,idZipCode,idUserType) VALUES(?, ?, ?, ?, ?, ?, 1)', 
-       [userData.username, userData.password, userData.name, userData.nif, userData.email, userData.idZipCode], (err, results) => {
+        console.log(userData)
+        pool.query('Select * from user where user.email = ? OR user.username = ?',
+        [userData.email, userData.username],(err, results) => {
+            if(err){
+                return reject(err)
+            }
+            if(results.length > 0){
+                return resolve("Username or email already exists")
+            }
+            pool.query('INSERT INTO user(username,password,name,nif,email,idZipCode,idUserType) VALUES(?, ?, ?, ?, ?, ?, 1)', 
+            [userData.username, userData.password, userData.name, userData.nif, userData.email, userData.idZipCode], (err, results) => {
            if(err){
                return reject(err);
            }
            return resolve(results);
-       }) 
+       })
+        })
     })
 };
 

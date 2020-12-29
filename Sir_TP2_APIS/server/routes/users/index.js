@@ -21,7 +21,6 @@ router.get('/user/login/:username,:password', async (rq, res, next) =>{
 router.post('/user/registration', urlencondedParser,async (rq, res, next) =>{
     try{
         let results = await db.register(rq.body);
-        res.headers("Access-Control-Allow-Origin", "*")
         res.json(results);
     } catch(e){
         console.log(e);
