@@ -9,6 +9,10 @@ db.login = (username,password) => {
            if(err){
                return reject(err);
            }
+
+           if(results.length === 0){
+            return resolve("Username or password incorrect")
+        }
         
            return resolve(results);
        }) 

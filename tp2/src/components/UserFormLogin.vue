@@ -23,13 +23,16 @@
         rounded
       ></v-text-field>
     </v-form>
-    <v-btn rounded color="primary" dark @click="login()">Login</v-btn>
+    <p id="error" v-if="error">{{ error }}</p>
+    <v-btn rounded color="primary" dark @click="submit()">Login</v-btn>
     <router-link to="/login/register">Don't have an account? Sign in here</router-link>
   </v-container>
 </template>
 
 <script>
-export default {
+import { mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
+export default { 
   props: {
     Text: String,
   },
@@ -48,13 +51,21 @@ export default {
         value.length >= 4 || "Minimum 4 characters for the username",
     },
   }),
+  computed: {
+    ...mapGetters({
+      error: 'auth/hasError'
+
+    })
+  },
   methods: {
-    login() {
-      this.$axios
-      .get(`http://localhost:3000/api/tp2/user/login/${this.userData.username},${this.userData.password}`)
-      .then(response => response)
-      .then(data => console.log(data))
-      .catch(error => console.log(error))
+    ...mapActions({
+      login: 'auth/login'
+    }),
+    submit() {
+      this.login(this.userData);
+      if(localStorage.getItem('user')){
+        this.$router.push({ path: '/' })
+      } 
     },
   },
 };
@@ -73,5 +84,9 @@ export default {
     display: block;
     margin-top: 15px;
     color: grey;
+}
+#error{
+  margin-bottom: 10px;
+  color: red;
 }
 </style>
