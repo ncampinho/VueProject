@@ -51,6 +51,7 @@ export default {
 
         authenticate({ commit }, user){
             commit('SET_USER', user)
+            commit('SET_ERROR', null)
         },
 
         authenticationError({ commit }, error){

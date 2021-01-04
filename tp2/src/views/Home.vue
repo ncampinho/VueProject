@@ -38,13 +38,17 @@
         <v-card-title>Availability</v-card-title>
 
         <v-card-text>
-          <v-chip-group v-model="selection" active-class="deep-purple accent-4 white--text" column>
+          <v-chip-group
+            v-model="selection[index]"
+            active-class="deep-purple accent-4 white--text"
+            column
+          >
             <v-chip v-for="(hour, index) in show" :key="index">{{hour.item.showTime}}PM</v-chip>
           </v-chip-group>
         </v-card-text>
 
         <v-card-actions>
-          <v-btn color="deep-purple lighten-2" text @click="reserve">Reserve</v-btn>
+          <v-btn color="deep-purple lighten-2" text @click="purchase(index)">Buy Ticket</v-btn>
         </v-card-actions>
       </v-card>
     </v-container>
@@ -54,14 +58,15 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
-
+import { mapGetters } from 'vuex'
 export default {
   name: "Home",
   components: {
     HelloWorld,
   },
   data: () => ({
-    showItems: [],
+     showItems: [],
+    purchaseItem: {},
     items: [
       {
         src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
@@ -77,29 +82,55 @@ export default {
       },
     ],
     loading: false,
-    selection: 1,
+    selection: [],
   }),
   created() {
-    this.getShows()
+    this.getShows();
   },
   computed: {
-    allShows(){
-      return this.showItems
-    }
+    ...mapGetters({
+      user: 'auth/userData'
+    }),
+    allShows() {
+      return this.showItems;
+    },
   },
   methods: {
-    reserve() {
-      this.loading = true;
-      console.log(this.showItems)
-      setTimeout(() => (this.loading = false), 2000);
+    purchase(index) {
+      if (localStorage.getItem('user')) {
+        this.loading = true;
+        const selectedItem = this.showItems[index][this.selection[index]];
+        const requestBody = {
+          idShow: selectedItem.item.idShow,
+          idUser: this.user[0].idUser,
+          quantity: 1,
+          subtotal: selectedItem.item.price,
+          idDate: selectedItem.item.idDate,
+        };
+this.$axios
+        .post(`http://localhost:3000/api/tp2/user/purchase/newTempLine`, requestBody)
+        .then((response) => response)
+        .then((data) => {
+          console.log(data)
+        })
+        .catch((error) => console.log(error));
+        
+        setTimeout(() => (this.loading = false), 2000);
+      } else {
+        this.loading = true;
+        setTimeout(() => (this.loading = false), 2000);
+        this.$router.push( { path: '/login' } )
+      }
     },
-    getShows(){
+    getShows() {
       this.$axios
-      .get(`http://localhost:3000/api/tp2/shows`)
-      .then(response => response)
-      .then(data => {this.showItems = data.data})
-      .catch(error => console.log(error))
-    }
+        .get(`http://localhost:3000/api/tp2/shows`)
+        .then((response) => response)
+        .then((data) => {
+          this.showItems = data.data;
+        })
+        .catch((error) => console.log(error));
+    },
   },
 };
 </script>
@@ -108,7 +139,6 @@ export default {
 #slideShow {
   padding: 0px;
 }
-
 #showDisplay {
   background-color: red;
   margin-top: 20px;
@@ -116,7 +146,6 @@ export default {
   padding: 0px;
   display: block;
 }
-
 .v-card {
   max-width: 345px;
   float: left;

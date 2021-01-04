@@ -15,6 +15,41 @@ db.purchases = (id) => {
     })
 };
 
+db.newTempPurchaseLine = (lineData) => {
+    console.log(lineData)
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM temp_purchaseline WHERE temp_purchaseline.idShow = ? AND temp_purchaseline.idDate = ? AND temp_purchaseline.idUser = ?',
+            [lineData.idShow, lineData.idDate, lineData.idUser],
+            (err, results) => {
+                if (err) {
+                    return reject(err)
+                }
+                if (results.length > 0) {
+                    console.log('here')
+                    pool.query('UPDATE temp_purchaseline SET temp_purchaseline.quantity = temp_purchaseline.quantity + ?, temp_purchaseline.subtotal = temp_purchaseline.subtotal + ? WHERE temp_purchaseline.idShow = ? AND temp_purchaseline.idDate = ? AND temp_purchaseline.idUser = ?',
+                        [lineData.quantity, lineData.subtotal, lineData.idShow, lineData.idDate, lineData.idUser],
+                        (err, results) => {
+                            if (err) {
+                                return reject(err)
+                            }
+
+                            return resolve("Ticket added to the shopping cart successfully");
+                        })
+                } else {
+                    pool.query('INSERT INTO temp_purchaseline(idShow, idUser, quantity, subtotal, idDate) VALUES(?,?,?,?,?)',
+                        [lineData.idShow, lineData.idUser, lineData.quantity, lineData.subtotal, lineData.idDate],
+                        (err, results) => {
+                            if (err) {
+                                return reject(err)
+                            }
+                            return resolve("Ticket added to the shopping cart successfully");
+                        })
+                }
+            })
+
+    })
+}
+
 db.newPurchase = (purchaseData) => {
     return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM purchase WHERE purchase.idUser = ? AND purchase.purchaseState = 1',
