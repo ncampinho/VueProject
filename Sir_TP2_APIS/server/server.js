@@ -16,7 +16,11 @@ app.use(express.json());
 app.use('/api/tp2', userRoutes);
 app.use('/api/tp2', showRoutes);
 app.use('/api/tp2', zipcodeRoutes);
+<<<<<<< Updated upstream
 app.use('/api/tp2', purchaseRoutes)
+=======
+app.use('/api/tp2', purchaseRoutes);
+>>>>>>> Stashed changes
 
 app.listen(process.env.PORT || '3000', () => {
     console.log(`Server is running on port: ${process.env.PORT || 3000}`)

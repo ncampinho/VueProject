@@ -13,6 +13,7 @@
     </v-container>
 
     <v-container id="showDisplay">
+<<<<<<< Updated upstream
       <v-card
     :loading="loading"
   >
@@ -31,6 +32,25 @@
 
     <v-card-title>Cafe Badilico</v-card-title>
 
+=======
+    <v-card v-for="(show, index) in showItems" :key="index" :loading="loading">
+
+    <template slot="progress">
+      <v-progress-linear
+        color="deep-purple"
+        height="10"
+        indeterminate
+      ></v-progress-linear>
+    </template>
+
+    <v-img
+      height="250"
+      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+    ></v-img>
+
+    <v-card-title>{{show[0].item.showName}}</v-card-title>
+
+>>>>>>> Stashed changes
     <v-card-text>
       <v-row
         align="center"
@@ -50,6 +70,7 @@
         </div>
       </v-row>
 
+<<<<<<< Updated upstream
       <div class="my-4 subtitle-1">
         $ • Italian, Cafe
       </div>
@@ -58,6 +79,10 @@
       <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
     </v-card-text>
 =======
+=======
+      <div class="my-4 subtitle-1">{{show[0].item.type}} - {{show[0].item.rating}}</div>
+
+>>>>>>> Stashed changes
           <div>
             Limite Purchase: {{show[0].item.limitPurchaseDate}}
             <br />
@@ -188,7 +213,11 @@
       src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
     ></v-img>
 
+<<<<<<< Updated upstream
     <v-card-title>Cafe Badilico</v-card-title>
+=======
+    <v-divider class="mx-4"></v-divider>
+>>>>>>> Stashed changes
 
     <v-card-text>
       <v-row
@@ -380,8 +409,12 @@ this.$axios
 #slideShow{
   padding: 0px;
 }
+<<<<<<< Updated upstream
 
 #showDisplay{
+=======
+#showDisplay {
+>>>>>>> Stashed changes
   background-color: red;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -389,10 +422,17 @@ this.$axios
   padding-bottom: 10px;
   display: flex;
 }
+<<<<<<< Updated upstream
 
 .v-card{
+=======
+.v-card {
+>>>>>>> Stashed changes
   max-width: 345px;
   margin: auto;
 }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 </style>
