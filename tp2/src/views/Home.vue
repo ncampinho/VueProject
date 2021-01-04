@@ -54,11 +54,22 @@
         $ • Italian, Cafe
       </div>
 
+<<<<<<< Updated upstream
       <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
     </v-card-text>
+=======
+          <div>
+            Limite Purchase: {{show[0].item.limitPurchaseDate}}
+            <br />
+            Show Date: {{show[0].item.date}}
+          </div>
+        </v-card-text>
+        <v-divider class="mx-4"></v-divider>
+>>>>>>> Stashed changes
 
     <v-divider class="mx-4"></v-divider>
 
+<<<<<<< Updated upstream
     <v-card-title>Tonight's availability</v-card-title>
 
     <v-card-text>
@@ -235,6 +246,22 @@
       </v-btn>
     </v-card-actions>
   </v-card>
+=======
+        <v-card-text>
+          <v-chip-group
+            v-model="selection[index]"
+            active-class="deep-purple accent-4 white--text"
+            column
+          >
+            <v-chip v-for="(hour, index) in show" :key="index">{{hour.item.showTime}}PM</v-chip>
+          </v-chip-group>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-btn color="deep-purple lighten-2" text @click="purchase(index)">Buy Ticket</v-btn>
+        </v-card-actions>
+      </v-card>
+>>>>>>> Stashed changes
     </v-container>
   </v-app>
 </template>
@@ -242,13 +269,14 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
-
+import { mapGetters } from 'vuex'
 export default {
   name: "Home",
   components: {
     HelloWorld,
   },
   data: () => ({
+<<<<<<< Updated upstream
     
       items: [
         {
@@ -264,9 +292,28 @@ export default {
           src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
         },
       ],
+=======
+    showItems: [],
+    purchaseItem: {},
+    items: [
+      {
+        src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
+      },
+      {
+        src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg",
+      },
+      {
+        src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg",
+      },
+      {
+        src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
+      },
+    ],
+>>>>>>> Stashed changes
     loading: false,
-    selection: 1,
+    selection: [],
   }),
+<<<<<<< Updated upstream
   methods: {
       reserve () {
         this.loading = true
@@ -274,6 +321,57 @@ export default {
         setTimeout(() => (this.loading = false), 2000)
       },
     },
+=======
+  created() {
+    this.getShows();
+  },
+  computed: {
+    ...mapGetters({
+      user: 'auth/userData'
+    }),
+    allShows() {
+      return this.showItems;
+    },
+  },
+  methods: {
+    purchase(index) {
+      if (localStorage.getItem('user')) {
+        this.loading = true;
+        const selectedItem = this.showItems[index][this.selection[index]];
+        const requestBody = {
+          idShow: selectedItem.item.idShow,
+          idUser: this.user[0].idUser,
+          quantity: 1,
+          subtotal: selectedItem.item.price,
+          idDate: selectedItem.item.idDate,
+        };
+this.$axios
+        .post(`http://localhost:3000/api/tp2/user/purchase/newTempLine`, requestBody)
+        .then((response) => response)
+        .then((data) => {
+          console.log(data)
+        })
+        .catch((error) => console.log(error));
+        
+        setTimeout(() => (this.loading = false), 2000);
+      } else {
+        this.loading = true;
+        setTimeout(() => (this.loading = false), 2000);
+
+        this.$router.push( { path: '/login' } )
+      }
+    },
+    getShows() {
+      this.$axios
+        .get(`http://localhost:3000/api/tp2/shows`)
+        .then((response) => response)
+        .then((data) => {
+          this.showItems = data.data;
+        })
+        .catch((error) => console.log(error));
+    },
+  },
+>>>>>>> Stashed changes
 };
 </script>
 

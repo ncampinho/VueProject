@@ -37,6 +37,16 @@ router.post('/user/purchase/newLine', urlencondedParser, async (rq, res, next) =
     }
 });
 
+router.post('/user/purchase/newTempLine', urlencondedParser, async (rq, res, next) =>{
+    try{
+        let results = await db.newTempPurchaseLine(rq.body);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
 router.delete('/user/purchase/deleteLine/:id', urlencondedParser, async (rq, res, next) =>{
     try{
         let results = await db.deleteLine(rq.params.id);
