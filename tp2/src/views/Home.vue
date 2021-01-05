@@ -31,11 +31,15 @@
 
           <div class="my-4 subtitle-1">{{show[0].item.type}} - {{show[0].item.rating}}</div>
 
-          <div>Limite Purchase: {{show[0].item.limitPurchaseDate}}<br>Show Date: {{show[0].item.date}}</div>
+          <div>
+            Limite Purchase: {{show[0].item.limitPurchaseDate}}
+            <br />
+            Show Date: {{show[0].item.date}}
+          </div>
         </v-card-text>
         <v-divider class="mx-4"></v-divider>
 
-        <v-card-title>Availability</v-card-title>
+    <v-divider class="mx-4"></v-divider>
 
         <v-card-text>
           <v-chip-group
@@ -57,15 +61,13 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
 import { mapGetters } from 'vuex'
 export default {
   name: "Home",
   components: {
-    HelloWorld,
   },
   data: () => ({
-     showItems: [],
+    showItems: [],
     purchaseItem: {},
     items: [
       {
@@ -81,7 +83,7 @@ export default {
         src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
       },
     ],
-    loading: false,
+      loading: false,
     selection: [],
   }),
   created() {
@@ -137,10 +139,9 @@ this.$axios
 
 <style scoped>
 #slideShow {
-  padding: 0px;
+  padding: 10px;
 }
 #showDisplay {
-  background-color: red;
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 0px;

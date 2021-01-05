@@ -6,6 +6,7 @@ const router = express.Router();
 //From this stage all apis start with /api/tp2
 router.get('/shows', async (rq, res, next) =>{
     try{
+        
         let results = await db.all();
         res.json(results);
     } catch(e){
