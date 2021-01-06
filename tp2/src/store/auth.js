@@ -35,7 +35,6 @@ export default {
                 .get(`http://localhost:3000/api/tp2/user/login/${credentials.username},${credentials.password}`)
                 .then(response => response)
                 .then(data => {
-                    console.log(data.data)
                     if(typeof (data.data) === 'string'){
                         dispatch('authenticationError', data.data)
                     }else{

@@ -78,8 +78,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      error: 'auth/hasError'
-
+      error: 'auth/hasError',
+      user: 'auth/userData'
     })
   },
   methods: {
@@ -87,15 +87,24 @@ export default {
       this.$emit("input", !this.value);
     },
     ...mapActions({
-      login: 'auth/login'
+      login: 'auth/login',
+      insertCart: 'cart/fetchProducts'
     }),
+    insertingShoppingCart(){
+      if(this.user[0]){
+        this.insertCart(this.user[0].idUser)
+      }  
+    },
     submit() {
       this.login(this.userData);
+      setTimeout(() => (this.insertingShoppingCart()), 3000);
+      //this.insertCart(this.user.idUser)
       if(localStorage.getItem('user')){
         this.$router.push({ path: '/' })
       }
       //VER COM ANTÓNIO  this.$emit("input", !this.value);
     },
+    
   },
 };
 </script>

@@ -1,6 +1,9 @@
 <template>
+
   <v-app style="padding: 0px, 30px">
+    
     <v-container id="slideShow">
+      
       <v-carousel hide-delimiter-background show-arrows-on-hover>
         <v-carousel-item
           v-for="(item,i) in items"
@@ -91,7 +94,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'auth/userData'
+      user: 'auth/userData',
+      shoppingCart: 'cart/getPurchaseLine'
     }),
     allShows() {
       return this.showItems;

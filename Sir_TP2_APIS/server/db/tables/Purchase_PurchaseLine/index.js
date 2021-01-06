@@ -50,6 +50,19 @@ db.newTempPurchaseLine = (lineData) => {
     })
 }
 
+db.getTempPurchase = (idUser) => {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM temp_purchaseline WHERE temp_purchaseline.idUser = ?',
+        [idUser], (err, results) => {
+            if(err){
+                return reject(err);
+            }
+
+            return resolve(results);
+        })
+    })
+}
+
 db.newPurchase = (purchaseData) => {
     return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM purchase WHERE purchase.idUser = ? AND purchase.purchaseState = 1',

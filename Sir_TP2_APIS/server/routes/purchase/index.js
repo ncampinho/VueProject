@@ -37,6 +37,16 @@ router.post('/user/purchase/newLine', urlencondedParser, async (rq, res, next) =
     }
 });
 
+router.get('/user/purchase/getTempLine/:id', async (rq, res, next) =>{
+    try{
+        let results = await db.getTempPurchase(rq.params.id);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
 router.post('/user/purchase/newTempLine', urlencondedParser, async (rq, res, next) =>{
     try{
         let results = await db.newTempPurchaseLine(rq.body);
