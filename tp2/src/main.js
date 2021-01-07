@@ -9,7 +9,7 @@ require('@/store/authenticating')
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
-
+//store.dispatch('auth/reauthentication', localStorage.getItem('user'))
 
 new Vue({
   router,

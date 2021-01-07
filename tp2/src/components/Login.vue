@@ -62,7 +62,7 @@ export default {
       idUserType: 1,
     },
     showPassword: false,
-    rules: {
+    rules: {  
       required: (value) => !!value || "Required.",
       minPassword: (value) =>
         value.length >= 8 || "Minimum 8 characters for the password",

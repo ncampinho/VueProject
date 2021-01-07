@@ -29,10 +29,13 @@
         </v-responsive>-->
 
       
-       <v-btn icon>
-        <v-icon>mdi-cart-outline</v-icon>
+       <v-btn  icon >
+        <v-icon @click="changeCartDialog()">mdi-cart-outline</v-icon>
+        <span v-if="(shoppingCart) == null" class="btn-circle" >0</span>
+        <span v-else class="btn-circle" >{{shoppingCart.length}}</span>
       </v-btn>
       
+      <span style="color:grey; font-size: 10px" v-if="user" class="btn-circle" >{{user[0].name}}</span>
       <v-btn v-if="isAuthenticated" @click="submit()" href="#" icon>
         <v-icon>mdi-logout</v-icon>
       </v-btn>
@@ -42,6 +45,7 @@
     </v-app-bar>
 
     <login v-model="dialog"></login>
+    <popupcart v-model="cartdialog"></popupcart>
     <v-main>
      <router-view/>
     </v-main>
@@ -93,31 +97,39 @@ body {
 import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
 import Login from "@/components/Login.vue";
+import Popupcart from "@/components/Popupcart.vue";
 export default {
   components: {
-    Login
+    Login,
+    Popupcart
   },
   data() {
         return {
-            dialog: false
+            dialog: false,
+            cartdialog: false
         }
     },
   computed: {
     ...mapGetters({
       isAuthenticated: 'auth/isAuthenticated',
-      user: 'auth/userData'
-
-    })
+      user: 'auth/userData',
+      shoppingCart: 'cart/getPurchaseLine'
+    }),
   },
   methods: {
     ...mapActions({
       logout: 'auth/logout'
+
     }),
     submit(){
       this.logout(null)
+      
     },
     changeDialog(){
       this.dialog = !this.dialog;
+    },
+    changeCartDialog(){
+      this.cartdialog = !this.cartdialog;
     },
   }
 }

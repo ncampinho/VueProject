@@ -3,7 +3,6 @@
   <v-app style="padding: 0px, 30px">
     
     <v-container id="slideShow">
-      
       <v-carousel hide-delimiter-background show-arrows-on-hover>
         <v-carousel-item
           v-for="(item,i) in items"
@@ -68,6 +67,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: "Home",
   components: {
+    
   },
   data: () => ({
     showItems: [],

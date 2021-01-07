@@ -55,7 +55,12 @@ export default {
 
         authenticationError({ commit }, error){
             commit('SET_ERROR', error)
-        }
+        },
+
+        /*reauthentication({ commit }, userData){
+            console.log("Userv2: " + JSON.parse(userData))
+            commit('SET_USER', JSON.parse(userData))
+        },*/
 
     },
 }

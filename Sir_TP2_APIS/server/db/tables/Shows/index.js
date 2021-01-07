@@ -4,7 +4,6 @@ let db = {};
 
 db.all = () => {
     return new Promise((resolve, reject) => {
-        console.log("teste")
         pool.query('Select * from shows, showdate, dates, rating, showtype where shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType',
             (err, results) => {
                 if (err) {
