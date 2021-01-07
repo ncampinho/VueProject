@@ -45,7 +45,7 @@
     </v-app-bar>
 
     <login v-model="dialog"></login>
-    <popupcart v-model="cartdialog"></popupcart>
+    <!--<popupcart v-model="cartdialog"></popupcart>-->
     <v-main>
      <router-view/>
     </v-main>
