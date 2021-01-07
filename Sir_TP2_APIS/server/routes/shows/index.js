@@ -1,9 +1,11 @@
+//All these API endpoints start with /api/tp2
 const express = require('express');
 const db = require('../../db/tables/Shows');
 
+//Router allows to perform different types of request to the database
 const router = express.Router();
 
-//From this stage all apis start with /api/tp2
+//Endpoint that gets all shows created
 router.get('/shows', async (rq, res, next) =>{
     try{
         
@@ -15,6 +17,7 @@ router.get('/shows', async (rq, res, next) =>{
     }
 });
 
+//Endpoint that gets a particular show
 router.get('/show/:id', async (rq, res, next) =>{
     try{
         let results = await db.one(rq.params.id);
@@ -25,6 +28,7 @@ router.get('/show/:id', async (rq, res, next) =>{
     }
 });
 
+//Endpoint that gets a show by its name
 router.get('/show/name/:name', async (rq, res, next) =>{
     try{
         let results = await db.byName(rq.params.name);
@@ -35,6 +39,7 @@ router.get('/show/name/:name', async (rq, res, next) =>{
     }
 });
 
+//Endpoint that gets a show by its type
 router.get('/show/type/:type', async (rq, res, next) =>{
     try{
         let results = await db.byType(rq.params.type);
@@ -45,6 +50,7 @@ router.get('/show/type/:type', async (rq, res, next) =>{
     }
 });
 
+//Endpoint that gets a show by its name and type
 router.get('/show/nameType/:name,:type', async (rq, res, next) =>{
     try{
         let results = await db.byNameType(rq.params.name, rq.params.type);
@@ -55,6 +61,7 @@ router.get('/show/nameType/:name,:type', async (rq, res, next) =>{
     }
 });
 
+//Endpoint that gets a show by its rating
 router.get('/show/rating/:rating', async (rq, res, next) =>{
     try{
         let results = await db.byRating(rq.params.rating);
@@ -65,6 +72,7 @@ router.get('/show/rating/:rating', async (rq, res, next) =>{
     }
 });
 
+//Endpoint that gets a show by its name and rating
 router.get('/show/nameRating/:name,:rating', async (rq, res, next) =>{
     try{
         let results = await db.byNameRating(rq.params.name, rq.params.rating);
@@ -75,4 +83,5 @@ router.get('/show/nameRating/:name,:rating', async (rq, res, next) =>{
     }
 });
 
+//Export all the routes(endpoints) available
 module.exports = router;

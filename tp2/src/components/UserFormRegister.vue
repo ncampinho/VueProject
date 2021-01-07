@@ -1,3 +1,4 @@
+<!--Component for a register form to create a new user-->
 <template>
   <v-container>
     <h1>{{Text}}</h1>
@@ -72,6 +73,7 @@ export default {
     items: [],
     selection: [],
     showPassword: false,
+    //Rules for each field of the form -> helps validate and warn the users input before submiting
     rules: {
       required: (value) => !!value || "Required.",
       minPassword: (value) =>
@@ -93,6 +95,7 @@ export default {
       },
     },
   }),
+  //When component is mounted -> Fetches all zipcodes to insert into a combobox
   mounted() {
     this.$axios
       .get(`http://localhost:3000/api/tp2/zipcode`)
@@ -105,6 +108,7 @@ export default {
       .catch((error) => console.log(error));
   },
   methods: {
+    //Executes the register -> uses api to register a new user
     register() {
       const zipcode = this.selection.split(" - ")
       this.userData.idZipCode = zipcode[0]

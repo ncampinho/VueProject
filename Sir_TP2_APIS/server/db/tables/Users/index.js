@@ -1,7 +1,13 @@
+/**Requires database connection - Connects to defined database
+ * and returns functionalities like querying
+*/
 const pool = require('../../dbconnection');
+
+/**This file is to write methods that perform queries to on the User table on the selected database */
 
 let db = {};
 
+//Returns an user by its login credentials
 db.login = (username,password) => {
     return new Promise((resolve, reject) => {
         console.log(username, password)
@@ -19,6 +25,10 @@ db.login = (username,password) => {
     })
 };
 
+/**Creates a new user on the database. Before it checks if
+ * it exists any user with the same username or email inserted
+ * if so the user is warned, otherwise the new user is created
+ */
 db.register = (userData) => {
     return new Promise((resolve, reject) => {
         console.log(userData)
@@ -41,6 +51,7 @@ db.register = (userData) => {
     })
 };
 
+/**Inserts a comment to a given show */
 db.writeComment = (commentData) => {
     return new Promise((resolve, reject) => {
         
@@ -54,6 +65,7 @@ db.writeComment = (commentData) => {
     })
 };
 
+//Increases like number of comment
 db.likeComment = (id) => {
     return new Promise((resolve, reject) => {
         
@@ -67,6 +79,7 @@ db.likeComment = (id) => {
     })
 };
 
+//Decreases like number of comment
 db.unlikeComment = (id) => {
     return new Promise((resolve, reject) => {
         
@@ -80,4 +93,5 @@ db.unlikeComment = (id) => {
     })
 };
 
+//Exports database to give access to all the methods
 module.exports = db;

@@ -1,3 +1,4 @@
+<!--Component that creates a popup window for the user to login-->
 <template>
   <v-row justify="center">
     <v-dialog v-model="value" persistent max-width="600px">
@@ -49,6 +50,7 @@
 </template>
 
 <script>
+//Imports getter and actions from the vuex store
 import { mapActions } from 'vuex'
 import { mapGetters } from 'vuex'
 export default {
@@ -62,6 +64,7 @@ export default {
       idUserType: 1,
     },
     showPassword: false,
+    //Validation rules for the forms fields
     rules: {  
       required: (value) => !!value || "Required.",
       minPassword: (value) =>
@@ -90,15 +93,16 @@ export default {
       login: 'auth/login',
       insertCart: 'cart/fetchProducts'
     }),
+    //Inserts to the shopping cart all items that a certain user has after login
     insertingShoppingCart(){
       if(this.user[0]){
         this.insertCart(this.user[0].idUser)
       }  
     },
+    //Submits the login credentials.
     submit() {
       this.login(this.userData);
       setTimeout(() => (this.insertingShoppingCart()), 3000);
-      //this.insertCart(this.user.idUser)
       if(localStorage.getItem('user')){
         this.$router.push({ path: '/' })
       }

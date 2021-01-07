@@ -1,7 +1,6 @@
+<!--Component about the Home page (first page that a user is going to have access too)-->
 <template>
-
   <v-app style="padding: 0px, 30px">
-    
     <v-container id="slideShow">
       <v-carousel hide-delimiter-background show-arrows-on-hover>
         <v-carousel-item
@@ -41,7 +40,7 @@
         </v-card-text>
         <v-divider class="mx-4"></v-divider>
 
-    <v-divider class="mx-4"></v-divider>
+        <v-divider class="mx-4"></v-divider>
 
         <v-card-text>
           <v-chip-group
@@ -63,12 +62,10 @@
 
 <script>
 // @ is an alias to /src
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
   name: "Home",
-  components: {
-    
-  },
+  components: {},
   data: () => ({
     showItems: [],
     purchaseItem: {},
@@ -86,7 +83,7 @@ export default {
         src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
       },
     ],
-      loading: false,
+    loading: false,
     selection: [],
   }),
   created() {
@@ -94,16 +91,17 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'auth/userData',
-      shoppingCart: 'cart/getPurchaseLine'
+      user: "auth/userData",
+      shoppingCart: "cart/getPurchaseLine",
     }),
     allShows() {
       return this.showItems;
     },
   },
   methods: {
+    //Inserts ticket into a shopping cart
     purchase(index) {
-      if (localStorage.getItem('user')) {
+      if (localStorage.getItem("user")) {
         this.loading = true;
         const selectedItem = this.showItems[index][this.selection[index]];
         const requestBody = {
@@ -113,21 +111,25 @@ export default {
           subtotal: selectedItem.item.price,
           idDate: selectedItem.item.idDate,
         };
-this.$axios
-        .post(`http://localhost:3000/api/tp2/user/purchase/newTempLine`, requestBody)
-        .then((response) => response)
-        .then((data) => {
-          console.log(data)
-        })
-        .catch((error) => console.log(error));
-        
+        this.$axios
+          .post(
+            `http://localhost:3000/api/tp2/user/purchase/newTempLine`,
+            requestBody
+          )
+          .then((response) => response)
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((error) => console.log(error));
+
         setTimeout(() => (this.loading = false), 2000);
       } else {
         this.loading = true;
         setTimeout(() => (this.loading = false), 2000);
-        this.$router.push( { path: '/login' } )
+        this.$router.push({ path: "/login" });
       }
     },
+    //Uses API to get all shows on the database
     getShows() {
       this.$axios
         .get(`http://localhost:3000/api/tp2/shows`)

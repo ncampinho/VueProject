@@ -1,4 +1,9 @@
+/**Requires database connection - Connects to defined database
+ * and returns functionalities like querying
+*/
 const pool = require('../../dbconnection');
+
+/**This file is to write methods that perform queries to on the Comment table on the selected database */
 
 let db = {};
 
@@ -15,4 +20,5 @@ db.allComments = (id) => {
     })
 };
 
+//Exports database to give access to all the methods
 module.exports = db;

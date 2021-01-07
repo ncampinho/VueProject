@@ -1,4 +1,5 @@
-  import Vue from 'vue'
+//Vue vuex store
+import Vue from 'vue'
 import Vuex from 'vuex'
 import auth from './auth'
 import cart from './shoppingCart'
@@ -12,6 +13,7 @@ export default new Vuex.Store({
   },
   actions: {
   },
+  //Modules -> all logic to perform actions on states
   modules: {
     auth,
     cart

@@ -1,5 +1,7 @@
+<!--Register Component-->
 <template>
   <div id="form-container">
+    <!--Registration Form Component-->
     <UserForm Text="Register"/>
   </div>
 </template>

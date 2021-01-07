@@ -1,7 +1,14 @@
+/**Requires database connection - Connects to defined database
+ * and returns functionalities like querying
+*/
 const pool = require('../../dbconnection');
 
 let db = {};
 
+/**This file is to write methods that perform queries to on the Purchase, PurchaseLine and Temp_PurchaseLin table on the selected database */
+
+
+//Selects a single purchase matching the given id
 db.purchases = (id) => {
     return new Promise((resolve, reject) => {
 
@@ -15,6 +22,13 @@ db.purchases = (id) => {
     })
 };
 
+/**Creates a new temporary purchase line
+ * If a temporary purchase line with certain show, date and user id already
+ * exists it updates that table.
+ * Otherwise it creates a new one. This table is to old temporarily data about
+ * the user's shopping cart. When the shopping cart is confirmed the data on this
+ * table is placed into purchaseline table
+*/
 db.newTempPurchaseLine = (lineData) => {
     console.log(lineData)
     return new Promise((resolve, reject) => {
@@ -50,6 +64,8 @@ db.newTempPurchaseLine = (lineData) => {
     })
 }
 
+//Selects a certain temporary purchase line
+
 db.getTempPurchase = (idUser) => {
     return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM temp_purchaseline WHERE temp_purchaseline.idUser = ?',
@@ -63,6 +79,10 @@ db.getTempPurchase = (idUser) => {
     })
 }
 
+/**Creates a new purchase for the user
+ * Is created when the user confirms the purchase
+ * on the shopping cart
+*/
 db.newPurchase = (purchaseData) => {
     return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM purchase WHERE purchase.idUser = ? AND purchase.purchaseState = 1',
@@ -90,6 +110,11 @@ db.newPurchase = (purchaseData) => {
 
     })
 };
+
+/**Creates a new purchase for the user
+ * Is created when the user confirms the purchase
+ * on the shopping cart
+*/
 
 db.newPurchaseLine = (lineData) => {
     return new Promise((resolve, reject) => {
@@ -122,6 +147,7 @@ db.newPurchaseLine = (lineData) => {
     })
 };
 
+//Deletes all temporary purchase lines when the user finalizes the purchase
 db.deleteLine = (id) => {
     return new Promise((resolve, reject) => {
 
@@ -135,4 +161,5 @@ db.deleteLine = (id) => {
     })
 };
 
+//Exports database to give access to all the methods
 module.exports = db;

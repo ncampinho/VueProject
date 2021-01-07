@@ -1,12 +1,16 @@
+//All these API endpoints start with /api/tp2
 const express = require('express');
 const db = require('../../db/tables/Comment');
 
 const bodyParser = require('body-parser');
 
+//Router allows to perform different types of request to the database
 const router = express.Router();
 
+//bodyParser -> allows to send a body of information typical of post requests
 const urlencondedParser = bodyParser.urlencoded({extended:false});
 
+//Endpoint to get all comments of certain show
 router.get('/shows/comments/:id', async (rq, res, next) =>{
     try{
         let results = await db.allComments(rq.params.id);
@@ -17,4 +21,5 @@ router.get('/shows/comments/:id', async (rq, res, next) =>{
     }
 });
 
+//Export all the routes(endpoints) available
 module.exports = router;

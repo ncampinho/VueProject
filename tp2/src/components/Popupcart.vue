@@ -1,3 +1,4 @@
+<!--Component to create a window popup regarding the itens existing on the shopping cart-->
 <template>
   <div class="box">
     <span v-if="(shoppingCart) == null">Sem produtos</span>
@@ -20,6 +21,7 @@
 </template>
 
 <script>
+//Imports getter and actions from the vuex store
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
