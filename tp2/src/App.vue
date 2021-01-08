@@ -11,11 +11,11 @@
       ></v-img>
       </router-link>
       <v-spacer></v-spacer>
+
       <v-tabs centered class="ml-n9" color="grey darken-1">
-        <v-tab>Theme I</v-tab>
-        <v-tab>Theme II</v-tab>
-        <v-tab>Theme III</v-tab>
-        <v-tab to="/about">About</v-tab>
+        <v-tab to="/cinema_and_arts">Theme I</v-tab>
+        <v-tab to="/musics_and_festivals">Theme II</v-tab>
+        <v-tab to="/sports">Theme III</v-tab>
       </v-tabs>
 
       <!--<v-responsive max-width="300">

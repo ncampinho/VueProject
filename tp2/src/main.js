@@ -12,8 +12,6 @@ Vue.prototype.$axios = axios
 
 store.dispatch('auth/reauthentication', localStorage.getItem('user'))
 
-
-
 new Vue({
   router,
   store,

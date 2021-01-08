@@ -34,6 +34,11 @@ const routes = [
     name: 'Checkout',
     component: () => import('../views/Checkout.vue')
   },
+  {
+    path: '/cinema_and_arts',
+    name: 'CinemaAndArts',
+    component: () => import('../views/CinemaAndArts.vue')
+  },
 ]
 
 const router = new VueRouter({
