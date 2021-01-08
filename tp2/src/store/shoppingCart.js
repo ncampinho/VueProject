@@ -8,6 +8,7 @@ export default {
     //Variables to keep data persisting while changes pages
     state: {
         productLine: null,
+        total: null
     },
     //Return state variables data
     getters: {
@@ -15,12 +16,18 @@ export default {
         getPurchaseLine (state){
             return state.productLine
         },
+        getTotal (state){
+            return state.total
+        },
     },
     //Perform changes on state variable data
     mutations: {
         //Mutation to change shopping cart value
         'SET_CART'(state, cartInfo){
             state.productLine = cartInfo
+            cartInfo.forEach(product => {
+                state.total += product.subtotal
+            });
         }
     },
     //Coordinates dispatch and commits actions in order to perform mutation

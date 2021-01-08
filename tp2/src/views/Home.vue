@@ -2,7 +2,12 @@
 <template>
   <v-app style="padding: 0px, 30px">
     <v-container id="slideShow">
-      <v-carousel hide-delimiter-background show-arrows-on-hover>
+      <v-carousel 
+      :continuous="false"
+      :cycle="true"
+      hide-delimiter-background
+      delimiter-icon="mdi-minus" 
+      show-arrows-on-hover>
         <v-carousel-item
           v-for="(item,i) in items"
           :key="i"
@@ -14,12 +19,24 @@
     </v-container>
 
     <v-container id="showDisplay">
-      <v-card v-for="(show, index) in showItems" :key="index" :loading="loading">
+    <v-sheet
+    class="mx-auto"
+    elevation="0"
+  ><v-slide-group
+      v-model="model"
+      class="pa-4"
+      multiple
+      show-arrows
+    >
+    <v-slide-item
+        v-for="(show, index) in showItems" :key="index" :loading="loading"
+      >
+      <v-card >
         <template slot="progress">
-          <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
+          <v-progress-linear color="red" height="2" indeterminate></v-progress-linear>
         </template>
 
-        <v-img height="250" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
+        <v-img height="140" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
 
         <v-card-title>{{show[0].item.showName}}</v-card-title>
 
@@ -27,10 +44,10 @@
           <v-row align="center" class="mx-0">
             <v-rating :value="4.5" color="amber" dense half-increments readonly size="14"></v-rating>
 
-            <div class="grey--text ml-4">4.5 (413)</div>
+            <div class="grey--text ml-6">4.5 (413)</div>
           </v-row>
 
-          <div class="my-4 subtitle-1">{{show[0].item.type}} - {{show[0].item.rating}}</div>
+          <div class="my-8 subtitle-1">{{show[0].item.type}} - {{show[0].item.rating}}</div>
 
           <div>
             Limite Purchase: {{show[0].item.limitPurchaseDate}}
@@ -38,14 +55,14 @@
             Show Date: {{show[0].item.date}}
           </div>
         </v-card-text>
-        <v-divider class="mx-4"></v-divider>
+        <v-divider class="mx-12"></v-divider>
 
-        <v-divider class="mx-4"></v-divider>
+    <v-divider class="mx-12"></v-divider>
 
         <v-card-text>
           <v-chip-group
             v-model="selection[index]"
-            active-class="deep-purple accent-4 white--text"
+            active-class="accent-4 white--text"
             column
           >
             <v-chip v-for="(hour, index) in show" :key="index">{{hour.item.showTime}}PM</v-chip>
@@ -53,9 +70,12 @@
         </v-card-text>
 
         <v-card-actions>
-          <v-btn color="deep-purple lighten-2" text @click="purchase(index)">Buy Ticket</v-btn>
+          <v-btn color="lighten-2" text @click="purchase(index)">Buy Ticket</v-btn>
         </v-card-actions>
       </v-card>
+      </v-slide-item>
+    </v-slide-group>
+  </v-sheet>
     </v-container>
   </v-app>
 </template>
@@ -135,6 +155,7 @@ export default {
         .get(`http://localhost:3000/api/tp2/shows`)
         .then((response) => response)
         .then((data) => {
+          console.log(data.data)
           this.showItems = data.data;
         })
         .catch((error) => console.log(error));
@@ -145,17 +166,15 @@ export default {
 
 <style scoped>
 #slideShow {
-  padding: 10px;
+  padding: 5px;
 }
 #showDisplay {
-  margin-top: 20px;
   margin-bottom: 20px;
-  padding: 0px;
   display: block;
 }
 .v-card {
-  max-width: 345px;
+  max-width: 350px;
   float: left;
-  margin: 10px 10px 10px 0px;
+  margin: 0px 10px 10px 0px;
 }
 </style>

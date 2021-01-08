@@ -68,7 +68,7 @@ db.newTempPurchaseLine = (lineData) => {
 
 db.getTempPurchase = (idUser) => {
     return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM temp_purchaseline WHERE temp_purchaseline.idUser = ?',
+        pool.query('SELECT * FROM shows, dates, temp_purchaseline WHERE temp_purchaseline.idUser = ? AND temp_purchaseline.idShow=shows.idShow AND temp_purchaseline.idDate=dates.idDate',
         [idUser], (err, results) => {
             if(err){
                 return reject(err);
@@ -79,10 +79,21 @@ db.getTempPurchase = (idUser) => {
     })
 }
 
-/**Creates a new purchase for the user
- * Is created when the user confirms the purchase
- * on the shopping cart
-*/
+db.deleteTempLine = (id) => {
+    return new Promise((resolve, reject) => {
+
+        pool.query('DELETE FROM temp_purchaseline WHERE temp_purchaseline.idShow=? AND temp_purchaseline.idUser=? AND temp_purchaseline.idDate = ? ',
+            [id.idShow, id.idUser, id.idDate], (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(results);
+            })
+    })
+};
+
+
+
 db.newPurchase = (purchaseData) => {
     return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM purchase WHERE purchase.idUser = ? AND purchase.purchaseState = 1',
@@ -151,7 +162,7 @@ db.newPurchaseLine = (lineData) => {
 db.deleteLine = (id) => {
     return new Promise((resolve, reject) => {
 
-        pool.query('DELETE * FROM purchaseline WHERE shows.idShow = purchaseline.idShow AND purchaseline.idShow = ? AND shows.purchaseState = 1 ',
+        pool.query('DELETE FROM purchaseline WHERE shows.idShow = purchaseline.idShow AND purchaseline.idShow = ? AND shows.purchaseState = 1 ',
             [id], (err, results) => {
                 if (err) {
                     return reject(err);

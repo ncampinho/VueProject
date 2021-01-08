@@ -65,7 +65,16 @@ router.post('/user/purchase/newTempLine', urlencondedParser, async (rq, res, nex
     }
 });
 
-//Endpoint that deletes a certain temporary purchase line
+router.post('/user/purchase/deleteTempLine', urlencondedParser, async (rq, res, next) =>{
+    try{
+        let results = await db.deleteTempLine(rq.body);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
 router.delete('/user/purchase/deleteLine/:id', urlencondedParser, async (rq, res, next) =>{
     try{
         let results = await db.deleteLine(rq.params.id);

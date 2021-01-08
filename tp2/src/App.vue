@@ -29,8 +29,8 @@
         </v-responsive>-->
 
       
-       <v-btn  icon >
-        <v-icon @click="changeCartDialog()">mdi-cart-outline</v-icon>
+       <v-btn  @click="changeCartDialog()" icon >
+        <v-icon>mdi-cart-outline</v-icon>
         <span v-if="(shoppingCart) == null" class="btn-circle" >0</span>
         <span v-else class="btn-circle" >{{shoppingCart.length}}</span>
       </v-btn>
@@ -45,7 +45,7 @@
     </v-app-bar>
 
     <login v-model="dialog"></login>
-    <!--<popupcart v-model="cartdialog"></popupcart>-->
+    <popupcart v-model="cartdialog"></popupcart>
     <v-main>
      <router-view/>
     </v-main>
@@ -118,12 +118,12 @@ export default {
   },
   methods: {
     ...mapActions({
-      logout: 'auth/logout'
-
+      logout: 'auth/logout',
+      clearCart: 'cart/insertCart'
     }),
     submit(){
       this.logout(null)
-      
+      this.clearCart(null)
     },
     changeDialog(){
       this.dialog = !this.dialog;
