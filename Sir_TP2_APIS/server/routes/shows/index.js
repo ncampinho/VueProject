@@ -39,6 +39,28 @@ router.get('/show/name/:name', async (rq, res, next) =>{
     }
 });
 
+//Endpoint that gets a show that should be a spotlight regardless of type
+router.get('/shows_spotlight', async (rq, res, next) =>{
+    try{
+        let results = await db.bySpotlight(rq.params.type);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+//Endpoint that gets a show by its type
+router.get('/show_spotlight/type/:type', async (rq, res, next) =>{
+    try{
+        let results = await db.byType_Spotlighted(rq.params.type);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
 //Endpoint that gets a show by its type
 router.get('/show/type/:type', async (rq, res, next) =>{
     try{

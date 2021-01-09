@@ -1,7 +1,7 @@
 <template>
 <v-app>
-    <horizontal-displayer URL = 'http://localhost:3000/api/tp2/show_spotlight/type/Cinema And Arts' />
-    <vertical-displayer URL= 'http://localhost:3000/api/tp2/show/type/Cinema And Arts' />
+    <horizontal-displayer URL = 'http://localhost:3000/api/tp2/show/type/Sports' />
+    <vertical-displayer URL= 'http://localhost:3000/api/tp2/show/type/Sports' />
 </v-app>
 </template>
 

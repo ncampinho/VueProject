@@ -19,7 +19,7 @@
       </v-carousel>
     </v-container>
 
-    <horizontal-displayer URL = 'http://localhost:3000/api/tp2/shows'/>
+    <horizontal-displayer URL = 'http://localhost:3000/api/tp2/shows_spotlight'/>
     <vertical-displayer URL= 'http://localhost:3000/api/tp2/shows'/>
     
   </v-app>
@@ -27,7 +27,6 @@
 
 <script>
 // @ is an alias to /src
-import { mapGetters } from "vuex";
 import HorizontalDisplayer from '../components/HorizontalDisplayer.vue'
 import VerticalDisplayer from '../components/VerticalDisplayer.vue'
 export default {
