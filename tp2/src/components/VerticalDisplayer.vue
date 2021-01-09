@@ -1,6 +1,6 @@
 <template>
   <v-container id="showDisplay">
-    <v-card v-for="(show, index) in showItems" :key="index" :loading="loading">
+    <v-card v-for="(show, index) in showItems" :key="index" :loading="loading" :style="style">
       <template slot="progress">
         <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
       </template>
@@ -58,6 +58,7 @@ export default {
   },
   props: {
     URL: String,
+    Color: String
   },
   data: () => ({
     dialog: false,
@@ -91,6 +92,9 @@ export default {
     allShows() {
       return this.showItems;
     },
+    style () {
+      return this.Color
+    }
   },
   methods: {
     //Inserts ticket into a shopping cart
@@ -141,13 +145,18 @@ export default {
 .v-card {
   max-width: 350px;
   float: left;
-  margin: 0px 10px 10px 0px;
+  margin: 0px 4.21rem 2rem 0px;
+  
+}
+
+.v-card:nth-child(3n){
+  margin-right: 0rem;
 }
 
 #showDisplay {
-  margin-top: 20px;
   margin-bottom: 20px;
   padding: 0px;
   display: block;
+  background: red;
 }
 </style>

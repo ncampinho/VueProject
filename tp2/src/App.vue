@@ -13,9 +13,9 @@
       <v-spacer></v-spacer>
 
       <v-tabs centered class="ml-n9" color="grey darken-1">
-        <v-tab to="/cinema_and_arts">Theme I</v-tab>
-        <v-tab to="/musics_and_festivals">Theme II</v-tab>
-        <v-tab to="/sports">Theme III</v-tab>
+        <v-tab to="/cinema_and_arts">{{tabItems[0].type}}</v-tab>
+        <v-tab to="/musics_and_festivals">{{tabItems[1].type}}</v-tab>
+        <v-tab to="/sports">{{tabItems[2].type}}</v-tab>
       </v-tabs>
 
       <!--<v-responsive max-width="300">
@@ -106,9 +106,13 @@ export default {
   data() {
         return {
             dialog: false,
-            cartdialog: false
+            cartdialog: false,
+            tabItems: []
         }
     },
+  beforeMount: function() {
+    this.getTabItems()
+  },
   computed: {
     ...mapGetters({
       isAuthenticated: 'auth/isAuthenticated',
@@ -131,6 +135,16 @@ export default {
     changeCartDialog(){
       this.cartdialog = !this.cartdialog;
     },
+    getTabItems(){
+      this.$axios
+        .get('http://localhost:3000/api/tp2/types')
+        .then((response) => response)
+        .then((data) => {
+          console.log(data.data)
+          this.tabItems = data.data;
+        })
+        .catch((error) => console.log(error));
+    }
   }
 }
 </script>

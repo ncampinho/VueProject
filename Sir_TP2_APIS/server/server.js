@@ -8,6 +8,7 @@ const userRoutes = require('./routes/users')
 const showRoutes = require('./routes/shows')
 const zipcodeRoutes = require('./routes/zipcode')
 const purchaseRoutes = require('./routes/purchase')
+const showTypesRoutes = require('./routes/showtype')
 
 /**----------------------------------------------------------- */
 //const proxy = require('http-proxy-middleware');
@@ -25,6 +26,7 @@ app.use('/api/tp2', userRoutes);
 app.use('/api/tp2', showRoutes);
 app.use('/api/tp2', zipcodeRoutes);
 app.use('/api/tp2', purchaseRoutes);
+app.use('/api/tp2', showTypesRoutes);
 
 /**----------------------------------------------------- */
 

@@ -18,9 +18,10 @@
         ></v-carousel-item>
       </v-carousel>
     </v-container>
-
-    <horizontal-displayer URL = 'http://localhost:3000/api/tp2/shows_spotlight'/>
-    <vertical-displayer URL= 'http://localhost:3000/api/tp2/shows'/>
+    <subtitle Subtitle="Spotlight"/>
+    <horizontal-displayer URL = 'http://localhost:3000/api/tp2/shows_spotlight' Color = 'border: solid 2px black'/>
+    <subtitle Subtitle="Available Shows"/>
+    <vertical-displayer URL= 'http://localhost:3000/api/tp2/shows' Color = 'border: solid 2px black'/>
     
   </v-app>
 </template>
@@ -28,12 +29,15 @@
 <script>
 // @ is an alias to /src
 import HorizontalDisplayer from '../components/HorizontalDisplayer.vue'
+import Subtitle from '../components/Subtitle.vue'
 import VerticalDisplayer from '../components/VerticalDisplayer.vue'
+
 export default {
   name: "Home",
   components: {
     HorizontalDisplayer,
-    VerticalDisplayer
+    VerticalDisplayer,
+    Subtitle
   },
   data: () => ({
     items: [

@@ -1,17 +1,21 @@
 <template>
 <v-app>
-    <horizontal-displayer URL = 'http://localhost:3000/api/tp2/show/type/Sports' />
-    <vertical-displayer URL= 'http://localhost:3000/api/tp2/show/type/Sports' />
+    <subtitle Subtitle="Spotlight"/>
+    <horizontal-displayer URL = 'http://localhost:3000/api/tp2/show/type/Sports' Color = 'border: solid 2px green'/>
+    <subtitle Subtitle="Available Shows"/>
+    <vertical-displayer URL= 'http://localhost:3000/api/tp2/show/type/Sports' Color = 'border: solid 2px green'/>
 </v-app>
 </template>
 
 <script>
 import HorizontalDisplayer from '../components/HorizontalDisplayer.vue'
 import VerticalDisplayer from '../components/VerticalDisplayer.vue'
+import Subtitle from '../components/Subtitle.vue'
 export default {
     components: {
         HorizontalDisplayer,
-        VerticalDisplayer
+        VerticalDisplayer,
+        Subtitle
     }
 }
 </script>

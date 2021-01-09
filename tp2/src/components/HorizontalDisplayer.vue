@@ -3,7 +3,7 @@
     <v-sheet class="mx-auto" elevation="0">
       <v-slide-group class="pa-4" multiple show-arrows>
         <v-slide-item v-for="(show, index) in showItems" :key="index" :loading="loading">
-          <v-card>
+          <v-card :style="style">
             <template slot="progress">
               <v-progress-linear color="red" height="2" indeterminate></v-progress-linear>
             </template>
@@ -64,6 +64,7 @@ export default {
   },
   props: {
     URL: String,
+    Color: String
   },
   name: "Horizontal Displayer",
   data: () => ({
@@ -98,6 +99,9 @@ export default {
     allShows() {
       return this.showItems;
     },
+    style (){
+      return this.Color
+    }
   },
   methods: {
     //Inserts ticket into a shopping cart
@@ -146,7 +150,6 @@ export default {
 
 <style scoped>
 #horizontalDisplay {
-  margin-bottom: 20px;
   display: block;
 }
 .v-card {
