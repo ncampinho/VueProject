@@ -49,7 +49,7 @@ db.one = (id) => {
 db.byName = (name) => {
     console.log(name)
     return new Promise((resolve, reject) => {
-        pool.query("Select * from shows, showdate, dates, rating, showtype where shows.showName like CONCAT('%',?,'%') AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType", [name], (err, results) => {
+        pool.query("Select * from shows, showdate, dates, rating, showtype,ratingValue where shows.showName like CONCAT('%',?,'%') AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType", [name], (err, results) => {
             if (err) {
                 return reject(err);
             }
@@ -87,7 +87,7 @@ db.bySpotlight = () => {
 //Returns shows by type
 db.byType = (type) => {
     return new Promise((resolve, reject) => {
-        pool.query("Select * from shows, showdate, dates, rating, showtype where showtype.type = ? AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType", [type], (err, results) => {
+        pool.query("Select * from shows, showdate, dates, rating, showtype  where showtype.type = ? AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType", [type], (err, results) => {
             if (err) {
                 return reject(err);
             }
@@ -112,7 +112,7 @@ db.byType = (type) => {
 //Returns shows by type
 db.byType_Spotlighted = (type) => {
     return new Promise((resolve, reject) => {
-        pool.query("Select * from shows, showdate, dates, rating, showtype where showtype.type = ? AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType AND shows.isSpotlight = 1", [type], (err, results) => {
+        pool.query("Select * from shows, showdate, dates, rating, showtype  where showtype.type = ? AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType AND shows.isSpotlight = 1", [type], (err, results) => {
             if (err) {
                 return reject(err);
             }
@@ -137,7 +137,7 @@ db.byType_Spotlighted = (type) => {
 //Returns shows by name and type
 db.byNameType = (name, type) => {
     return new Promise((resolve, reject) => {
-        pool.query("Select * from shows, showdate, dates, rating, showtype where shows.showName LIKE CONCAT('%',?,'%') AND showtype.type = ? AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType", [name, type], (err, results) => {
+        pool.query("Select * from shows, showdate, dates, rating, showtype  where shows.showName LIKE CONCAT('%',?,'%') AND showtype.type = ? AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType", [name, type], (err, results) => {
             if (err) {
                 return reject(err);
             }
@@ -149,7 +149,7 @@ db.byNameType = (name, type) => {
 //Returns shows by rating
 db.byRating = (rating) => {
     return new Promise((resolve, reject) => {
-        pool.query("Select * from shows, showdate, dates, rating, showtype where rating.rating = ? AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType", [rating], (err, results) => {
+        pool.query("Select * from shows, showdate, dates, rating, showtype  where rating.rating = ? AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType", [rating], (err, results) => {
             if (err) {
                 return reject(err);
             }
@@ -161,7 +161,7 @@ db.byRating = (rating) => {
 //Return shows by name and rating
 db.byNameRating = (name, rating) => {
     return new Promise((resolve, reject) => {
-        pool.query("Select * from shows, showdate, dates, rating, showtype where shows.showName LIKE CONCAT('%',?,'%') AND rating.rating = ? AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType", [name, rating], (err, results) => {
+        pool.query("Select * from shows, showdate, dates, rating, showtype  where shows.showName LIKE CONCAT('%',?,'%') AND rating.rating = ? AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType", [name, rating], (err, results) => {
             if (err) {
                 return reject(err);
             }

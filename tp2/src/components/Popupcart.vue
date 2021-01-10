@@ -43,6 +43,7 @@
     </v-list-item>
 
     <v-card-actions>
+          <v-btn v-if="shoppingCart != null" color="red" dark  @click="removeAll()">Clean Cart</v-btn>
           <v-spacer></v-spacer>
           <v-btn v-if="shoppingCart != null" color="secundary" dark to="/checkout" @click="close()">CheckOut</v-btn>
           <v-btn @click="close()">Close</v-btn>
@@ -86,6 +87,7 @@ export default {
         })
         .catch((error) => console.log(error));
     },
+    
   },
   computed: {
     ...mapGetters({

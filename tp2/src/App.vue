@@ -12,7 +12,7 @@
       </router-link>
       <v-spacer></v-spacer>
 
-      <v-tabs centered class="ml-n9" color="grey darken-1">
+      <v-tabs centered class="ml-n9" color="red darken-1">
         <v-tab to="/cinema_and_arts">{{tabItems[0].type}}</v-tab>
         <v-tab to="/musics_and_festivals">{{tabItems[1].type}}</v-tab>
         <v-tab to="/sports">{{tabItems[2].type}}</v-tab>
@@ -45,6 +45,7 @@
     </v-app-bar>
 
     <login v-model="dialog"></login>
+    
     <popupcart v-model="cartdialog"></popupcart>
     <v-main>
      <router-view/>
@@ -101,12 +102,13 @@ import Popupcart from "@/components/Popupcart.vue";
 export default {
   components: {
     Login,
-    Popupcart
+    Popupcart,
   },
   data() {
         return {
             dialog: false,
             cartdialog: false,
+            snackbardialog: false,
             tabItems: []
         }
     },

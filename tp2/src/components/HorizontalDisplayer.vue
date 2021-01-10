@@ -3,23 +3,26 @@
     <v-sheet class="mx-auto" elevation="0">
       <v-slide-group class="pa-4" multiple show-arrows>
         <v-slide-item v-for="(show, index) in showItems" :key="index" :loading="loading">
-          <v-card :style="style">
+          <v-card >
             <template slot="progress">
               <v-progress-linear color="red" height="2" indeterminate></v-progress-linear>
             </template>
 
-            <v-img height="140" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
+            <v-img height="140"  src="../../public/images/image1.png" ></v-img>
 
             <v-card-title>{{show[0].item.showName}}</v-card-title>
 
             <v-card-text>
               <v-row align="center" class="mx-0">
-                <v-rating :value="4.5" color="amber" dense half-increments readonly size="14"></v-rating>
+                <v-rating value=2.75 color="amber" dense half-increments readonly size="14"></v-rating>
+                <!--VER RATING-->
 
-                <div class="grey--text ml-6">4.5 (413)</div>
+                <div class="grey--text ml-6">{{show[0].item.ratingValue}}</div>
               </v-row>
+              
+              <div align=left class="my-4">Price: {{show[0].item.price}} €</div>
+              <div class="my-2 subtitle-1">{{show[0].item.type}} - {{show[0].item.rating}}</div>
 
-              <div class="my-8 subtitle-1">{{show[0].item.type}} - {{show[0].item.rating}}</div>
 
               <div>
                 Limite Purchase: {{show[0].item.limitPurchaseDate}}
@@ -34,7 +37,7 @@
             <v-card-text>
               <v-chip-group
                 v-model="selection[index]"
-                active-class="deep-purple accent-4 white--text"
+                active-class="red accent-4 white--text"
                 column
               >
                 <v-chip v-for="(hour, index) in show" :key="index">{{hour.item.showTime}}PM</v-chip>
@@ -42,7 +45,7 @@
             </v-card-text>
 
             <v-card-actions>
-              <v-btn color="lighten-2" text @click="purchase(index)">Buy Ticket</v-btn>
+              <v-btn color="red" text @click="purchase(index)">Buy Ticket</v-btn>
             </v-card-actions>
           </v-card>
         </v-slide-item>

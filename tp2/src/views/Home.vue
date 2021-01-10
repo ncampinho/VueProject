@@ -32,6 +32,7 @@ import HorizontalDisplayer from '../components/HorizontalDisplayer.vue'
 import Subtitle from '../components/Subtitle.vue'
 import VerticalDisplayer from '../components/VerticalDisplayer.vue'
 
+
 export default {
   name: "Home",
   components: {

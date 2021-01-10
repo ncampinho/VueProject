@@ -1,49 +1,81 @@
 <template>
-  <v-container id="showDisplay">
-    <v-card v-for="(show, index) in showItems" :key="index" :loading="loading" :style="style">
-      <template slot="progress">
-        <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
-      </template>
-
-      <v-img height="250" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
-
-      <v-card-title>{{show[0].item.showName}}</v-card-title>
-
-      <v-card-text>
-        <v-row align="center" class="mx-0">
-          <v-rating :value="4.5" color="amber" dense half-increments readonly size="14"></v-rating>
-
-          <div class="grey--text ml-4">4.5 (413)</div>
-        </v-row>
-
-        <div class="my-4 subtitle-1">{{show[0].item.type}} - {{show[0].item.rating}}</div>
-
-        <div>
-          Limite Purchase: {{show[0].item.limitPurchaseDate}}
-          <br />
-          Show Date: {{show[0].item.date}}
-        </div>
-      </v-card-text>
-      <v-divider class="mx-4"></v-divider>
-
-      <v-divider class="mx-4"></v-divider>
-
-      <v-card-text>
-        <v-chip-group
-          v-model="selection[index]"
-          active-class="deep-purple accent-4 white--text"
-          column
+  <v-container>
+    <v-row>
+      <template>
+        <v-col
+          v-for="(show, index) in showItems"
+          :key="index"
+          :loading="loading"
+          cols="10"
+          md="3"
         >
-          <v-chip v-for="(hour, index) in show" :key="index">{{hour.item.showTime}}PM</v-chip>
-        </v-chip-group>
-      </v-card-text>
+         <v-sheet max-width="350px" elevation="2">
+            <template slot="progress">
+              <v-progress-linear
+                color="red"
+                height="10"
+                indeterminate
+              ></v-progress-linear>
+            </template>
 
-      <v-card-actions>
-        <v-btn color="deep-purple lighten-2" text @click="purchase(index)">Buy Ticket</v-btn>
-      </v-card-actions>
-    </v-card>
+            <v-img
+              height="140"
+              src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+            ></v-img>
 
+            <v-card-title>{{ show[0].item.showName }}</v-card-title>
+
+            <v-card-text>
+              <v-row align="center" class="mx-0">
+                <v-rating
+                  :value="4.5"
+                  color="amber"
+                  dense
+                  half-increments
+                  readonly
+                  size="14"
+                ></v-rating>
+
+                <div class="grey--text ml-4">4.5 (413)</div>
+              </v-row>
+
+              <div class="my-4 subtitle-1">
+                {{ show[0].item.type }} - {{ show[0].item.rating }}
+              </div>
+
+              <div>
+                Limite Purchase: {{ show[0].item.limitPurchaseDate }}
+                <br />
+                Show Date: {{ show[0].item.date }}
+              </div>
+            </v-card-text>
+            <v-divider class="mx-4"></v-divider>
+
+            <v-divider class="mx-4"></v-divider>
+
+            <v-card-text>
+              <v-chip-group
+                v-model="selection[index]"
+                active-class="red accent-4 white--text"
+                column
+              >
+                <v-chip v-for="(hour, index) in show" :key="index"
+                  >{{ hour.item.showTime }}PM</v-chip
+                >
+              </v-chip-group>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-btn color="red lighten-2" text @click="purchase(index)"
+                >Buy Ticket</v-btn
+              >
+            </v-card-actions>
+          </v-sheet>
+        </v-col>
+      </template>
+    </v-row>
     <login v-model="dialog"></login>
+    
   </v-container>
 </template>
 
@@ -58,7 +90,7 @@ export default {
   },
   props: {
     URL: String,
-    Color: String
+    Color: String,
   },
   data: () => ({
     dialog: false,
@@ -92,9 +124,9 @@ export default {
     allShows() {
       return this.showItems;
     },
-    style () {
-      return this.Color
-    }
+    style() {
+      return this.Color;
+    },
   },
   methods: {
     //Inserts ticket into a shopping cart
@@ -146,10 +178,9 @@ export default {
   max-width: 350px;
   float: left;
   margin: 0px 4.21rem 2rem 0px;
-  
 }
 
-.v-card:nth-child(3n){
+.v-card:nth-child(3n) {
   margin-right: 0rem;
 }
 
@@ -157,6 +188,5 @@ export default {
   margin-bottom: 20px;
   padding: 0px;
   display: block;
-  background: red;
 }
 </style>

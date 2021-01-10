@@ -1,6 +1,6 @@
 <template>
     <div class="subtitle_area">
-        <div class="subtitle_area_float"><h3 class="subtitle">{{Subtitle}}</h3></div>
+        <div class="subtitle_area_float"><p4 class="subtitle">{{Subtitle}}</p4></div>
     </div>
 </template>
 <script>
@@ -13,11 +13,11 @@ export default {
 </script>
 <style scoped>
 .subtitle_area{
-    margin: 2.5% 11% 2% 11%;
-    border-bottom: solid 4px red;
+    margin: 2.5% 4% 2% 4%;
+    border-bottom: solid 4px grey;
 }
 .subtitle{
-    background: black;
+    background:gray;
     color: white;
     padding: 0.5rem;
 }
