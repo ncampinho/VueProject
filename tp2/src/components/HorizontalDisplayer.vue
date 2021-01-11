@@ -8,7 +8,7 @@
               <v-progress-linear color="red" height="2" indeterminate></v-progress-linear>
             </template>
 
-            <v-img height="140"  :src="imageSource(index)" ></v-img>
+            <v-img contain max-height="200"  :src="imageSource(index)" ></v-img>
 
             <v-card-title>{{show[0].item.showName}}</v-card-title>
 

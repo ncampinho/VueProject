@@ -19,7 +19,8 @@
             </template>
 
             <v-img
-              height="140"
+              contain
+              max-height="200"
               :src="imageSource(index)"
             ></v-img>
 

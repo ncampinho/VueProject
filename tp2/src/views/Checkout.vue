@@ -4,7 +4,7 @@
         <v-list v-if="shoppingCart != null"  two-line>
           <v-list-item  v-for="(line,index) in shoppingCart" :key="index">
             <v-avatar tile size="35%">
-              <img :src="imageSource(index)" alt="">
+              <img contain :src="imageSource(index)" alt="">
             </v-avatar>
 
             <v-list-item-content>
