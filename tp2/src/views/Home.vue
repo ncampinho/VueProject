@@ -43,16 +43,16 @@ export default {
   data: () => ({
     items: [
       {
-        src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
+        src: "https://images.impresa.pt/postal/2020-03-16-Cinemas-NOS-encerram-salas-em-todo-o-pais.jpg",
       },
       {
-        src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg",
+        src: "https://informacoeseservicos.lisboa.pt/fileadmin/espacos/imagens/ALA_4256.jpg",
       },
       {
-        src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg",
+        src: "https://thumbs.web.sapo.io/?W=775&H=0&delay_optim=1&webp=1&epic=MmVj2y09/K4jhR0RsFXkTumVBgVCNBRpZk/9Yfu/GdvrHEamZOjCY298oZYRWMmUXZxfT0tl097DVVKLnGCExufdVOXrVKrQxl2m5y1fR5mW0fo=",
       },
       {
-        src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
+        src: "https://www.internetdj.com/assets/images/6a825cf4aece5045c8d589abfe636267.png",
       },
     ],
   }),
