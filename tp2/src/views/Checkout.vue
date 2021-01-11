@@ -3,8 +3,8 @@
     <v-card>
         <v-list v-if="shoppingCart != null"  two-line>
           <v-list-item  v-for="(line,index) in shoppingCart" :key="index">
-            <v-avatar tile size="150px">
-              <img src="@/assets/logo.png" alt="">
+            <v-avatar tile size="35%">
+              <img :src="imageSource(index)" alt="">
             </v-avatar>
 
             <v-list-item-content>
@@ -20,6 +20,7 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
             </v-list-tile-action>
+            
           </v-list-item>
           <v-divider></v-divider>
         </v-list>
@@ -76,6 +77,9 @@ import { mapGetters, mapActions } from 'vuex';
         .then((data) => {
         })
         .catch((error) => console.log(error));
+    },
+    imageSource(index){
+      return require("../../public/images/" + this.shoppingCart[index].image + ".png")
     },
   },
   computed: {
