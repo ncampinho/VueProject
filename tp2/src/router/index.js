@@ -39,6 +39,12 @@ const routes = [
     name: 'CinemaAndArts',
     component: () => import('../views/CinemaAndArts.vue')
   },
+  {
+    path: '/show/:showId/show_info',
+    name: 'ShowDetails',
+    component: () => import('../views/ShowDetails.vue'),
+    props: true
+  },
 ]
 
 const router = new VueRouter({

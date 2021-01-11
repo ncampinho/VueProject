@@ -40,7 +40,20 @@ db.one = (id) => {
             if (err) {
                 return reject(err);
             }
-            return resolve(results);
+            let groups = Object.create(null);
+
+                results.forEach(item => {
+                    if (!groups[item.idShow]) {
+                        groups[item.idShow] = [];
+                    }
+
+                    groups[item.idShow].push({
+                        item
+                    });
+                });
+
+                
+                return resolve(groups);
         })
     })
 };

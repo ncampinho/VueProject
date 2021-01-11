@@ -14,7 +14,7 @@
 
             <v-card-text>
               <v-row align="center" class="mx-0">
-                <v-rating value=2.75 color="amber" dense half-increments readonly size="14"></v-rating>
+                <v-rating :value="2.75" color="amber" dense half-increments readonly size="14"></v-rating>
                 <!--VER RATING-->
 
                 <div class="grey--text ml-6">{{show[0].item.ratingValue}}</div>
@@ -45,7 +45,7 @@
             </v-card-text>
 
             <v-card-actions>
-              <v-btn color="red" text @click="purchase(index)">Buy Ticket</v-btn>
+              <v-btn color="red" text @click="purchase(index)">Add to Cart</v-btn>
             </v-card-actions>
           </v-card>
         </v-slide-item>
@@ -162,5 +162,8 @@ export default {
   max-width: 350px;
   float: left;
   margin: 0px 10px 10px 0px;
+}
+.v-application--is-ltr .v-card__actions > .v-btn.v-btn + .v-btn {
+    margin-left: 8px;
 }
 </style>

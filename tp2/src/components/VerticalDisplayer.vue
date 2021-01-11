@@ -68,7 +68,10 @@
 
             <v-card-actions>
               <v-btn color="red lighten-2" text @click="purchase(index)"
-                >Buy Ticket</v-btn
+                >Add To Cart</v-btn
+              >
+              <v-btn class="detail" color="red lighten-2" text :to="'/show/'+ show[0].item.idShow +'/show_info'"
+                >Details</v-btn
               >
             </v-card-actions>
           </v-sheet>
@@ -166,6 +169,7 @@ export default {
         .get(this.URL)
         .then((response) => response)
         .then((data) => {
+          console.log(data.data)
           this.showItems = data.data;
         })
         .catch((error) => console.log(error));
@@ -188,9 +192,20 @@ export default {
   margin-right: 0rem;
 }
 
+.v-application--is-ltr .v-card__actions > .v-btn.v-btn + .v-btn {
+    margin-left: auto;
+}
+
 #showDisplay {
   margin-bottom: 20px;
   padding: 0px;
   display: block;
+}
+
+.v-card__title{
+  font-size: 1.10rem;
+  height: 6rem;
+  display: block;
+  word-break: normal;
 }
 </style>

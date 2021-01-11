@@ -142,7 +142,6 @@ export default {
         .get('http://localhost:3000/api/tp2/types')
         .then((response) => response)
         .then((data) => {
-          console.log(data.data)
           this.tabItems = data.data;
         })
         .catch((error) => console.log(error));
