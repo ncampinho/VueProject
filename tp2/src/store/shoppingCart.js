@@ -25,9 +25,7 @@ export default {
         //Mutation to change shopping cart value
         'SET_CART'(state, cartInfo){
             state.productLine = cartInfo
-            if(cartInfo === null){
-                state.total = null;
-            }
+            state.total = null
             cartInfo.forEach(product => {
                 state.total += product.subtotal
             });
