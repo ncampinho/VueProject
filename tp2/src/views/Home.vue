@@ -62,5 +62,6 @@ export default {
 <style scoped>
 #slideShow {
   padding: 5px;
+  max-width: 87%;
 }
 </style>

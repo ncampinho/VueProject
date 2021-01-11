@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container style="max-width: 87%;">
     <v-row>
       <template>
         <v-col
@@ -18,41 +18,31 @@
               ></v-progress-linear>
             </template>
 
-            <v-img
-              contain
-              max-height="200"
-              :src="imageSource(index)"
-            ></v-img>
+<v-img contain max-height="200"  :src="imageSource(index)" ></v-img>
 
-            <v-card-title>{{ show[0].item.showName }}</v-card-title>
+            <v-card-title>{{show[0].item.showName}}</v-card-title>
 
             <v-card-text>
               <v-row align="center" class="mx-0">
-                <v-rating
-                  :value="4.5"
-                  color="amber"
-                  dense
-                  half-increments
-                  readonly
-                  size="14"
-                ></v-rating>
+                <v-rating :value="show[0].item.ratingValue" color="amber" dense half-increments readonly size="14"></v-rating>
+                <!--VER RATING-->
 
-                <div class="grey--text ml-4">4.5 (413)</div>
+                <div class="grey--text ml-6">{{show[0].item.ratingValue}}</div>
               </v-row>
+              
+              <div align=left class="my-4">Price: {{show[0].item.price}} €</div>
+              <div class="my-2 subtitle-1">{{show[0].item.type}} - {{show[0].item.rating}}</div>
 
-              <div class="my-4 subtitle-1">
-                {{ show[0].item.type }} - {{ show[0].item.rating }}
-              </div>
 
               <div>
-                Limite Purchase: {{ show[0].item.limitPurchaseDate }}
+                Limite Purchase: {{show[0].item.limitPurchaseDate}}
                 <br />
-                Show Date: {{ show[0].item.date }}
+                Show Date: {{show[0].item.date}}
               </div>
             </v-card-text>
-            <v-divider class="mx-4"></v-divider>
+            <v-divider class="mx-12"></v-divider>
 
-            <v-divider class="mx-4"></v-divider>
+            <v-divider class="mx-12"></v-divider>
 
             <v-card-text>
               <v-chip-group
@@ -60,20 +50,19 @@
                 active-class="red accent-4 white--text"
                 column
               >
-                <v-chip v-for="(hour, index) in show" :key="index"
-                  >{{ hour.item.showTime }}PM</v-chip
-                >
+                <v-chip v-for="(hour, index) in show" :key="index">{{hour.item.showTime}}PM</v-chip>
               </v-chip-group>
             </v-card-text>
 
             <v-card-actions>
-              <v-btn color="red lighten-2" text @click="purchase(index)"
+               <v-btn color="red lighten-2" text @click="purchase(index)"
                 >Add To Cart</v-btn
               >
               <v-btn class="detail" color="red lighten-2" text :to="'/show/'+ show[0].item.idShow +'/show_info'"
                 >Details</v-btn
               >
             </v-card-actions>
+
           </v-sheet>
         </v-col>
       </template>
@@ -188,9 +177,6 @@ export default {
   margin: 0px 4.21rem 2rem 0px;
 }
 
-.v-card:nth-child(3n) {
-  margin-right: 0rem;
-}
 
 .v-application--is-ltr .v-card__actions > .v-btn.v-btn + .v-btn {
     margin-left: auto;
@@ -200,6 +186,7 @@ export default {
   margin-bottom: 20px;
   padding: 0px;
   display: block;
+
 }
 
 .v-card__title{
