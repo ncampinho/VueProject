@@ -65,6 +65,7 @@ router.post('/user/purchase/newTempLine', urlencondedParser, async (rq, res, nex
     }
 });
 
+//Endpoint that deletes a single line from temporary table
 router.post('/user/purchase/deleteTempLine', urlencondedParser, async (rq, res, next) =>{
     try{
         let results = await db.deleteTempLine(rq.body);
@@ -75,9 +76,10 @@ router.post('/user/purchase/deleteTempLine', urlencondedParser, async (rq, res, 
     }
 });
 
-router.delete('/user/purchase/deleteLine/:id', urlencondedParser, async (rq, res, next) =>{
+//Endpoint that deletes all lines from temproary table.
+router.post('/user/purchase/deleteAllLines', urlencondedParser, async (rq, res, next) =>{
     try{
-        let results = await db.deleteLine(rq.params.id);
+        let results = await db.deleteAllLines(rq.body);
         res.json(results);
     } catch(e){
         console.log(e);

@@ -13,6 +13,7 @@
       <v-spacer></v-spacer>
 
       <v-tabs centered class="ml-n9" color="red darken-1">
+        <v-tab to="/">Home</v-tab>
         <v-tab to="/cinema_and_arts">{{tabItems[0].type}}</v-tab>
         <v-tab to="/musics_and_festivals">{{tabItems[1].type}}</v-tab>
         <v-tab to="/sports">{{tabItems[2].type}}</v-tab>

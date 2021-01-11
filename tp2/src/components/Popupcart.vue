@@ -67,10 +67,16 @@ export default {
       required: true,
     },
   },
-  components: {
-    
+  computed: {
+    ...mapGetters({
+      shoppingCart: 'cart/getPurchaseLine',
+      shoppingCartTotal: 'cart/getTotal'
+    }),
   },
   methods: {
+    ...mapActions({
+      cleanCart: 'cart/insertCart',
+    }),
     close() {
       this.$emit("input", !this.value);
     },
@@ -87,16 +93,26 @@ export default {
         })
         .catch((error) => console.log(error));
     },
+    removeAll(){
+      console.log(this.shoppingCart[0].idUser)
+      const requestBody = {
+        idUser: this.shoppingCart[0].idUser,
+      }
+      this.$axios
+        .post(`http://localhost:3000/api/tp2/user/purchase/deleteAllLines`, requestBody)
+        .then((response) => response)
+        .then((data) => { 
+          if(data.statusText === 'OK'){
+            this.cleanCart(null)
+          }
+        })
+        .catch((error) => console.log(error));
+        
+    },
     imageSource(index){
       return require("../../public/images/" + this.shoppingCart[index].image + ".png")
     },
     
-  },
-  computed: {
-    ...mapGetters({
-      shoppingCart: 'cart/getPurchaseLine',
-      shoppingCartTotal: 'cart/getTotal'
-    }),
   },
 };
 </script>

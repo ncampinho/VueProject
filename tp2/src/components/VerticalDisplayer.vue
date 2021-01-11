@@ -74,7 +74,7 @@
 
 <script>
 // @ is an alias to /src
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import Login from "@/components/Login.vue";
 export default {
   name: "VerticalDisplayer",
@@ -122,6 +122,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      insertCart: 'cart/fetchProducts',
+    }),
     //Inserts ticket into a shopping cart
     purchase(index) {
       if (localStorage.getItem("user")) {
@@ -141,7 +144,9 @@ export default {
           )
           .then((response) => response)
           .then((data) => {
-            console.log(data);
+            if(data.statusText === "OK"){
+              this.insertCart(this.user[0].idUser)
+            }
           })
           .catch((error) => console.log(error));
 

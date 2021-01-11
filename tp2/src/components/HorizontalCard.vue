@@ -1,6 +1,5 @@
 <template>
   <v-container>
-
     <v-card v-model="show" class="mx-auto" max-width="344" outlined>
       <v-img src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
       <v-container>
@@ -38,7 +37,7 @@
 
 <script>
 import Login from "@/components/Login.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "horizontal card",
   props: {
@@ -56,7 +55,7 @@ export default {
     this.getSingleShow();
   },
   computed: {
-       ...mapGetters({
+    ...mapGetters({
       user: "auth/userData",
       shoppingCart: "cart/getPurchaseLine",
     }),
@@ -66,17 +65,20 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      insertCart: 'cart/fetchProducts',
+    }),
     getSingleShow() {
       this.$axios
         .get("http://localhost:3000/api/tp2/show/" + this.ID)
         .then((response) => response)
         .then((data) => {
-            console.log(data.data)
+          console.log(data.data);
           this.show = data.data;
         })
         .catch((error) => console.log(error));
     },
-     purchase() {
+    purchase() {
       if (localStorage.getItem("user")) {
         this.loading = true;
         const selectedItem = this.show[this.ID][this.selection[0]];
@@ -87,7 +89,7 @@ export default {
           subtotal: selectedItem.item.price,
           idDate: selectedItem.item.idDate,
         };
-        console.log(requestBody)
+        console.log(requestBody);
         this.$axios
           .post(
             `http://localhost:3000/api/tp2/user/purchase/newTempLine`,
@@ -95,7 +97,9 @@ export default {
           )
           .then((response) => response)
           .then((data) => {
-            console.log(data);
+            if(data.statusText === "OK"){
+              this.insertCart(this.user[0].idUser)
+            }
           })
           .catch((error) => console.log(error));
 
@@ -116,6 +120,7 @@ export default {
   max-width: 100% !important;
   display: inline-flex;
   min-height: 35rem;
+  margin-top: 5%;
 }
 
 .v-card__title {
@@ -138,8 +143,9 @@ export default {
   display: block;
   min-height: 0rem !important;
   min-width: 58.8% !important;
-  margin-left: 41.3%;
+  margin-left: 31%;
   font-size: large !important;
+  margin-top: 0%!important;
 }
 
 .availibility > .v-card__text {
@@ -147,6 +153,6 @@ export default {
 }
 
 .v-application--is-ltr .v-card__actions > .v-btn.v-btn + .v-btn {
-    margin-left: auto;
+  margin-left: auto;
 }
 </style>

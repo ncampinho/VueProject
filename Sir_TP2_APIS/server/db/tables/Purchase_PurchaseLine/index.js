@@ -79,11 +79,26 @@ db.getTempPurchase = (idUser) => {
     })
 }
 
+//Deletes a single line from temporary table
 db.deleteTempLine = (id) => {
     return new Promise((resolve, reject) => {
 
         pool.query('DELETE FROM temp_purchaseline WHERE temp_purchaseline.idShow=? AND temp_purchaseline.idUser=? AND temp_purchaseline.idDate = ? ',
             [id.idShow, id.idUser, id.idDate], (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(results);
+            })
+    })
+};
+
+//Deletes all lines from temporary table
+db.deleteAllLines = (id) => {
+    return new Promise((resolve, reject) => {
+
+        pool.query('DELETE FROM temp_purchaseline WHERE temp_purchaseline.idUser = ?',
+            [id.idUser], (err, results) => {
                 if (err) {
                     return reject(err);
                 }
