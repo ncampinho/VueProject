@@ -8,7 +8,7 @@
               <v-progress-linear color="red" height="2" indeterminate></v-progress-linear>
             </template>
 
-            <v-img height="140"  src="../../public/images/image1.png" ></v-img>
+            <v-img height="140"  :src="imageSource(index)" ></v-img>
 
             <v-card-title>{{show[0].item.showName}}</v-card-title>
 
@@ -146,6 +146,9 @@ export default {
           this.showItems = data.data;
         })
         .catch((error) => console.log(error));
+    },
+    imageSource(index){
+      return require("../../public/images/" + this.showItems[index][0].item.image + ".png")
     },
   },
 };
