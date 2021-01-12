@@ -45,6 +45,16 @@ const routes = [
     component: () => import('../views/ShowDetails.vue'),
     props: true
   },
+  {
+    path:'/admin',
+    name: 'AdminHome',
+    component: () => import('../views/AdminHome.vue')
+  },
+  {
+    path: '/new_show',
+    name: 'NewShow',
+    component: () => import('../views/NewShow.vue')
+  }
 ]
 
 const router = new VueRouter({

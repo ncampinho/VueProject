@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      cleanCart: 'cart/insertCart',
+      updateCart: 'cart/insertCart',
     }),
     close() {
       this.$emit("input", !this.value);
@@ -90,6 +90,16 @@ export default {
         .post(`http://localhost:3000/api/tp2/user/purchase/deleteTempLine`, requestBody)
         .then((response) => response)
         .then((data) => {
+          if(data.statusText == 'OK'){
+           const removedItem = this.shoppingCart.splice(index, 1)[0]
+           var temp = this.shoppingCart.map((element) => {
+             if(element != removedItem){
+               return element
+             }
+             
+           })
+           this.updateCart(temp)
+          }
         })
         .catch((error) => console.log(error));
     },
@@ -103,7 +113,7 @@ export default {
         .then((response) => response)
         .then((data) => { 
           if(data.statusText === 'OK'){
-            this.cleanCart(null)
+            this.updateCart(null)
           }
         })
         .catch((error) => console.log(error));

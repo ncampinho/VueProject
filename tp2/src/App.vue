@@ -12,12 +12,20 @@
       </router-link>
       <v-spacer></v-spacer>
 
+      <v-container v-if="user === null || user[0].idUserType === 1">
       <v-tabs centered class="ml-n9" color="red darken-1">
         <v-tab to="/">Home</v-tab>
         <v-tab to="/cinema_and_arts">{{tabItems[0].type}}</v-tab>
         <v-tab to="/musics_and_festivals">{{tabItems[1].type}}</v-tab>
         <v-tab to="/sports">{{tabItems[2].type}}</v-tab>
       </v-tabs>
+      </v-container>
+      <v-container v-else>
+      <v-tabs centered class="ml-n9" color="red darken-1">
+        <v-tab to="/admin">Home</v-tab>
+        <v-tab to="/new_show">New Show</v-tab>
+      </v-tabs>
+      </v-container>
 
       <!--<v-responsive max-width="300">
           <v-text-field
@@ -30,7 +38,7 @@
         </v-responsive>-->
 
       
-       <v-btn  @click="changeCartDialog()" icon >
+       <v-btn v-if="isAuthenticated && user[0].idUserType === 1" @click="changeCartDialog()" icon >
         <v-icon>mdi-cart-outline</v-icon>
         <span v-if="(shoppingCart) == null" class="btn-circle" >0</span>
         <span v-else class="btn-circle" >{{shoppingCart.length}}</span>
@@ -129,8 +137,13 @@ export default {
       clearCart: 'cart/insertCart'
     }),
     submit(){
-      this.logout(null)
+      if(this.user[0].idUserType === 1){
+        this.logout(null)
       this.clearCart(null)
+      }else{
+        this.logout(null)
+this.$router.push({ path: "/" }) 
+      }
     },
     changeDialog(){
       this.dialog = !this.dialog;

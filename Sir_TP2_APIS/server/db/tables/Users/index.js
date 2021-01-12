@@ -11,7 +11,7 @@ let db = {};
 db.login = (username,password) => {
     return new Promise((resolve, reject) => {
         console.log(username, password)
-       pool.query('Select * from user, zipcode, usertype where user.idZipCode = zipcode.idZipCode AND user.idUserType = usertype.idUserType AND usertype.userTypeName = "user" AND user.username = ? AND user.password = ?', [username,password], (err, results) => {
+       pool.query('Select * from user, zipcode, usertype where user.idZipCode = zipcode.idZipCode AND user.idUserType = usertype.idUserType AND user.username = ? AND user.password = ?', [username,password], (err, results) => {
            if(err){
                return reject(err);
            }
