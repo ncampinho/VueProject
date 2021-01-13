@@ -273,11 +273,11 @@ db.newPurchaseLineAll = (lineData) => {
             });
             
             pool.query(
-                'UPDATE purchase SET purchaseState=0 and totalPayed=? and idPaymentMethod=? where idUser=?',
+                'UPDATE purchase SET purchaseState=0, totalPayed=?, idPaymentMethod=? where idPurchase=?',
                 [
                     lineData.total,
                     lineData.idPaymentMethod,
-                  lineData.idUser
+                    results[0].idPurchase
                 ],
                 (err, results) => {
                   if (err) {
