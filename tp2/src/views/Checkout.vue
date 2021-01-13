@@ -1,20 +1,28 @@
 <template>
   <v-stepper id="stepper" v-model="e1">
     <v-stepper-header id="header">
-      <v-stepper-step color="red" dark :complete="e1 > 1" step="1">Products</v-stepper-step>
+      <v-stepper-step color="red" dark :complete="e1 > 1" step="1"
+        >Products</v-stepper-step
+      >
       <v-divider></v-divider>
-      <v-stepper-step color="red" dark :complete="e1 > 2" step="2">Shipping</v-stepper-step>
+      <v-stepper-step color="red" dark :complete="e1 > 2" step="2"
+        >Email</v-stepper-step
+      >
       <v-divider></v-divider>
       <v-stepper-step color="red" dark step="3">Payment</v-stepper-step>
     </v-stepper-header>
 
     <v-stepper-items>
-      <v-stepper-content  step="1">
-        <template >
+      <v-stepper-content step="1">
+        <template>
           <v-container>
-            <v-list  v-if="shoppingCart != null" two-line>
-              <v-list-item v-for="(line, index) in shoppingCart" :key="index">
-                <v-avatar tile size="35%">
+            <v-list v-if="shoppingCart != null" two-line>
+              <v-list-item
+                id="item"
+                v-for="(line, index) in shoppingCart"
+                :key="index"
+              >
+                <v-avatar tile height="120px" width="200px">
                   <img contain :src="imageSource(index)" alt="" />
                 </v-avatar>
 
@@ -53,108 +61,134 @@
                 >
               </v-list-item-content>
             </v-list-item>
-
           </v-container>
         </template>
 
-        <v-btn color="secundary" dark @click="e1 = 2">Go to Shipping</v-btn>
+        <v-btn style="margin: 1%" color="secundary" dark @click="e1 = 2"
+          >Go to Email Definition</v-btn
+        >
       </v-stepper-content>
 
       <v-stepper-content step="2">
-        <template>
+        <v-item-group>
           <v-container>
             <v-row>
-              <v-col>
-                <v-hover v-slot="{ hover }">
-              <v-card :elevation="hover ? 12 : 2"
-              :class="{ 'on-hover': hover }">
-                <v-card-item>
-                  <v-card-title>
-                    Add adress
-                  </v-card-title>
-                  <v-divider></v-divider>
-                <v-card-subtitle>
-                  <v-text-field style="padding:0"  color="red" label="Nif">
-                  </v-text-field>
-                </v-card-subtitle>
-                <v-card-subtitle>
-                  <v-text-field style="padding:0" color="red" label="Street">
-                  </v-text-field>
-                </v-card-subtitle>
-                <v-autocomplete
-                style="padding:0"
-                color="red"
-            ref="country"
-            label="Country"
-            placeholder="Select..."
-          ></v-autocomplete>
-                </v-card-item>
-              </v-card>
-              </v-hover>
-              </v-col>
-              <v-col>
-              <v-hover v-slot="{ hover }">
-              <v-card :elevation="hover ? 12 : 2"
-              :class="{ 'on-hover': hover }">
-                <v-card-item>
-                  <v-card-title>
-                    Adress 1
-                  </v-card-title>
-                  <v-divider></v-divider>
-                <v-card-subtitle>
-                  Nif: {{user[0].nif}}
-                </v-card-subtitle>
-                <v-card-subtitle>
-                  Street: Rua do Chouriço
-                </v-card-subtitle>
-                <v-card-subtitle>
-                  ZipCode: {{user[0].idZipCode}} | {{user[0].city}}
-                </v-card-subtitle>
-                </v-card-item>
-              </v-card>
-              </v-hover>
-              </v-col>
-              <v-col>
-              <v-hover v-slot="{ hover }">
-              <v-card :elevation="hover ? 12 : 2"
-              :class="{ 'on-hover': hover }">
-                <v-card-item>
-                  <v-card-title>
-                    Adress 2
-                  </v-card-title>
-                  <v-divider></v-divider>
-                <v-card-subtitle>
-                  Nif: {{user[0].nif}}
-                </v-card-subtitle>
-                <v-card-subtitle>
-                  Street: Rua do Chouriço
-                </v-card-subtitle>
-                <v-card-subtitle>
-                  ZipCode: {{user[0].idZipCode}} | {{user[0].city}}
-                </v-card-subtitle>
-                </v-card-item>
-              </v-card>
-              </v-hover>
-              </v-col>
+              <v-item v-slot="{ active, toggle }">
+                <v-card
+                  :color="active ? 'red' : ''"
+                  dark
+                  @click="toggle"
+                  :key="index"
+                  style="padding: 5%; margin: 1%"
+                >
+                  <v-card-item>
+                    <v-card-title> Add Email </v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-subtitle>
+                      <v-text-field
+                        type="email"
+                        color="red"
+                        label="Email"
+                      ></v-text-field>
+                    </v-card-subtitle>
+                  </v-card-item>
+                </v-card>
+              </v-item>
+              <v-item v-slot="{ active, toggle }">
+                <v-card
+                  :color="active ? 'red' : ''"
+                  dark
+                  style="padding: 5%; margin: 1%"
+                  @click="toggle"
+                  :key="index"
+                >
+                  <v-card-item>
+                    <v-card-title> User Email </v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-subtitle style="font-size: 100%">
+                      {{ user[0].email }}
+                    </v-card-subtitle>
+                  </v-card-item>
+                </v-card>
+              </v-item>
             </v-row>
           </v-container>
-        </template>
+        </v-item-group>
 
-        <v-btn color="secundary" dark @click="e1 = 3">Go to Payment</v-btn>
+        <v-btn style="margin: 1%" color="secundary" dark @click="e1 = 3"
+          >Go to Payment</v-btn
+        >
 
-        <v-btn @click="e1 = 1" text>Back</v-btn>
+        <v-btn style="margin: 1%" @click="e1 = 1" text>Back</v-btn>
       </v-stepper-content>
 
       <v-stepper-content step="3">
-        <v-card
-          class="mb-12"
-          color="grey lighten-1"
-          height="200px"
-        ></v-card>
+        <v-card>
+          <v-tabs color="red" v-model="tabs" fixed-tabs>
+            <v-tab href="#mobile-tabs-5-1" class="primary--text">
+              <v-img contain src="../../public/mbway.png"></v-img>
+            </v-tab>
 
-        <v-btn color="secundary" dark >Confirm</v-btn>
+            <v-tabs-slider></v-tabs-slider>
+            <v-tab href="#mobile-tabs-5-2" class="primary--text">
+              <v-img contain src="../../public/mbref.png"></v-img>
+            </v-tab>
+          </v-tabs>
 
-        <v-btn @click="e1 = 2" text>Back</v-btn>
+          <v-tabs-items v-model="tabs">
+            <v-tab-item :key="1" :value="'mobile-tabs-5-1'">
+              <v-form>
+                <v-card flat>
+                  <v-card-item>
+                    <v-card-subtitle>
+                      <v-text-field
+                        v-model="numb"
+                        ref="numb"
+                        :rules="[
+                          (numb) => !!numb || 'This field is required',
+                          (numb) => !(numb.length > 9 || numb.length < 9) ||'Phone Number must have 9 numbers']"
+                        type="number"
+                        color="red"
+                        label="Phone Number"
+                        hint="9 numbers please"
+                        required
+                        placeholder="999999999"
+                      ></v-text-field>
+                    </v-card-subtitle>
+                  </v-card-item>
+                </v-card>
+                <v-btn
+                  style="margin-bottom: 1%"
+                  color="secundary"
+                  @click="confirmMbWay()"
+                  dark
+                  >Confirm</v-btn
+                >
+              </v-form>
+            </v-tab-item>
+            <v-tab-item :key="2" :value="'mobile-tabs-5-2'">
+              <v-form>
+                <v-card flat>
+                  <v-card-item>
+                    <v-card-subtitle
+                      >Entity: 13475
+                      <p>Referency: {{ this.ref }}</p>
+                    </v-card-subtitle>
+                  </v-card-item>
+                </v-card>
+                <v-btn
+                  style="margin-bottom: 1%"
+                  color="secundary"
+                  @click="confirmMbRef()"
+                  dark
+                  >Confirm</v-btn
+                >
+              </v-form>
+            </v-tab-item>
+          </v-tabs-items>
+        </v-card>
+
+        <v-btn style="margin: 1%" @click="e1 = 2" text>Back</v-btn>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -166,23 +200,18 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
+      tabs: null,
       e1: 1,
+      ref: null,
+      numb: null,
     };
   },
-  props: {
-    Text: String,
-  },
   name: "Modal",
-  props: {
-    value: {
-      required: true,
-    },
-  },
   components: {},
   methods: {
-    close() {
-      this.$emit("input", !this.value);
-    },
+    ...mapActions({
+      insertCart: 'cart/fetchProducts',
+    }),
     remove(index) {
       const requestBody = {
         idUser: this.shoppingCart[index].idUser,
@@ -203,30 +232,112 @@ export default {
         this.shoppingCart[index].image +
         ".png");
     },
+    generateRef() {
+      this.ref =
+        Math.floor(Math.random() * (999999999 - 100000000 + 1)) + 100000000;
+    },
+    removeAll(){
+      const requestBody = {
+        idUser: this.shoppingCart[0].idUser,
+      }
+      this.$axios
+        .post(`http://localhost:3000/api/tp2/user/purchase/deleteAllLines`, requestBody)
+        .then((response) => response)
+        .then((data) => { 
+          if(data.statusText === 'OK'){
+            this.updateCart(null)
+          }
+        })
+        .catch((error) => console.log(error));
+        
+    },
+    insertPurchaseLine(idPaymentMethod){
+      const body = {
+        shops: this.shoppingCart,
+        idPaymentMethod: idPaymentMethod,
+        total: this.shoppingCartTotal,
+        idUser: this.shoppingCart[0].idUser,
+      }
+      this.$axios
+          .post(`http://localhost:3000/api/tp2/user/purchase/newPurchaseLineAll`, body)
+          .then((response) => response)
+          .then((data) => {
+            if(data.statusText === "OK"){
+              console.log("Inseriu Linhas")
+            }
+          })
+          .catch((error) => console.log(error));
+      },
+
+    insertPurchase(paymentMethod){
+      const requestBody = {
+        idUser: this.shoppingCart[0].idUser,
+      }
+      this.$axios
+        .post(`http://localhost:3000/api/tp2/user/purchase/newPurchaseAll`, requestBody)
+        .then((response) => response)
+        .then((data) => { 
+          if(data.statusText === 'OK'){
+            console.log("Inseriu Compra")
+            this.insertPurchaseLine(paymentMethod);
+          }
+        })
+        .catch((error) => console.log(error));
+    },
+    confirmMbWay() {
+      if (this.numb != null) {
+        if (this.numb.length != 9) {
+          alert("Error Number");
+          return;
+        }else{
+          var idPaymentMethod=1;
+          this.insertPurchase(idPaymentMethod);
+          this.removeAll();
+          this.insertCart(null);
+          this.$router.push("path:'/'")
+          alert("Check");
+        }
+      }
+    },
+    confirmMbRef() {
+      var idPaymentMethod=2;
+      this.insertPurchase(idPaymentMethod);
+      this.removeAll();
+      this.insertCart(null);
+      this.$router.push("path:'/'")
+      alert("Check1");
+    },
   },
   computed: {
     ...mapGetters({
-      user: 'auth/userData',
+      user: "auth/userData",
       shoppingCart: "cart/getPurchaseLine",
       shoppingCartTotal: "cart/getTotal",
     }),
+  },
+  created() {
+    this.generateRef();
   },
 };
 </script>
 
 
 <style scoped>
+#item {
+  margin-bottom: 1%;
+}
 #header {
-    height: 72px;
-    align-items: stretch;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
+  height: 72px;
+  align-items: stretch;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2),
+    0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
 }
 
-#stepper{
-    margin:2%;
-    padding:2%;
+#stepper {
+  margin: 2%;
+  padding: 2%;
 }
 </style>

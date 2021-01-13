@@ -13,8 +13,6 @@
                 v-model="userData.username"
                 label="Username"
                 :rules="rules.require"
-                outlined
-                rounded
               ></v-text-field>
 
               <v-text-field
@@ -26,8 +24,6 @@
                 label="Password"
                 hint="At least 8 characters"
                 @click:append="showPassword = !showPassword"
-                outlined
-                rounded
               ></v-text-field>
             </v-form>
             <p id="error" v-if="error">{{ error }}</p>

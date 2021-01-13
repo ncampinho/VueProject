@@ -87,5 +87,27 @@ router.post('/user/purchase/deleteAllLines', urlencondedParser, async (rq, res, 
     }
 });
 
+//Endpoint that sends data to create a new purchase line
+router.post('/user/purchase/newPurchaseLineAll', urlencondedParser, async (rq, res, next) =>{
+    try{
+        let results = await db.newPurchaseLineAll(rq.body);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+//Endpoint that sends data to create a new purchase
+router.post('/user/purchase/newPurchaseAll', urlencondedParser, async (rq, res, next) =>{
+    try{
+        let results = await db.newPurchaseAll(rq.body);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
 //Export all the routes(endpoints) available
 module.exports = router;

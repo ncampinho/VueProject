@@ -8,8 +8,8 @@
     >
     <v-card>
         <v-list v-if="shoppingCart != null">
-          <v-list-item  v-for="(line,index) in shoppingCart" :key="index">
-            <v-avatar tile size="35%">
+          <v-list-item id="item" v-for="(line,index) in shoppingCart" :key="index">
+            <v-avatar tile height=120px width=200px>
               <img contain :src="imageSource(index)" alt="">
             </v-avatar>
 
@@ -128,8 +128,9 @@ export default {
 </script>
 
 <style scoped>
-  
-
+  #item{
+  margin-bottom:1%
+}
 </style>
 
 
