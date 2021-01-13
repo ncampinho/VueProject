@@ -146,7 +146,10 @@
                         ref="numb"
                         :rules="[
                           (numb) => !!numb || 'This field is required',
-                          (numb) => !(numb.length > 9 || numb.length < 9) ||'Phone Number must have 9 numbers']"
+                          (numb) =>
+                            !(numb.length > 9 || numb.length < 9) ||
+                            'Phone Number must have 9 numbers',
+                        ]"
                         type="number"
                         color="red"
                         label="Phone Number"
@@ -197,6 +200,10 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import Vue from "vue";
+import VueSimpleAlert from "vue-simple-alert";
+Vue.use(VueSimpleAlert);
+
 export default {
   data() {
     return {
@@ -210,7 +217,7 @@ export default {
   components: {},
   methods: {
     ...mapActions({
-      insertCart: 'cart/fetchProducts',
+      insertCart: "cart/fetchProducts",
     }),
     remove(index) {
       const requestBody = {
@@ -236,49 +243,57 @@ export default {
       this.ref =
         Math.floor(Math.random() * (999999999 - 100000000 + 1)) + 100000000;
     },
-    removeAll(){
+    removeAll() {
       const requestBody = {
         idUser: this.shoppingCart[0].idUser,
-      }
+      };
       this.$axios
-        .post(`http://localhost:3000/api/tp2/user/purchase/deleteAllLines`, requestBody)
+        .post(
+          `http://localhost:3000/api/tp2/user/purchase/deleteAllLines`,
+          requestBody
+        )
         .then((response) => response)
-        .then((data) => { 
-          if(data.statusText === 'OK'){
-            this.updateCart(null)
+        .then((data) => {
+          if (data.statusText === "OK") {
+            this.updateCart(null);
           }
         })
         .catch((error) => console.log(error));
-        
     },
-    insertPurchaseLine(idPaymentMethod){
+    insertPurchaseLine(idPaymentMethod) {
       const body = {
         shops: this.shoppingCart,
         idPaymentMethod: idPaymentMethod,
         total: this.shoppingCartTotal,
         idUser: this.shoppingCart[0].idUser,
-      }
+      };
       this.$axios
-          .post(`http://localhost:3000/api/tp2/user/purchase/newPurchaseLineAll`, body)
-          .then((response) => response)
-          .then((data) => {
-            if(data.statusText === "OK"){
-              console.log("Inseriu Linhas")
-            }
-          })
-          .catch((error) => console.log(error));
-      },
+        .post(
+          `http://localhost:3000/api/tp2/user/purchase/newPurchaseLineAll`,
+          body
+        )
+        .then((response) => response)
+        .then((data) => {
+          if (data.statusText === "OK") {
+            console.log("Inseriu Linhas");
+          }
+        })
+        .catch((error) => console.log(error));
+    },
 
-    insertPurchase(paymentMethod){
+    insertPurchase(paymentMethod) {
       const requestBody = {
         idUser: this.shoppingCart[0].idUser,
-      }
+      };
       this.$axios
-        .post(`http://localhost:3000/api/tp2/user/purchase/newPurchaseAll`, requestBody)
+        .post(
+          `http://localhost:3000/api/tp2/user/purchase/newPurchaseAll`,
+          requestBody
+        )
         .then((response) => response)
-        .then((data) => { 
-          if(data.statusText === 'OK'){
-            console.log("Inseriu Compra")
+        .then((data) => {
+          if (data.statusText === "OK") {
+            console.log("Inseriu Compra");
             this.insertPurchaseLine(paymentMethod);
           }
         })
@@ -289,23 +304,33 @@ export default {
         if (this.numb.length != 9) {
           alert("Error Number");
           return;
-        }else{
-          var idPaymentMethod=1;
+        } else {
+          var idPaymentMethod = 1;
           this.insertPurchase(idPaymentMethod);
           this.removeAll();
           this.insertCart(null);
-          this.$router.push("path:'/'")
-          alert("Check");
+          this.$router.push({path:'/'});
+          this.$fire({
+            title: "Payment",
+            text: "Transaction Completed",
+            type: "success",
+            confirmButtonText: "Confirm"
+          })
         }
       }
     },
     confirmMbRef() {
-      var idPaymentMethod=2;
+      var idPaymentMethod = 2;
       this.insertPurchase(idPaymentMethod);
       this.removeAll();
       this.insertCart(null);
-      this.$router.push("path:'/'")
-      alert("Check1");
+      this.$router.push({path:'/'});
+      this.$fire({
+        title: "Payment",
+        text: "Transaction Completed",
+        type: "success",
+        confirmButtonText: "Confirm"
+      })
     },
   },
   computed: {
