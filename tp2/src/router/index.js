@@ -40,6 +40,16 @@ const routes = [
     component: () => import('../views/CinemaAndArts.vue')
   },
   {
+    path: '/musics_and_festivals',
+    name: 'MusicAndFestivals',
+    component: () => import('../views/MusicAndFestivals.vue')
+  },
+  {
+    path: '/sports',
+    name: 'Sports',
+    component: () => import('../views/Sports.vue')
+  },
+  {
     path: '/show/:showId/show_info',
     name: 'ShowDetails',
     component: () => import('../views/ShowDetails.vue'),

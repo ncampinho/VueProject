@@ -1,5 +1,5 @@
 <template>
-  <v-container id="horizontalDisplay">
+  <v-container v-if="showItems!==null" id="horizontalDisplay">
     <v-sheet class="mx-auto" elevation="0">
       <v-slide-group class="pa-4" multiple show-arrows>
         <v-slide-item v-for="(show, index) in showItems" :key="index" :loading="loading">
@@ -8,7 +8,7 @@
               <v-progress-linear color="red" height="2" indeterminate></v-progress-linear>
             </template>
 
-            <v-img contain max-height="200"  :src="imageSource(index)" ></v-img>
+            <v-img contain max-height="200" :src="imageSource(index)" ></v-img>
 
             <v-card-title>{{show[0].item.showName}}</v-card-title>
 
@@ -58,6 +58,9 @@
     </v-sheet>
 
     <login v-model="dialog"></login>
+  </v-container>
+  <v-container v-else id="horizontalDisplay">
+    No data spotlighted
   </v-container>
 </template>
 
@@ -154,6 +157,7 @@ export default {
         .then((response) => response)
         .then((data) => {
           this.showItems = data.data;
+          console.log(this.showItems)
         })
         .catch((error) => console.log(error));
     },
@@ -177,4 +181,5 @@ export default {
 .v-application--is-ltr .v-card__actions > .v-btn.v-btn + .v-btn {
     margin-left: auto;
 }
+
 </style>

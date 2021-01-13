@@ -1,34 +1,39 @@
 <template>
   <v-container>
     <v-card v-model="show" class="mx-auto" max-width="344" outlined>
-      <v-img src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
+      <v-img heigth=400 width=400 contain :src="imageSource(index)" alt=""></v-img>
       <v-container>
-        <v-card-title>
+        <v-card-title class="mx-0">
           {{show[this.ID][0].item.showName }}
           <div>{{show[this.ID][0].item.type}} - {{show[this.ID][0].item.rating}}</div>
         </v-card-title>
+        <v-row align="left" class="mx-3">
+          <v-rating :value="show[this.ID][0].item.ratingValue" color="amber" dense half-increments readonly size="14"></v-rating>
+            <div class="grey--text ml-4">{{show[this.ID][0].item.ratingValue}}</div>
+        </v-row>
 
         <v-card-text>
-          <v-row align="center" class="mx-0">
-            <v-rating :value="4.5" color="amber" dense half-increments readonly size="14"></v-rating>
-            <div class="grey--text ml-4">4.5 (413)</div>
+          <v-row align="left" class="mx-2">
+            Price: {{show[this.ID][0].item.price}} €
           </v-row>
         </v-card-text>
-        <v-card-text class="my-4 subtitle-1 sinopse">Sinopse</v-card-text>
-        <v-card-text>{{show[this.ID][0].item.showDescription}}</v-card-text>
-      </v-container>
-    </v-card>
-
-    <v-card class="availibility">
-      <v-card-text>Availability</v-card-text>
-      <v-card-text>
+        <v-card-text class="my-0 mx-2 subtitle-1 sinopse">Sinopse</v-card-text>
+        <v-card-text class="my-0 mx-2 ">{{show[this.ID][0].item.showDescription}}</v-card-text>
+        <v-divider ></v-divider>
+        <v-spacer></v-spacer>
+      <v-card-text class="mx-2">
+        Availability
+        </v-card-text>
+        <v-card-text class="my-0">
         <v-chip-group v-model="selection[0]" active-class="red accent-4 white--text" column>
           <v-chip v-for="(hour, index) in show[this.ID]" :key="index">{{ hour.item.showTime }}PM</v-chip>
         </v-chip-group>
+        <v-spacer></v-spacer>
         <v-card-actions>
           <v-btn color="red lighten-2" text @click="purchase()">Add To Cart</v-btn>
         </v-card-actions>
       </v-card-text>
+      </v-container>
     </v-card>
 
     <login v-model="dialog"></login>
@@ -110,7 +115,11 @@ export default {
         setTimeout(() => (this.loading = false), 2000);
       }
     },
+    imageSource(index){
+      return require("../../public/images/" + this.show[this.ID][0].item.imageVert + ".png")
+    },
   },
+  
 };
 </script>
 

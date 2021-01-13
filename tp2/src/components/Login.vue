@@ -10,12 +10,14 @@
           <v-container>
             <v-form ref="form" lazy-validation>
               <v-text-field
+              color="red"
                 v-model="userData.username"
                 label="Username"
                 :rules="rules.require"
               ></v-text-field>
 
               <v-text-field
+              color="red"
                 v-model="userData.password"
                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="[rules.required, rules.minPassword]"
@@ -27,14 +29,14 @@
               ></v-text-field>
             </v-form>
             <p id="error" v-if="error">{{ error }}</p>
-            <v-btn rounded color="primary" dark @click="submit()">Login</v-btn>
+            <v-btn rounded color="red" dark @click="submit()">Login</v-btn>
           </v-container>
           <small @click="close">
-            <router-link to="/login/register">Don't have an account? Sign in here</router-link>
+            <router-link style="color: red" to="/login/register">Don't have an account? Sign in here</router-link>
           </small>
         </v-card-text>
       </v-card>
-      <button @click.prevent="close" class="border-b border-teal font-semibold" id="close">Close</button>
+      <button  @click.prevent="close" class="border-b border-teal font-semibold" id="close">Close</button>
     </v-dialog>
   </v-row>
 </template>
@@ -104,7 +106,7 @@ export default {
     submit() {
       this.login(this.userData);
       setTimeout(() => this.checkUserType(), 1000);
-      //VER COM ANTÓNIO  this.$emit("input", !this.value);
+      this.$emit("input", !this.value);
     },
   },
 };

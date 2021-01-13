@@ -1,5 +1,5 @@
 <template>
-  <v-container style="max-width: 87%;">
+  <v-container v-if="showItems!==null" style="max-width: 87%;">
     <v-row>
       <template>
         <v-col
@@ -18,7 +18,7 @@
               ></v-progress-linear>
             </template>
 
-<v-img contain max-height="200"  :src="imageSource(index)" ></v-img>
+<v-img contain max-height="200"   :src="imageSource(index)" ></v-img>
 
             <v-card-title>{{show[0].item.showName}}</v-card-title>
 
@@ -69,6 +69,9 @@
     </v-row>
     <login v-model="dialog"></login>
     
+  </v-container>
+  <v-container v-else>
+    No data to show
   </v-container>
 </template>
 
@@ -163,8 +166,8 @@ export default {
         .get(this.URL)
         .then((response) => response)
         .then((data) => {
-          console.log(data.data)
           this.showItems = data.data;
+          console.log(this.showItems)
         })
         .catch((error) => console.log(error));
     },
@@ -194,10 +197,4 @@ export default {
 
 }
 
-.v-card__title{
-  font-size: 1.10rem;
-  height: 6rem;
-  display: block;
-  word-break: normal;
-}
 </style>

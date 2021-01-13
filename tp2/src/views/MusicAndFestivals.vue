@@ -1,9 +1,9 @@
 <template>
 <v-app>
     <subtitle Subtitle="Spotlight"/>
-    <horizontal-displayer URL = 'http://localhost:3000/api/tp2/show/type/Music And Festivals' Color = 'border: solid 2px blue'/>
+    <horizontal-displayer URL = 'http://localhost:3000/api/tp2/show_spotlight/type/2' Color = 'border: solid 2px blue'/>
     <subtitle Subtitle="Available Shows"/>
-    <vertical-displayer URL= 'http://localhost:3000/api/tp2/show/type/Music And Festivals' Color = 'border: solid 2px blue'/>
+    <vertical-displayer URL= 'http://localhost:3000/api/tp2/show/type/2' Color = 'border: solid 2px blue'/>
 </v-app>
 </template>
 

@@ -100,7 +100,7 @@ db.bySpotlight = () => {
 //Returns shows by type
 db.byType = (type) => {
     return new Promise((resolve, reject) => {
-        pool.query("Select * from shows, showdate, dates, rating, showtype  where showtype.type = ? AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType", [type], (err, results) => {
+        pool.query("Select * from shows, showdate, dates, rating, showtype  where showtype.idShowType = ? AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType", [type], (err, results) => {
             if (err) {
                 return reject(err);
             }
@@ -125,7 +125,7 @@ db.byType = (type) => {
 //Returns shows by type
 db.byType_Spotlighted = (type) => {
     return new Promise((resolve, reject) => {
-        pool.query("Select * from shows, showdate, dates, rating, showtype  where showtype.type = ? AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType AND shows.isSpotlight = 1", [type], (err, results) => {
+        pool.query("Select * from shows, showdate, dates, rating, showtype  where showtype.idShowType = ? AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType AND shows.isSpotlight = 1", [type], (err, results) => {
             if (err) {
                 return reject(err);
             }
