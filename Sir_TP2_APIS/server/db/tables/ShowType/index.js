@@ -19,5 +19,16 @@ db.allTypes = () => {
     })
 };
 
+db.singleType = (type) => {
+    return new Promise((resolve, reject) => {
+        pool.query("Select * from showtype WHERE showtype.type = ?", [type],(err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(results);
+        })
+    })
+};
+
 //Exports database to give access to all the methods
 module.exports = db;

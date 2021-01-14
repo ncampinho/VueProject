@@ -27,11 +27,52 @@ db.all = () => {
                     });
                 });
 
-                
+
                 return resolve(groups);
             })
     })
 };
+
+//Creates a new show
+db.newShow = (showData) => {
+    var showDateId = null;
+    console.log(showData)
+    return new Promise((resolve, reject) => {
+        pool.query('Select * from dates WHERE dates.date = ? AND dates.showTime = ?', [showData.showDate, showData.showTime],
+            (err, results) => {
+                if (err) {
+                    return reject(err)
+                }
+                if (results.length > 0) {
+                    showDateId = results[0].idDate;
+                } else {
+                    pool.query('Insert Into dates(date, showTime) VALUES(?, ?)', [showData.showDate, showData.showTime],
+                        (err, results) => {
+                            if (err) {
+                                return reject(err)
+                            }
+                            showDateId = results.insertId
+
+                        })
+                }
+                pool.query('Insert Into shows(showName, showDescription, price, availableTickets, idRating, idShowType, idLocation, image, isSpotlight) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                    [showData.showName, showData.showDescription, showData.price, showData.availableTickets, showData.idRating, showData.idShowType, showData.idLocation, showData.image, showData.isSpotlight],
+                    (err, results) => {
+                        if (err) {
+                            return reject(err)
+                        }
+
+                        pool.query('Insert Into showdate(idShow, idDate, limitPurchaseDate) VALUES(?, ?, ?)', [results.insertId, showDateId, showData.limitPurchaseDate],
+                            (err, results) => {
+                                if (err) {
+                                    return reject(err)
+                                }
+                                return resolve(results)
+                            })
+                    })
+            })
+    })
+}
 
 //Return a specific show given its id
 db.one = (id) => {
@@ -42,18 +83,18 @@ db.one = (id) => {
             }
             let groups = Object.create(null);
 
-                results.forEach(item => {
-                    if (!groups[item.idShow]) {
-                        groups[item.idShow] = [];
-                    }
+            results.forEach(item => {
+                if (!groups[item.idShow]) {
+                    groups[item.idShow] = [];
+                }
 
-                    groups[item.idShow].push({
-                        item
-                    });
+                groups[item.idShow].push({
+                    item
                 });
+            });
 
-                
-                return resolve(groups);
+
+            return resolve(groups);
         })
     })
 };
@@ -91,7 +132,7 @@ db.bySpotlight = () => {
                     });
                 });
 
-                
+
                 return resolve(groups);
             })
     })
@@ -106,18 +147,18 @@ db.byType = (type) => {
             }
             let groups = Object.create(null);
 
-                results.forEach(item => {
-                    if (!groups[item.idShow]) {
-                        groups[item.idShow] = [];
-                    }
+            results.forEach(item => {
+                if (!groups[item.idShow]) {
+                    groups[item.idShow] = [];
+                }
 
-                    groups[item.idShow].push({
-                        item
-                    });
+                groups[item.idShow].push({
+                    item
                 });
+            });
 
-                
-                return resolve(groups);
+
+            return resolve(groups);
         })
     })
 };
@@ -131,18 +172,18 @@ db.byType_Spotlighted = (type) => {
             }
             let groups = Object.create(null);
 
-                results.forEach(item => {
-                    if (!groups[item.idShow]) {
-                        groups[item.idShow] = [];
-                    }
+            results.forEach(item => {
+                if (!groups[item.idShow]) {
+                    groups[item.idShow] = [];
+                }
 
-                    groups[item.idShow].push({
-                        item
-                    });
+                groups[item.idShow].push({
+                    item
                 });
+            });
 
-                
-                return resolve(groups);
+
+            return resolve(groups);
         })
     })
 };
@@ -154,7 +195,7 @@ db.byNameType = (name, type) => {
             if (err) {
                 return reject(err);
             }
-            
+
         })
     })
 };

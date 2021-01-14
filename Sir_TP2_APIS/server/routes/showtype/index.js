@@ -15,6 +15,15 @@ router.get('/types', async (rq, res, next) =>{
         res.sendStatus(500);
     }
 });
+router.get('/type/:type', async (rq, res, next) =>{
+    try{
+        let results = await db.singleType(rq.params.type);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
 
 //Export all the routes(endpoints) available
 module.exports = router;

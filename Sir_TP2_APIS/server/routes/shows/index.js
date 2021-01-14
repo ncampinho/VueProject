@@ -1,15 +1,31 @@
 //All these API endpoints start with /api/tp2
+const bodyParser = require('body-parser');
 const express = require('express');
 const db = require('../../db/tables/Shows');
 
 //Router allows to perform different types of request to the database
 const router = express.Router();
 
+//bodyParser -> allows to send a body of information typical of post requests
+const urlencondedParser = bodyParser.urlencoded({extended:false});
+
+
 //Endpoint that gets all shows created
 router.get('/shows', async (rq, res, next) =>{
     try{
         
         let results = await db.all();
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+//Endpoint that creates a new show
+router.post('/show/new_show', urlencondedParser, async (rq, res, next) =>{
+    try{
+        let results = await db.newShow(rq.body);
         res.json(results);
     } catch(e){
         console.log(e);
