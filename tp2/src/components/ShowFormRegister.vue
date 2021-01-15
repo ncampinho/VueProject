@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <p></p>
     <h1>{{Text}}</h1>
     <v-form ref="form" lazy-validation>
       <v-text-field
@@ -123,7 +124,7 @@
         v-model="showData.imageLocation"
       ></v-file-input>
     </v-form>
-    <v-btn rounded color="primary" dark @click="submit()">Submit</v-btn>
+    <v-btn rounded color="red" dark @click="submit()">Submit</v-btn>
   </v-container>
 </template>
 

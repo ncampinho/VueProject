@@ -183,6 +183,10 @@ import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 import Login from "@/components/Login.vue";
 import Popupcart from "@/components/Popupcart.vue";
+import Vue from "vue";
+import VueSimpleAlert from "vue-simple-alert";
+Vue.use(VueSimpleAlert);
+
 export default {
   components: {
     Login,
@@ -217,9 +221,23 @@ export default {
       if (this.user[0].idUserType === 1) {
         this.logout(null);
         this.clearCart(null);
+        this.$fire({
+        title: "Logout",
+        text: "Logout sucess",
+        type: "success",
+        confirmButtonText: "Confirm",
+        color: "red"
+      })
       } else {
         this.logout(null);
         this.$router.push({ path: "/" });
+        this.$fire({
+        title: "Logout",
+        text: "Logout sucess",
+        type: "success",
+        confirmButtonText: "Confirm",
+        color: "red"
+      })
       }
     },
     changeDialog() {

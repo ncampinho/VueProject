@@ -3,6 +3,7 @@
     <v-card v-model="show" class="mx-auto" max-width="344" outlined>
       <v-img heigth=400 width=400 contain :src="imageSource(index)" alt=""></v-img>
       <v-container>
+        <v-card-item>
         <v-card-title class="mx-0">
           {{show[this.ID][0].item.showName }}
           <div>{{show[this.ID][0].item.type}} - {{show[this.ID][0].item.rating}}</div>
@@ -20,7 +21,26 @@
         <v-card-text class="my-0 mx-2 subtitle-1 sinopse">Sinopse</v-card-text>
         <v-card-text class="my-0 mx-2 ">{{show[this.ID][0].item.showDescription}}</v-card-text>
         <v-divider ></v-divider>
-        <v-spacer></v-spacer>
+        <br>
+        <timer 
+          @changed="active"
+         :endtime="show[this.ID][0].item.limitPurchaseDate"
+         trans='{  
+         "day":"Day",
+         "hours":"Hours",
+         "minutes":"Minutes",
+         "seconds":"Seconds",
+         "expired":"Event has been expired.",
+         "running":"Till the end of event.",
+         "upcoming":"Till start of event.",
+         "status": {
+            "expired":"Expired",
+            "running":"Running",
+            "upcoming":"Future"
+           }}'
+         ></timer>
+         </v-card-item>
+         <v-card-item v-if="status === 'running'">
       <v-card-text class="mx-2">
         Availability
         </v-card-text>
@@ -33,6 +53,7 @@
           <v-btn color="red lighten-2" text @click="purchase()">Add To Cart</v-btn>
         </v-card-actions>
       </v-card-text>
+      </v-card-item>
       </v-container>
     </v-card>
 
@@ -42,6 +63,7 @@
 
 <script>
 import Login from "@/components/Login.vue";
+import Timer from "../components/Timer.vue";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "horizontal card",
@@ -49,12 +71,13 @@ export default {
     ID: String,
   },
   components: {
-    Login,
+    Login,Timer
   },
   data: () => ({
     show: [],
     selection: [],
     dialog: false,
+    status : null,
   }),
   created() {
     this.getSingleShow();
@@ -118,12 +141,20 @@ export default {
     imageSource(index){
       return require("../../public/images/" + this.show[this.ID][0].item.imageVert + ".png")
     },
+    active (value) {
+      this.status = value;
+      console.log(this.status)
+    }
   },
   
 };
 </script>
 
 <style scoped>
+#availability{
+  display: flex;
+  flex-direction: column;
+}
 .v-card {
   min-width: 100% !important;
   max-width: 100% !important;

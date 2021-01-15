@@ -168,6 +168,28 @@ db.newPurchase = purchaseData => {
   })
 }
 
+
+db.updatePurchaseTempline = lineData => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+            'UPDATE temp_purchaseline SET quantity = ?, subTotal = ? * ? WHERE temp_purchaseline.idShow=? AND temp_purchaseline.idUser = ? AND temp_purchaseline.idDate = ?',
+            [
+              lineData.quantity,
+              lineData.price,
+              lineData.quantity,
+              lineData.idShow,
+              lineData.idUser,
+              lineData.idDate,
+            ],
+            (err, results) => {
+              if (err) {
+                return reject(err)
+              }
+              return resolve(results)
+            }
+          )
+        } )
+      };
 /**Creates a new purchase for the user
  * Is created when the user confirms the purchase
  * on the shopping cart

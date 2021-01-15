@@ -1,7 +1,7 @@
 <template>
   <v-container v-if="showItems!==null" id="horizontalDisplay">
     <v-sheet class="mx-auto" elevation="0">
-      <v-slide-group class="pa-4" multiple show-arrows>
+      <v-slide-group class="pa-4" multiple >
         <v-slide-item v-for="(show, index) in showItems" :key="index" :loading="loading">
           <v-card >
             <template slot="progress">
@@ -15,7 +15,6 @@
             <v-card-text>
               <v-row align="center" class="mx-0">
                 <v-rating :value="show[0].item.ratingValue" color="amber" dense half-increments readonly size="14"></v-rating>
-                <!--VER RATING-->
 
                 <div class="grey--text ml-6">{{show[0].item.ratingValue}}</div>
               </v-row>
@@ -40,7 +39,7 @@
                 active-class="red accent-4 white--text"
                 column
               >
-                <v-chip v-for="(hour, index) in show" :key="index">{{hour.item.showTime}}PM</v-chip>
+                <v-chip v-for="(hour, index) in show" :key="index">{{hour.item.showTime}}m</v-chip>
               </v-chip-group>
             </v-card-text>
 

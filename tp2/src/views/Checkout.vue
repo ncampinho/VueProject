@@ -2,18 +2,73 @@
   <v-stepper id="stepper" v-model="e1">
     <v-stepper-header id="header">
       <v-stepper-step color="red" dark :complete="e1 > 1" step="1"
-        >Products</v-stepper-step
+        >Products Edit</v-stepper-step
       >
       <v-divider></v-divider>
       <v-stepper-step color="red" dark :complete="e1 > 2" step="2"
+        >Products Confirm</v-stepper-step
+      >
+      <v-divider></v-divider>
+      <v-stepper-step color="red" dark :complete="e1 > 3" step="3"
         >Email</v-stepper-step
       >
       <v-divider></v-divider>
-      <v-stepper-step color="red" dark step="3">Payment</v-stepper-step>
+      <v-stepper-step color="red" dark step="4">Payment</v-stepper-step>
     </v-stepper-header>
 
+<v-stepper-content step="1">
+        <template>
+          <v-container>
+            <v-list v-if="shoppingCart != null" two-line>
+              <v-list-item
+                id="item"
+                v-for="(line, index) in shoppingCart"
+                :key="index"
+              >
+              <v-row>
+                
+                <v-avatar tile height="120px" width="200px">
+                  <img contain :src="imageSource(index)" alt="" />
+                </v-avatar>
+
+                <v-list-item-content>
+                  <v-list-item-title
+                    >Show: {{ line.showName }}</v-list-item-title
+                  >
+                  <v-list-item-title>Date: {{ line.date }}</v-list-item-title>
+                  <v-list-item-title>Price: {{ line.price }} €</v-list-item-title>
+                  
+                </v-list-item-content>
+
+                <div style="display: flex; flex-direction:row;">
+                  <v-text-field type="number" min=1 v-model="quantity[index]" @change="modified(index)" label="Quantity:" ></v-text-field>
+                  </div>
+
+                <v-list-tile-action>
+                  <v-btn class="item-close" @click="remove(index)" icon>
+                    <v-icon>mdi-delete-outline</v-icon>
+                  </v-btn>
+                </v-list-tile-action>
+                </v-row>
+              </v-list-item>
+              <v-divider></v-divider>
+            </v-list>
+            <v-list v-else>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>No products</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-container>
+        </template>
+
+        <v-btn style="margin: 1%" color="secundary" dark @click="changeScreen(2)"
+          >Go to Confirm Products</v-btn
+        >
+      </v-stepper-content>
     <v-stepper-items>
-      <v-stepper-content step="1">
+      <v-stepper-content step="2">
         <template>
           <v-container>
             <v-list v-if="shoppingCart != null" two-line>
@@ -34,15 +89,9 @@
                 </v-list-item-content>
 
                 <v-list-tile
-                  >{{ line.price }} x {{ line.quantity }} =
+                  >{{ line.price }} x {{line.quantity}} =
                   {{ line.subtotal }} €</v-list-tile
                 >
-
-                <v-list-tile-action>
-                  <v-btn class="item-close" @click="remove(index)" icon>
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
-                </v-list-tile-action>
               </v-list-item>
               <v-divider></v-divider>
             </v-list>
@@ -64,12 +113,13 @@
           </v-container>
         </template>
 
-        <v-btn style="margin: 1%" color="secundary" dark @click="e1 = 2"
+        <v-btn style="margin: 1%" color="secundary" dark @click="changeScreen(3)"
           >Go to Email Definition</v-btn
         >
+        <v-btn style="margin: 1%" @click="e1 = 1" text>Back</v-btn>
       </v-stepper-content>
 
-      <v-stepper-content step="2">
+      <v-stepper-content step="3">
         <v-item-group>
           <v-container>
             <v-row>
@@ -115,14 +165,14 @@
           </v-container>
         </v-item-group>
 
-        <v-btn style="margin: 1%" color="secundary" dark @click="e1 = 3"
+        <v-btn style="margin: 1%" color="secundary" dark @click="changeScreen(4)"
           >Go to Payment</v-btn
         >
 
-        <v-btn style="margin: 1%" @click="e1 = 1" text>Back</v-btn>
+        <v-btn style="margin: 1%" @click="e1 = 2" text>Back</v-btn>
       </v-stepper-content>
 
-      <v-stepper-content step="3">
+      <v-stepper-content step="4">
         <v-card>
           <v-tabs color="red" v-model="tabs" fixed-tabs>
             <v-tab href="#mobile-tabs-5-1" class="primary--text">
@@ -191,7 +241,7 @@
           </v-tabs-items>
         </v-card>
 
-        <v-btn style="margin: 1%" @click="e1 = 2" text>Back</v-btn>
+        <v-btn style="margin: 1%" @click="e1 = 3" text>Back</v-btn>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -211,6 +261,7 @@ export default {
       e1: 1,
       ref: null,
       numb: null,
+      quantity:[],
     };
   },
   name: "Modal",
@@ -218,20 +269,29 @@ export default {
   methods: {
     ...mapActions({
       insertCart: "cart/fetchProducts",
+      updateCart: 'cart/insertCart',
     }),
     remove(index) {
       const requestBody = {
         idUser: this.shoppingCart[index].idUser,
         idShow: this.shoppingCart[index].idShow,
-        idDate: this.shoppingCart[index].idDate,
-      };
+        idDate: this.shoppingCart[index].idDate
+    }
       this.$axios
-        .post(
-          `http://localhost:3000/api/tp2/user/purchase/deleteTempLine`,
-          requestBody
-        )
+        .post(`http://localhost:3000/api/tp2/user/purchase/deleteTempLine`, requestBody)
         .then((response) => response)
-        .then((data) => {})
+        .then((data) => {
+          if(data.statusText == 'OK'){
+           const removedItem = this.shoppingCart.splice(index, 1)[0]
+           var temp = this.shoppingCart.map((element) => {
+             if(element != removedItem){
+               return element
+             }
+             
+           })
+           this.updateCart(temp)
+          }
+        })
         .catch((error) => console.log(error));
     },
     imageSource(index) {
@@ -309,13 +369,13 @@ export default {
           this.insertPurchase(idPaymentMethod);
           this.removeAll();
           this.insertCart(null);
-          this.$router.push({path:'/'});
+          this.$router.push({ path: "/" });
           this.$fire({
             title: "Payment",
             text: "Transaction Completed",
             type: "success",
-            confirmButtonText: "Confirm"
-          })
+            confirmButtonText: "Confirm",
+          });
         }
       }
     },
@@ -324,14 +384,38 @@ export default {
       this.insertPurchase(idPaymentMethod);
       this.removeAll();
       this.insertCart(null);
-      this.$router.push({path:'/'});
+      this.$router.push({ path: "/" });
       this.$fire({
         title: "Payment",
         text: "Transaction Completed",
         type: "success",
-        confirmButtonText: "Confirm"
+        confirmButtonText: "Confirm",
+      });
+    },
+    getQuantities(){
+      this.quantity = this.shoppingCart.map((element) => {
+        return element.quantity;
       })
     },
+    modified(index){
+        const requestBody = {
+            idUser: this.shoppingCart[index].idUser,
+            idShow: this.shoppingCart[index].idShow,
+            idDate: this.shoppingCart[index].idDate,
+            price: this.shoppingCart[index].price,
+            quantity: parseInt(this.quantity[index]),
+        }
+        this.shoppingCart[index].quantity = this.quantity[index];
+        this.shoppingCart[index].subtotal = this.quantity[index] * this.shoppingCart[index].price;
+        this.updateCart(this.shoppingCart);
+        
+        this.$axios.post('http://localhost:3000/api/tp2/user/purchase/update_purchase_templine', requestBody)
+        .then((response) => response)
+        .catch((error) => console.log(error));
+    },
+    changeScreen(id){
+      this.e1 = id;
+    }
   },
   computed: {
     ...mapGetters({
@@ -339,9 +423,13 @@ export default {
       shoppingCart: "cart/getPurchaseLine",
       shoppingCartTotal: "cart/getTotal",
     }),
+    insertQuantities(){
+      return this.quantity;
+    }
   },
   created() {
     this.generateRef();
+    this.getQuantities();
   },
 };
 </script>

@@ -11,6 +11,7 @@ const purchaseRoutes = require('./routes/purchase')
 const showTypesRoutes = require('./routes/showtype')
 const locationRoutes = require('./routes/location')
 const ratingRoutes = require('./routes/rating')
+const commentsRoutes = require('./routes/comment')
 
 /**----------------------------------------------------------- */
 //const proxy = require('http-proxy-middleware');
@@ -31,6 +32,7 @@ app.use('/api/tp2', purchaseRoutes);
 app.use('/api/tp2', showTypesRoutes);
 app.use('/api/tp2', locationRoutes);
 app.use('/api/tp2', ratingRoutes);
+app.use('/api/tp2', commentsRoutes);
 
 /**----------------------------------------------------- */
 

@@ -21,5 +21,15 @@ router.get('/shows/comments/:id', async (rq, res, next) =>{
     }
 });
 
+router.post('/shows/comments/new_comment', urlencondedParser, async (rq, res, next) =>{
+    try{
+        let results = await db.newComment(rq.body);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
 //Export all the routes(endpoints) available
 module.exports = router;

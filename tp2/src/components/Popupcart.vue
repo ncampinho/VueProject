@@ -7,7 +7,7 @@
       :position-y="60"
     >
     <v-card>
-        <v-list v-if="shoppingCart != null">
+        <v-list v-if="shoppingCart !== null">
           <v-list-item id="item" v-for="(line,index) in shoppingCart" :key="index">
             <v-avatar tile height=120px width=200px>
               <img contain :src="imageSource(index)" alt="">
@@ -21,13 +21,13 @@
 
             <v-list-item-action>
               <v-btn class="item-close" @click="remove(index)"  icon >
-        <v-icon>mdi-close</v-icon>
+        <v-icon>mdi-delete-outline</v-icon>
       </v-btn>
             </v-list-item-action>
           </v-list-item>
           <v-divider></v-divider>
         </v-list>
-      <v-list v-else>
+      <v-list v-else-if="shoppingCart === null">
         <v-list-item>
           <v-list-item-content>
               <v-list-item-title>No products</v-list-item-title>

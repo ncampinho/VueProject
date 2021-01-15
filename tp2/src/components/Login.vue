@@ -98,7 +98,6 @@ export default {
           this.$router.push({ path: "/admin" });
         } else {
           this.insertingShoppingCart();
-          this.$router.push({ path: "/" });
         }
       }
     },
