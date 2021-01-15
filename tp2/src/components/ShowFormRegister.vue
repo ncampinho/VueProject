@@ -2,20 +2,37 @@
   <v-container>
     <p></p>
     <h1>{{Text}}</h1>
+    
     <v-form ref="form" lazy-validation>
+      <v-stepper
+    v-model="e6"
+    vertical
+  >
+    <v-stepper-step
+    color="red" dark 
+      :complete="e6 > 1"
+      step="1"
+    >
+      Show Information
+      <small>Show Name as short as possible</small>
+    </v-stepper-step>
+
+    <v-stepper-content step="1">
       <v-text-field
         v-model="showData.showName"
         label="Show Name"
         outlined
         rounded
+        style="margin-top: 3%"
       ></v-text-field>
-      <v-container class="combobox_container">
+      <v-container class="combobox_container" >
         <v-combobox
         v-model="selections.selectionLocation"
           :items="items.itemsLocation"
           label="Location"
           outlined
           rounded
+          style="margin-top: 3%"
         ></v-combobox>
         <v-combobox
         v-model="selections.selectionType"
@@ -23,6 +40,7 @@
           label="Type"
           outlined
           rounded
+          style="margin-top: 3%"
         ></v-combobox>
       </v-container>
       <v-container class="combobox_container">
@@ -41,21 +59,65 @@
           rounded
         ></v-combobox>
       </v-container>
+      <v-textarea
+        v-model="showData.showDescription"
+        outlined
+        name="input-7-4"
+        label="Show description"
+      ></v-textarea>
+      <v-btn rounded color="red" dark @click="e6=2"
+          style="margin-bottom: 1%">Continue</v-btn>
+      <v-btn text
+      style="margin-bottom: 1%"
+      @click="goToHome()">
+        Cancel
+      </v-btn>
+    </v-stepper-content>
+
+    <v-stepper-step
+    color="red" dark 
+      :complete="e6 > 2"
+      step="2"
+    >
+      Specify quantities
+    </v-stepper-step>
+
+    <v-stepper-content step="2">
       <v-container class="combobox_container">
         <v-text-field
           v-model="showData.price"
           label="Price"
           outlined
           rounded
+          style="margin-top: 3%"
         ></v-text-field>
         <v-text-field
           v-model="showData.availableTickets"
           label="Available Tickets"
           outlined
           rounded
+          style="margin-top: 3%"
         ></v-text-field>
       </v-container>
-      <v-container class="combobox_container">
+      <v-btn rounded color="red" dark @click="e6=3"
+          style="margin-bottom: 1%">Continue</v-btn>
+      <v-btn text
+      style="margin-bottom: 1%"
+      @click="e6=1">
+        Cancel
+      </v-btn>
+    </v-stepper-content>
+
+    <v-stepper-step
+    color="red" dark 
+      :complete="e6 > 3"
+      step="3"
+    >
+      Select dates
+    </v-stepper-step>
+
+    <v-stepper-content step="3">
+     <v-container class="combobox_container">
         
       <v-menu
         v-model="dateShow"
@@ -75,6 +137,7 @@
             v-on="on"
             outlined
             rounded
+            style="margin-top: 3%"
           ></v-text-field>
         </template>
         <v-date-picker v-model="dateForShow" @input="dateShow = false"></v-date-picker>
@@ -85,10 +148,10 @@
           hint="Format: HHhMM"
           outlined
           rounded
+          style="margin-top: 3%"
         ></v-text-field>
       </v-container>
-
-      <v-menu
+       <v-menu
         v-model="datePurchase"
         :close-on-content-click="false"
         :nudge-right="40"
@@ -110,19 +173,50 @@
         </template>
         <v-date-picker v-model="dateForPurchase" @input="datePurchase= false"></v-date-picker>
       </v-menu>
-      <v-textarea
-        v-model="showData.showDescription"
-        outlined
-        name="input-7-4"
-        label="Show description"
-      ></v-textarea>
+
+<v-btn rounded color="red" dark @click="e6=4"
+          style="margin-bottom: 1%">Continue</v-btn>
+      <v-btn text
+      style="margin-bottom: 1%"
+      @click="e6=2">
+        Cancel
+      </v-btn>
+    </v-stepper-content>
+
+    <v-stepper-step 
+    color="red" dark 
+    step="4">
+      Choose images
+      <small>Horizontal (left) and Vertical (right)</small>
+    </v-stepper-step>
+    <v-stepper-content step="4">
+      <v-container class="combobox_container">
       <v-file-input
-        label="Add new image"
+        label="Add new image (Horizontal)"
         outlined
         rounded
         prepend-icon="mdi-camera"
-        v-model="showData.imageLocation"
+        v-model="showData.imageLocationHorizontal"
+        style="margin-top: 3%"
       ></v-file-input>
+      <v-file-input
+        label="Add new image (Vertical)"
+        outlined
+        rounded
+        prepend-icon="mdi-camera"
+        v-model="showData.imageLocationVertical"
+        style="margin-top: 3%"
+      ></v-file-input>
+      </v-container>
+          <v-btn rounded color="red" dark @click="submit()"
+          style="margin-bottom: 1%">Submit</v-btn>
+      <v-btn text
+      style="margin-bottom: 1%"
+      @click="e6=3">
+        Cancel
+      </v-btn>
+    </v-stepper-content>
+  </v-stepper>  
     </v-form>
     <v-btn rounded color="red" dark @click="submit()">Submit</v-btn>
   </v-container>
@@ -135,6 +229,7 @@ export default {
     Text: String,
   },
   data: () => ({
+    e6: 1,
     showData: {
       showName: "",
       showDate: "",
@@ -144,7 +239,8 @@ export default {
       idLocation: null,
       idShowType: null,
       idRating: 0,
-      imageLocation: "",
+      imageLocationHorizontal: "",
+      imageLocationVertical: "",
       isSpotlight: 0,
       showTime: "",
     },
@@ -171,7 +267,7 @@ export default {
     },
   }),
 
-  //When component is mounted -> Fetches all zipcodes to insert into a combobox
+  //When component is mounted -> Fetches all data from different tables to insert into a combobox
   mounted() {
     this.getLocations();
     this.getShowTypes();
@@ -265,7 +361,8 @@ export default {
             limitPurchaseDate:this.dateForPurchase,
             showDate:this.dateForShow,
             isSpotlight: this.getIdSpotlight(),
-            image: this.showData.imageLocation.name,
+            image: this.showData.imageLocationHorizontal.name.split('.')[0],
+            imageVert: this.showData.imageLocationVertical.name.split('.')[0],
             showTime: this.showData.showTime
         }
 
@@ -275,6 +372,9 @@ export default {
         .then((response) => response)
         .catch((error) => console.log(error));
 
+    },
+    goToHome (){
+      this.$router.push({path: '/admin'})
     }
   },
 };

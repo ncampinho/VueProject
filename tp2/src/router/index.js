@@ -64,6 +64,11 @@ const routes = [
     path: '/new_show',
     name: 'NewShow',
     component: () => import('../views/AdminPages/NewShow.vue')
+  },
+  {
+    path: '/table_information',
+    name: 'ShowInformation',
+    component: () => import('../views/AdminPages/ShowInformation.vue')
   }
 ]
 

@@ -33,6 +33,17 @@ router.post('/show/new_show', urlencondedParser, async (rq, res, next) =>{
     }
 });
 
+//Endpoint that updates a show
+router.post('/show/update_show', urlencondedParser, async (rq, res, next) =>{
+    try{
+        let results = await db.updateShow(rq.body);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
 //Endpoint that gets a particular show
 router.get('/show/:id', async (rq, res, next) =>{
     try{

@@ -101,6 +101,11 @@
             <v-list-item-title>New Show</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item :key="3" to="/table_information">
+          <v-list-item-content>
+            <v-list-item-title>All Shows</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -230,6 +235,7 @@ export default {
       })
       } else {
         this.logout(null);
+        this.drawer = false;
         this.$router.push({ path: "/" });
         this.$fire({
         title: "Logout",

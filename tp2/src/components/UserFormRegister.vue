@@ -110,18 +110,18 @@ export default {
   methods: {
     //Executes the register -> uses api to register a new user
     register() {
-      const zipcode = this.selection.split(" - ")
-      this.userData.idZipCode = zipcode[0]
+      const zipcode = this.selection.split(" - ");
+      this.userData.idZipCode = zipcode[0];
       this.$axios
-      .post(`http://localhost:3000/api/tp2/user/registration`, this.userData)
-      .then((response) => {
-        if(typeof (response.data) === 'string'){
-          this.error = response.data
-        }else{
-          this.$router.push({ path: '/login' })
-        }
-      })
-      .catch((error) => console.log(error));
+        .post(`http://localhost:3000/api/tp2/user/registration`, this.userData)
+        .then((response) => {
+          if (typeof response.data === "string") {
+            this.error = response.data;
+          } else {
+            this.$router.push({ path: "/login" });
+          }
+        })
+        .catch((error) => console.log(error));
     },
   },
 };
@@ -136,7 +136,7 @@ export default {
   margin-bottom: 15px;
 }
 
-#error{
+#error {
   margin-bottom: 10px;
   color: red;
 }

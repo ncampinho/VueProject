@@ -10,7 +10,7 @@ let db = {};
 //Returns all shows created
 db.all = () => {
     return new Promise((resolve, reject) => {
-        pool.query('Select * from shows, showdate, dates, rating, showtype where shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType',
+        pool.query('Select * from shows, showdate, dates, rating, showtype, location where shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType AND shows.idLocation = location.idLocation',
             (err, results) => {
                 if (err) {
                     return reject(err);
@@ -55,8 +55,8 @@ db.newShow = (showData) => {
 
                         })
                 }
-                pool.query('Insert Into shows(showName, showDescription, price, availableTickets, idRating, idShowType, idLocation, image, isSpotlight) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                    [showData.showName, showData.showDescription, showData.price, showData.availableTickets, showData.idRating, showData.idShowType, showData.idLocation, showData.image, showData.isSpotlight],
+                pool.query('Insert Into shows(showName, showDescription, price, availableTickets, idRating, idShowType, idLocation, image, isSpotlight, imageVert) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                    [showData.showName, showData.showDescription, showData.price, showData.availableTickets, showData.idRating, showData.idShowType, showData.idLocation, showData.image, showData.isSpotlight, showData.imageVert],
                     (err, results) => {
                         if (err) {
                             return reject(err)
@@ -69,6 +69,27 @@ db.newShow = (showData) => {
                                 }
                                 return resolve(results)
                             })
+                    })
+            })
+    })
+}
+//Updates a show
+db.updateShow = (showData) => {
+    console.log(showData)
+    return new Promise((resolve, reject) => {
+        pool.query('Select * from shows WHERE shows.idShow = ?', [showData.idShow],
+            (err, results) => {
+                if (err) {
+                    return reject(err)
+                }
+                pool.query('UPDATE shows SET showName = ? , showDescription = ? , price = ?, availableTickets = ?, idRating = ?, idShowType = ?, idLocation = ?, isSpotlight = ?, image = ?, imageVert = ? WHERE shows.idShow = ?',
+                    [showData.showName, showData.showDescription, showData.price, showData.availableTickets, showData.idRating, showData.idShowType, showData.idLocation, showData.isSpotlight, showData.image, showData.imageVert, showData.idShow],
+                    (err, results) => {
+                        if (err) {
+                            return reject(err)
+                        }
+
+                        return resolve(results)
                     })
             })
     })
