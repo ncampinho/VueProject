@@ -245,5 +245,6 @@ db.byNameRating = (name, rating) => {
     })
 };
 
+
 //Exports database to give access to all the methods
 module.exports = db;

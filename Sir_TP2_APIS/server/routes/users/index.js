@@ -64,5 +64,19 @@ router.put('/user/unlikeComment/:id', urlencondedParser,async (rq, res, next) =>
     }
 });
 
+/** From this point foward all endpoints are to obtain data for charts-------------------------------- */
+router.get('/user/type/count', async (rq, res, next) =>{
+    try{
+        let results = await db.typeCountData();
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+
+/** -------------------------------------------------------------------------------------------------- */
+
 //Export all the routes(endpoints) available
 module.exports = router;

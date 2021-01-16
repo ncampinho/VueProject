@@ -314,5 +314,51 @@ db.newPurchaseLineAll = (lineData) => {
   })
 }
 
+/** From this point foward all methods return data for charts-------------------------------- */
+db.countByYear = (year) => {
+  return new Promise((resolve, reject) => {
+      
+     pool.query('SELECT COUNT(*) as count, month(str_to_date(purchaseDate, "%Y-%m-%d")) as date from sir_tp2.purchase where year(str_to_date(purchaseDate, "%Y-%m-%d")) = ? group by date ;  ',
+     [year], 
+      (err, results) => {
+         if(err){
+             return reject(err);
+         }
+         return resolve(results);
+     }) 
+  })
+};
+
+db.countByYearMonth = (year, month) => {
+  return new Promise((resolve, reject) => {
+      
+     pool.query('SELECT COUNT(*) as count, day(str_to_date(purchaseDate, "%Y-%m-%d")) as date from sir_tp2.purchase where year(str_to_date(purchaseDate, "%Y-%m-%d")) = ? AND month(str_to_date(purchaseDate, "%Y-%m-%d")) = ? group by date ; ',
+     [year, month], 
+      (err, results) => {
+         if(err){
+             return reject(err);
+         }
+         return resolve(results);
+     }) 
+  })
+};
+db.countBetweenMonths = (year1, year2, month1, month2) => {
+  return new Promise((resolve, reject) => {
+      console.log(year1, year2, month1, month2)
+     pool.query('SELECT COUNT(*) as count, year(str_to_date(purchaseDate, "%Y-%m-%d")) as year, month(str_to_date(purchaseDate, "%Y-%m-%d")) as month, day(str_to_date(purchaseDate, "%Y-%m-%d")) as day from sir_tp2.purchase where year(str_to_date(purchaseDate, "%Y-%m-%d")) BETWEEN ? AND ? AND month(str_to_date(purchaseDate, "%Y-%m-%d")) BETWEEN ? AND ? group by year,month,day;',
+     [year1, year2, month1, month2], 
+      (err, results) => {
+         if(err){
+             return reject(err);
+         }
+         return resolve(results);
+     }) 
+  })
+};
+
+
+
+/** ------------------------------------------------------------------------------------------ */
+
 //Exports database to give access to all the methods
 module.exports = db

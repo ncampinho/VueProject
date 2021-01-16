@@ -2,37 +2,33 @@
   <v-container v-if="showItems!==null" style="max-width: 87%;">
     <v-row>
       <template>
-        <v-col
-          v-for="(show, index) in showItems"
-          :key="index"
-          :loading="loading"
-          cols="10"
-          md="3"
-        >
-         <v-sheet max-width="350px" elevation="2">
+        <v-col v-for="(show, index) in showItems" :key="index" :loading="loading" cols="10" md="3">
+          <v-sheet max-width="350px" elevation="2">
             <template slot="progress">
-              <v-progress-linear
-                color="red"
-                height="10"
-                indeterminate
-              ></v-progress-linear>
+              <v-progress-linear color="red" height="10" indeterminate></v-progress-linear>
             </template>
 
-<v-img contain max-height="200"   :src="imageSource(index)" ></v-img>
+            <v-img contain max-height="200" :src="imageSource(index)"></v-img>
 
             <v-card-title>{{show[0].item.showName}}</v-card-title>
 
             <v-card-text>
               <v-row align="center" class="mx-0">
-                <v-rating :value="show[0].item.ratingValue" color="amber" dense half-increments readonly size="14"></v-rating>
+                <v-rating
+                  :value="show[0].item.ratingValue"
+                  color="amber"
+                  dense
+                  half-increments
+                  readonly
+                  size="14"
+                ></v-rating>
                 <!--VER RATING-->
 
                 <div class="grey--text ml-6">{{show[0].item.ratingValue}}</div>
               </v-row>
-              
-              <div align=left class="my-4">Price: {{show[0].item.price}} €</div>
-              <div class="my-2 subtitle-1">{{show[0].item.type}} - {{show[0].item.rating}}</div>
 
+              <div align="left" class="my-4">Price: {{show[0].item.price}} €</div>
+              <div class="my-2 subtitle-1">{{show[0].item.type}} - {{show[0].item.rating}}</div>
 
               <div>
                 Limite Purchase: {{show[0].item.limitPurchaseDate}}
@@ -55,24 +51,21 @@
             </v-card-text>
 
             <v-card-actions>
-               <v-btn color="red lighten-2" text @click="purchase(index)"
-                >Add To Cart</v-btn
-              >
-              <v-btn class="detail" color="red lighten-2" text :to="'/show/'+ show[0].item.idShow +'/show_info'"
-                >Details</v-btn
-              >
+              <v-btn color="red lighten-2" text @click="purchase(index)">Add To Cart</v-btn>
+              <v-btn
+                class="detail"
+                color="red lighten-2"
+                text
+                :to="'/show/'+ show[0].item.idShow +'/show_info'"
+              >Details</v-btn>
             </v-card-actions>
-
           </v-sheet>
         </v-col>
       </template>
     </v-row>
     <login v-model="dialog"></login>
-    
   </v-container>
-  <v-container v-else>
-    No data to show
-  </v-container>
+  <v-container v-else>No data to show</v-container>
 </template>
 
 <script>
@@ -126,7 +119,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      insertCart: 'cart/fetchProducts',
+      insertCart: "cart/fetchProducts",
     }),
     //Inserts ticket into a shopping cart
     purchase(index) {
@@ -147,8 +140,8 @@ export default {
           )
           .then((response) => response)
           .then((data) => {
-            if(data.statusText === "OK"){
-              this.insertCart(this.user[0].idUser)
+            if (data.statusText === "OK") {
+              this.insertCart(this.user[0].idUser);
             }
           })
           .catch((error) => console.log(error));
@@ -167,12 +160,14 @@ export default {
         .then((response) => response)
         .then((data) => {
           this.showItems = data.data;
-          console.log(this.showItems)
+          console.log(this.showItems);
         })
         .catch((error) => console.log(error));
     },
-    imageSource(index){
-      return require("../../public/images/" + this.showItems[index][0].item.image + ".png")
+    imageSource(index) {
+      return require("../../public/images/" +
+        this.showItems[index][0].item.image +
+        ".png");
     },
   },
 };
@@ -185,16 +180,13 @@ export default {
   margin: 0px 4.21rem 2rem 0px;
 }
 
-
 .v-application--is-ltr .v-card__actions > .v-btn.v-btn + .v-btn {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 #showDisplay {
   margin-bottom: 20px;
   padding: 0px;
   display: block;
-
 }
-
 </style>

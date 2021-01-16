@@ -93,5 +93,22 @@ db.unlikeComment = (id) => {
     })
 };
 
+/** From this point foward all methods return data for charts-------------------------------- */
+db.typeCountData = () => {
+    return new Promise((resolve, reject) => {
+        
+       pool.query('SELECT idUserType, COUNT(*) as count FROM sir_tp2.user group by idUserType;', 
+        (err, results) => {
+           if(err){
+               return reject(err);
+           }
+           return resolve(results);
+       }) 
+    })
+};
+
+
+/** ------------------------------------------------------------------------------------------ */
+
 //Exports database to give access to all the methods
 module.exports = db;

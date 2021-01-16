@@ -132,5 +132,8 @@ router.get('/show/nameRating/:name,:rating', async (rq, res, next) =>{
     }
 });
 
+
+
+
 //Export all the routes(endpoints) available
 module.exports = router;

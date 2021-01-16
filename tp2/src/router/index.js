@@ -69,7 +69,22 @@ const routes = [
     path: '/table_information',
     name: 'ShowInformation',
     component: () => import('../views/AdminPages/ShowInformation.vue')
-  }
+  },
+  {
+    path: '/admin/user_chart_data',
+    name: 'UserDataChart',
+    component: () => import('../views/AdminPages/UserDataCharts.vue')
+  },
+  {
+    path: '/admin/sales_chart_data',
+    name: 'SalesDataChart',
+    component: () => import('../views/AdminPages/SalesDataCharts.vue')
+  },
+  {
+    path: '/admin/general_chart_data',
+    name: 'GeneralDataChart',
+    component: () => import('../views/AdminPages/GeneralDataCharts.vue')
+  },
 ]
 
 const router = new VueRouter({

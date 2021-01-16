@@ -120,5 +120,40 @@ router.post('/user/purchase/update_purchase_templine', urlencondedParser, async 
     }
 });
 
+/** From this point foward all endpoints are to obtain data for charts-------------------------------- */
+router.get('/purchase/count/byYear/:year', async (rq, res, next) =>{
+    try{
+        console.log("here")
+        let results = await db.countByYear(rq.params.year);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+  });
+router.get('/purchase/count/byYearMonth/:year,:month', async (rq, res, next) =>{
+    try{
+        
+        let results = await db.countByYearMonth(rq.params.year, rq.params.month);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+  });
+router.get('/purchase/count/byBetweenMonths/:years1,:years2,:months1,:months2', async (rq, res, next) =>{
+    try{
+        let results = await db.countBetweenMonths(rq.params.years1, rq.params.years2, rq.params.months1, rq.params.months2);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+  });
+  /** -------------------------------------------------------------------------------------------------- */
+
+
+
+
 //Export all the routes(endpoints) available
 module.exports = router;
