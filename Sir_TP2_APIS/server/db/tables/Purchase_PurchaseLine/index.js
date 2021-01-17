@@ -356,7 +356,33 @@ db.countBetweenMonths = (year1, year2, month1, month2) => {
   })
 };
 
+db.countByTypeYear = (year) => {
+  return new Promise((resolve, reject) => {
+      
+     pool.query('SELECT showtype.type, SUM(purchaseLine.quantity) as count FROM sir_tp2.purchase, purchaseLine, shows, showtype WHERE purchase.idPurchase = purchaseLine.idPurchase AND purchaseLine.idShow = shows.idShow AND shows.idShowType = showtype.idShowType AND year(str_to_date(purchase.purchaseDate, "%Y-%m-%d")) = ? group by showtype.type; ',
+     [year], 
+      (err, results) => {
+         if(err){
+             return reject(err);
+         }
+         return resolve(results);
+     }) 
+  })
+};
+db.countByTypeCompare = (year1, year2) => {
 
+  return new Promise((resolve, reject) => {
+      
+     pool.query('SELECT showtype.type, year(str_to_date(purchase.purchaseDate, "%Y-%m-%d")) as year,SUM(purchaseLine.quantity) as count FROM sir_tp2.purchase, purchaseLine, shows, showtype WHERE purchase.idPurchase = purchaseLine.idPurchase AND purchaseLine.idShow = shows.idShow AND shows.idShowType = showtype.idShowType AND year(str_to_date(purchase.purchaseDate, "%Y-%m-%d")) BETWEEN ? AND ? group by showtype.type, year;',
+     [year1, year2], 
+      (err, results) => {
+         if(err){
+             return reject(err);
+         }
+         return resolve(results);
+     }) 
+  })
+};
 
 /** ------------------------------------------------------------------------------------------ */
 

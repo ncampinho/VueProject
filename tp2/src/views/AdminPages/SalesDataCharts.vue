@@ -84,12 +84,16 @@ export default {
       chart_labels_between_m: [],
       betweenMonthPrev: "2020-01",
       betweenMonthAfter: "2021-01",
-      color: ["red", "blue"]
+      color: ["red", "blue"],
+      charts_background: ["rgba(255,0,0,0.2)", "rgba(0,255,0,0.2)", "rgba(0,0,255,0.2)", "rgba(255,255,0,0.2)"],
+      charts_line_color: ["rgba(255,0,0,1)", "rgba(0,255,0,1)", "rgba(0,0,255,1)", "rgba(255,255,0,1)"]
     };
   },
   mounted() {
-    this.submitYear(this.year);
-    this.submitYearMonth(this.year_month);
+    this.checkValidAccess();
+    this.submitYear();
+    this.submitYearMonth();
+    this.submitBetweenMonth()
   },
   methods: {
     /**Data for yearly bar chart */
@@ -125,8 +129,8 @@ export default {
               datasets: [
                 {
                   label: "Yearly purchases",
-                  backgroundColor: "rgba(255,0,0,0.2)",
-                  borderColor: "red",
+                  backgroundColor: this.charts_background,
+                  borderColor: this.charts_line_color,
                   pointBackgroundColor: "blue",
                   borderWidth: 1,
                   pointBorderColor: "blue",
@@ -176,8 +180,8 @@ export default {
               datasets: [
                 {
                   label: "Monthly purchases",
-                  backgroundColor: "rgba(255,0,0,0.2)",
-                  borderColor: "red",
+                  backgroundColor: this.charts_background,
+                  borderColor: this.charts_line_color,
                   pointBackgroundColor: "blue",
                   borderWidth: 1,
                   pointBorderColor: "blue",
@@ -209,6 +213,7 @@ export default {
           `http://localhost:3000/api/tp2/purchase/count/byBetweenMonths/${array_of_years[0]},${array_of_years[1]},${array_of_months[0]},${array_of_months[1]}`
         )
         .then((response) => {
+          var j = 0
           if (response.data.length === 0) {
             this.datacollection_ym = {
               labels: [],
@@ -226,6 +231,7 @@ export default {
             for(var i = parseInt(array_of_years[1]); i>= parseInt(array_of_years[0]); i--){
               var auxData = []
               var auxDatasetItem
+              
               response.data.forEach((element) => {
                 console.log(element.year, i)
                 if(element.year === i){
@@ -234,14 +240,15 @@ export default {
               })
               auxDatasetItem = {
                   label: "Purchases of: " + i,
-                  backgroundColor: this.color[i],
-                  borderColor: this.color[i],
-                  pointBackgroundColor: this.color[i],
+                  backgroundColor: "rgba(255,255,255,0)",
+                  borderColor: this.charts_line_color[j],
+                  pointBackgroundColor: this.charts_background[j],
                   borderWidth: 1,
-                  pointBorderColor: this.color[i],
+                  pointBorderColor: this.charts_background[j],
                   data: auxData,
                 },
               auxDataset.push(auxDatasetItem)
+              j = j + 1
             }
 
             this.datacollection_between_m = {
@@ -295,6 +302,11 @@ export default {
           break;
       }
     },
+    checkValidAccess(){
+      if(!localStorage.getItem('user') || localStorage.getItem('user').idUserType === 1){
+        this.$router.push( {path: '/' })
+      }
+    }
   },
 };
 </script>

@@ -19,6 +19,7 @@ export default {
     };
   },
   mounted() {
+    this.checkValidAccess()
     this.fetchChartData();
   },
   methods: {
@@ -45,6 +46,11 @@ export default {
        })
       .catch((error) => console.log(error));
     },
+    checkValidAccess(){
+      if(!localStorage.getItem('user') || localStorage.getItem('user').idUserType === 1){
+        this.$router.push( {path: '/' })
+      }
+    }
   },
 };
 </script>

@@ -150,6 +150,25 @@ router.get('/purchase/count/byBetweenMonths/:years1,:years2,:months1,:months2', 
         res.sendStatus(500);
     }
   });
+
+  router.get('/purchase/count/byTypeYear/:year', async (rq, res, next) =>{
+    try{
+        let results = await db.countByTypeYear(rq.params.year);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+  });
+  router.get('/purchase/count/byTypeCompare/:year1,:year2', async (rq, res, next) =>{
+    try{
+        let results = await db.countByTypeCompare(rq.params.year1, rq.params.year2);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+  });
   /** -------------------------------------------------------------------------------------------------- */
 
 

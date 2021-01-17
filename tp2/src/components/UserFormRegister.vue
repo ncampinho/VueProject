@@ -3,54 +3,74 @@
   <v-container>
     <h1>{{Text}}</h1>
     <v-form ref="form" lazy-validation>
-      <v-text-field
-        v-model="userData.name"
-        label="Name"
-        :rules="rules.require"
-        hint="Example: Jonh Doe"
-        outlined
-        rounded
-      ></v-text-field>
-      <v-combobox v-model="selection" :items="items" label="City" outlined rounded></v-combobox>
-      <v-text-field
-        v-model="userData.email"
-        label="Email"
-        :rules="[rules.require, rules.emailValidation]"
-        hint="Example: example@gmail.com"
-        outlined
-        rounded
-      ></v-text-field>
-      <v-text-field
-        v-model="userData.nif"
-        label="NIF"
-        :rules="[rules.require, rules.nifValidation]"
-        hint="Example: 000000000"
-        outlined
-        rounded
-      ></v-text-field>
-      <v-text-field
-        v-model="userData.username"
-        label="Username"
-        :rules="[rules.require, rules.minUser]"
-        hint="Example: username_example"
-        outlined
-        rounded
-      ></v-text-field>
-      <v-text-field
-        v-model="userData.password"
-        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-        :rules="[rules.required, rules.minPassword]"
-        :type="showPassword ? 'text' : 'password'"
-        name="input-10-1"
-        label="Password"
-        hint="At least 8 characters"
-        @click:append="showPassword = !showPassword"
-        outlined
-        rounded
-      ></v-text-field>
+      <v-stepper v-model="e6" vertical>
+        <v-stepper-step color="red" dark :complete="e6 > 1" step="1">
+          Personal Information
+          <small>All fields are required</small>
+        </v-stepper-step>
+        <v-stepper-content step="1">
+          <v-text-field
+          style="margin-top: 1%;"
+            v-model="userData.name"
+            label="Name"
+            :rules="[rules.required]"
+            hint="Example: Jonh Doe"
+            outlined
+            rounded
+          ></v-text-field>
+          <v-combobox v-model="selection" :items="items" label="City" outlined rounded></v-combobox>
+          <v-text-field
+            v-model="userData.email"
+            label="Email"
+            :rules="[rules.required, rules.emailValidation]"
+            hint="Example: example@gmail.com"
+            outlined
+            rounded
+          ></v-text-field>
+          <v-text-field
+            v-model="userData.nif"
+            label="NIF"
+            :rules="[rules.required, rules.nifValidation]"
+            hint="Example: 000000000"
+            outlined
+            rounded
+          ></v-text-field>
+          <v-btn rounded color="red" dark @click="e6=2" style="margin-bottom: 1%">Continue</v-btn>
+          <v-btn text style="margin-bottom: 1%" @click="goToHome()">Cancel</v-btn>
+        </v-stepper-content>
+
+        <v-stepper-step color="red" dark :complete="e6 > 2" step="2">
+          Account Information
+          <small>Make sure to have a strong password</small>
+        </v-stepper-step>
+        <v-stepper-content step="2">
+          <v-text-field
+          style="margin-top: 1%;"
+            v-model="userData.username"
+            label="Username"
+            :rules="[rules.required, rules.minUser]"
+            hint="Example: username_example"
+            outlined
+            rounded
+          ></v-text-field>
+          <v-text-field
+            v-model="userData.password"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :rules="[rules.required, rules.minPassword]"
+            :type="showPassword ? 'text' : 'password'"
+            name="input-10-1"
+            label="Password"
+            hint="At least 8 characters"
+            @click:append="showPassword = !showPassword"
+            outlined
+            rounded
+          ></v-text-field>
+          <p id="error" v-if="error">{{ error }}</p>
+          <v-btn rounded color="red" dark @click="register()" style="margin-bottom: 1%">Submit</v-btn>
+          <v-btn text style="margin-bottom: 1%" @click="e6=1">Cancel</v-btn>
+        </v-stepper-content>
+      </v-stepper>
     </v-form>
-    <p id="error" v-if="error">{{ error }}</p>
-    <v-btn rounded color="primary" dark @click="register()">Submit</v-btn>
   </v-container>
 </template>
 
@@ -60,6 +80,7 @@ export default {
     Text: String,
   },
   data: () => ({
+    e6: 1,
     userData: {
       username: "",
       password: "",
@@ -67,9 +88,17 @@ export default {
       nif: null,
       email: "",
       idZipCode: "",
-      idUserType: 1,
+      idUserType: null,
     },
     error: "",
+    errors: {
+      user: "",
+      pass: "",
+      email: "",
+      nif: "",
+      combo: "",
+      name: "",
+    },
     items: [],
     selection: [],
     showPassword: false,
@@ -110,18 +139,51 @@ export default {
   methods: {
     //Executes the register -> uses api to register a new user
     register() {
-      const zipcode = this.selection.split(" - ");
-      this.userData.idZipCode = zipcode[0];
-      this.$axios
-        .post(`http://localhost:3000/api/tp2/user/registration`, this.userData)
-        .then((response) => {
-          if (typeof response.data === "string") {
-            this.error = response.data;
-          } else {
-            this.$router.push({ path: "/login" });
-          }
-        })
-        .catch((error) => console.log(error));
+      var route = "";
+      console.log(localStorage.getItem('user'))
+      if (this.checkIfRequiredAreFill()) {
+        const zipcode = this.selection.split(" - ");
+        this.userData.idZipCode = zipcode[0];
+        
+        if(localStorage.getItem('user')){
+          this.userData.idUserType = 2
+          route = '/admin'
+        }else{
+          this.userData.idUserType = 1
+          route = '/login'
+        }
+        this.$axios
+          .post(
+            `http://localhost:3000/api/tp2/user/registration`,
+            this.userData
+          )
+          .then((response) => {
+            if (typeof response.data === "string") {
+              this.error = response.data;
+            } else {
+              this.$router.push({ path: route });
+            }
+          })
+          .catch((error) => console.log(error));
+      } else {
+        this.error = "All fields are required";
+      }
+    },
+    goToHome() {
+      this.$router.push({ path: "/" });
+    },
+    checkIfRequiredAreFill() {
+      if (
+        this.userData.username &&
+        this.userData.password &&
+        this.userData.nif &&
+        this.userData.name &&
+        this.userData.email &&
+        this.selection
+      ) {
+        return true;
+      }
+      return false;
     },
   },
 };

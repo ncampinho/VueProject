@@ -14,16 +14,27 @@
           <v-icon large>mdi-chart-line-variant</v-icon>
           <h1>General Data</h1>
         </v-sheet>
-        <v-sheet :elevation="6" class="mx-auto"></v-sheet>
-        <v-sheet :elevation="6" class="mx-auto"></v-sheet>
+        <v-sheet :elevation="6" class="mx-auto" @click="toAddNewAdmin()">
+          <v-icon large>mdi-account-plus</v-icon>
+          <h1>Add new admin</h1>
+        </v-sheet>
+        <v-sheet :elevation="6" class="mx-auto" @click="logout()">
+          <v-icon large>mdi-logout</v-icon>
+          <h1>Logout</h1>
+        </v-sheet>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+
+import { mapActions } from 'vuex'
 export default {
   methods: {
+     ...mapActions({
+      loggingOut: "auth/logout",
+    }),
     toUserData() {
       this.$router.push({ path: "/admin/user_chart_data" });
     },
@@ -33,6 +44,13 @@ export default {
     toGeneralData() {
       this.$router.push({ path: "/admin/general_chart_data" });
     },
+    toAddNewAdmin(){
+      this.$router.push({ path: "/login/register" })
+    },
+    logout(){
+      this.loggingOut(null)
+      this.$router.push({ path: "/" });
+    }
   },
 };
 </script>
