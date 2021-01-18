@@ -8,10 +8,10 @@ let db = {}
 /**This file is to write methods that perform queries to on the Purchase, PurchaseLine and Temp_PurchaseLin table on the selected database */
 
 //Selects a single purchase matching the given id
-db.purchases = id => {
+db.purchase = id => {
   return new Promise((resolve, reject) => {
     pool.query(
-      'SELECT * FROM purchase, purchaseline, shows, showtype, showrating, dates WHERE purchase.idUser = ? AND purchaseline.idPurchase = purchase.idPurchase AND purchaseline.idShow = shows.idShow AND purchaseline.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType',
+      'SELECT * FROM purchase WHERE purchase.idUser = ? ',
       [id],
       (err, results) => {
         if (err) {
@@ -22,6 +22,22 @@ db.purchases = id => {
     )
   })
 }
+
+db.purchaseLines = id => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      'SELECT * FROM purchase, purchaseline, shows, showtype, rating, dates WHERE purchaseline.idPurchase = ? AND purchaseline.idPurchase = purchase.idPurchase AND purchaseline.idShow = shows.idShow AND purchaseline.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType',
+      [id],
+      (err, results) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(results)
+      }
+    )
+  })
+}
+
 
 /**Creates a new temporary purchase line
  * If a temporary purchase line with certain show, date and user id already

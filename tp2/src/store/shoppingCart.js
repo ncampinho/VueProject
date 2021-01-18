@@ -8,7 +8,8 @@ export default {
     //Variables to keep data persisting while changes pages
     state: {
         productLine: null,
-        total: null
+        total: null,
+        totalProducts: null,
     },
     //Return state variables data
     getters: {
@@ -19,6 +20,9 @@ export default {
         getTotal (state){
             return state.total
         },
+        getTotalProducts (state){
+            return state.totalProducts
+        },
     },
     //Perform changes on state variable data
     mutations: {
@@ -26,8 +30,10 @@ export default {
         'SET_CART'(state, cartInfo){
             state.productLine = cartInfo
             state.total = null
+            state.totalProducts = null
             cartInfo.forEach(product => {
                 state.total += product.subtotal
+                state.totalProducts += product.quantity
             });
         }
     },

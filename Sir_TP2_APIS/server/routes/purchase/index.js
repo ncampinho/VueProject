@@ -11,9 +11,19 @@ const router = express.Router();
 const urlencondedParser = bodyParser.urlencoded({extended:false});
 
 //Endpoint to get purchases from a certain user
-router.get('/user/purchases/:id', async (rq, res, next) =>{
+router.get('/user/purchase/:id', async (rq, res, next) =>{
     try{
-        let results = await db.login(rq.params.id);
+        let results = await db.purchase(rq.params.id);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+router.get('/user/purchaselines/:id', async (rq, res, next) =>{
+    try{
+        let results = await db.purchaseLines(rq.params.id);
         res.json(results);
     } catch(e){
         console.log(e);

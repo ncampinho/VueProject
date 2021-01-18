@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h4>{{Text}}</h4>
+    <p></p>
+    <h1>{{Text}}</h1>
     <v-data-table
       :headers="headers"
       :items="shows"

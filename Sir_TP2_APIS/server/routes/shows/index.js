@@ -22,6 +22,18 @@ router.get('/shows', async (rq, res, next) =>{
     }
 });
 
+
+router.get('/shows/names', async (rq, res, next) =>{
+    try{
+        
+        let results = await db.showNames();
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
 //Endpoint that creates a new show
 router.post('/show/new_show', urlencondedParser, async (rq, res, next) =>{
     try{

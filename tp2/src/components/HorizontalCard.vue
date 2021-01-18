@@ -143,7 +143,6 @@ export default {
     },
     active (value) {
       this.status = value;
-      console.log(this.status)
     }
   },
   

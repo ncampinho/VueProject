@@ -33,6 +33,18 @@ db.all = () => {
     })
 };
 
+db.showNames = () => {
+    return new Promise((resolve, reject) => {
+        pool.query('Select idShow, showName from shows',
+            (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(results);
+            })
+    })
+};
+
 //Creates a new show
 db.newShow = (showData) => {
     var showDateId = null;

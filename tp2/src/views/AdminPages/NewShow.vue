@@ -1,5 +1,5 @@
 <template>
-    <show-form-register Text="New Show Register"/>
+    <show-form-register  Text="New Show Register"/>
 </template>
 
 <script>

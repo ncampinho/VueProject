@@ -46,18 +46,14 @@
                 active-class="red accent-4 white--text"
                 column
               >
-                <v-chip v-for="(hour, index) in show" :key="index">{{hour.item.showTime}}PM</v-chip>
+                <v-chip v-for="(hour, index) in show" :key="index">{{hour.item.showTime}}m</v-chip>
               </v-chip-group>
             </v-card-text>
 
-            <v-card-actions>
-              <v-btn color="red lighten-2" text @click="purchase(index)">Add To Cart</v-btn>
-              <v-btn
-                class="detail"
-                color="red lighten-2"
-                text
-                :to="'/show/'+ show[0].item.idShow +'/show_info'"
-              >Details</v-btn>
+            <v-card-actions >
+               <v-btn v-if="detectDate(show[0].item.limitPurchaseDate) > 0" color="red lighten-2" text @click="purchase(index)">Add To Cart</v-btn>
+               <v-spacer></v-spacer>
+              <v-btn class="detail" color="red lighten-2" text :to="'/show/'+ show[0].item.idShow +'/show_info'">Details</v-btn>
             </v-card-actions>
           </v-sheet>
         </v-col>
@@ -124,6 +120,7 @@ export default {
     //Inserts ticket into a shopping cart
     purchase(index) {
       if (localStorage.getItem("user")) {
+        if(this.showItems[index][this.selection[index]]!=null){
         this.loading = true;
         const selectedItem = this.showItems[index][this.selection[index]];
         const requestBody = {
@@ -147,6 +144,14 @@ export default {
           .catch((error) => console.log(error));
 
         setTimeout(() => (this.loading = false), 2000);
+        }else{
+          this.$fire({
+            title: "Cart",
+            text: "Select an hour to add show to cart",
+            type: "error",
+            confirmButtonText: "Confirm",
+          });
+        }
       } else {
         this.loading = true;
         this.dialog = !this.dialog;
@@ -169,6 +174,16 @@ export default {
         this.showItems[index][0].item.image +
         ".png");
     },
+    detectDate(showLimitDate){
+      var now = new Date().getTime();
+      var finalTime = [];
+      finalTime = showLimitDate.split('-')
+      finalTime[1] = finalTime[1] - 1;
+      var limitDate = new Date(finalTime[2], finalTime[1], finalTime[0], '23', '59', '59', '59').getTime() 
+      console.log(now + "-" + limitDate)
+      var tester = limitDate - now;
+      return tester;
+    }
   },
 };
 </script>

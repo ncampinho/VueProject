@@ -22,16 +22,14 @@
                     v-model="editedSelections.selectionLocation"
                     :items="editedItems.itemsLocation"
                     label="Location"
-                    outlined
-                    rounded
+                    
                     style="margin-top: 3%"
                   ></v-combobox>
                   <v-combobox
                     v-model="editedSelections.selectionType"
                     :items="editedItems.itemsType"
                     label="Type"
-                    outlined
-                    rounded
+                    
                     style="margin-top: 3%"
                   ></v-combobox>
                 </v-container>
@@ -40,15 +38,13 @@
                     v-model="editedSelections.selectionRating"
                     :items="editedItems.itemsRating"
                     label="Rating"
-                    outlined
-                    rounded
+                    
                   ></v-combobox>
                   <v-combobox
                     v-model="editedSelections.selectionSpotlight"
                     :items="editedItems.itemsSpotlight"
                     label="Is Spotlight?"
-                    outlined
-                    rounded
+                    
                   ></v-combobox>
                 </v-container>
                 <v-textarea
@@ -64,15 +60,13 @@
                   <v-text-field
                     v-model="editedShow.price"
                     label="Price"
-                    outlined
-                    rounded
+                    
                     style="margin-top: 3%"
                   ></v-text-field>
                   <v-text-field
                     v-model="editedShow.availableTickets"
                     label="Available Tickets"
-                    outlined
-                    rounded
+                    
                     style="margin-top: 3%"
                   ></v-text-field>
                 </v-container>
@@ -107,8 +101,7 @@
                     v-model="editedShow.showTime"
                     label="Time of the show"
                     hint="Format: HHhMM"
-                    outlined
-                    rounded
+                    
                     style="margin-top: 3%"
                   ></v-text-field>
                 </v-container>
@@ -141,8 +134,7 @@
                 <v-container class="combobox_container">
                   <v-file-input
                     label="Add new image (Horizontal)"
-                    outlined
-                    rounded
+                    
                     prepend-icon="mdi-camera"
                     v-model="editedShow.image"
                     :value="editedShow.image"
@@ -150,8 +142,7 @@
                   ></v-file-input>
                   <v-file-input
                     label="Add new image (Vertical)"
-                    outlined
-                    rounded
+                    
                     prepend-icon="mdi-camera"
                     v-model="editedShow.imageVert"
                     :value="editedShow.imageVert"

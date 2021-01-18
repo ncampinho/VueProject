@@ -1,10 +1,13 @@
 <template>
+<v-container>
+  <p></p>
+    <h1>Users</h1>
 <div class="graph-area">
 
  <line-chart :chart-data="datacollection" />
 
 </div>
-   
+   </v-container>
   
 </template>
 

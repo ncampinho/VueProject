@@ -1,11 +1,13 @@
 <template>
   <v-container>
+    <p></p>
+    <h1>Sales</h1>
     <v-row justify="space-around">
       <v-col cols="12" md="4">
         <div class="graph-area">
           <h5>Sales by year</h5>
           <v-container class="horizontal_display">
-            <v-text-field v-model="year" label="Year" outlined rounded></v-text-field>
+            <v-text-field type="number" v-model="year" label="Year" ></v-text-field>
             <v-btn rounded color="red" dark @click="submitYear()" style="margin-bottom: 1%">Submit</v-btn>
           </v-container>
 
@@ -14,7 +16,27 @@
         <div class="graph-area">
           <h5>Sales by month</h5>
           <v-container class="horizontal_display">
-            <v-text-field v-model="year_month" label="Month" outlined rounded></v-text-field>
+             <v-menu
+              v-model="showMonth"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+            <template v-slot:activator="{ on, attrs }">
+            <v-text-field v-model="year_month" v-bind="attrs"
+                  v-on="on" label="Month" readonly ></v-text-field>
+                  </template>
+            <v-date-picker
+              v-model="year_month"
+              type="month"
+              color="red"
+              @input="showMonth=!showMonth"
+            ></v-date-picker>
+            </v-menu>
+            
+            
             <v-btn
               rounded
               color="red"
@@ -30,8 +52,47 @@
         <div class="graph-area">
           <h5>Between months</h5>
           <v-container class="horizontal_display">
-            <v-text-field v-model="betweenMonthPrev" label="Insert Date" outlined rounded></v-text-field>
-            <v-text-field v-model="betweenMonthAfter" label="Insert Date" outlined rounded></v-text-field>
+
+            <v-menu
+              v-model="showMonthv1"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+            <template v-slot:activator="{ on, attrs }">
+            <v-text-field v-model="betweenMonthPrev" v-bind="attrs"
+                  v-on="on" label="Inicial Month" readonly ></v-text-field>
+                  </template>
+            <v-date-picker
+              v-model="betweenMonthPrev"
+              type="month"
+              color="red"
+              @input="showMonthv1=!showMonthv1"
+            ></v-date-picker>
+            </v-menu>
+
+            <v-menu
+              v-model="showMonthv2"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+            <template v-slot:activator="{ on, attrs }">
+            <v-text-field v-model="betweenMonthAfter" v-bind="attrs"
+                  v-on="on" label="End Month" readonly ></v-text-field>
+                  </template>
+            <v-date-picker
+              v-model="betweenMonthAfter"
+              type="month"
+              color="red"
+              @input="showMonthv2=!showMonthv2"
+            ></v-date-picker>
+            </v-menu>
+
             <v-btn
               rounded
               color="red"
@@ -40,12 +101,32 @@
               style="margin-bottom: 1%"
             >Submit</v-btn>
           </v-container>
-
           <line-chart :chart-data="datacollection_between_m" />
         </div>
         <div class="graph-area">
           <v-container class="horizontal_display">
-            <v-text-field v-model="year_month_day" label="Year of results" outlined rounded></v-text-field>
+
+              <v-menu
+              v-model="showDay"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+            <template v-slot:activator="{ on, attrs }">
+            <v-text-field v-model="year_month_day" v-bind="attrs"
+                  v-on="on" label="Year of results" readonly ></v-text-field>
+                  </template>
+            <v-date-picker
+              v-model="year_month_day"
+              color="red"
+              @input="showDay=!showDay"
+            ></v-date-picker>
+            </v-menu>
+
+
+
             <v-btn
               rounded
               color="red"
@@ -69,6 +150,10 @@ export default {
   components: { BarChart, LineChart },
   data() {
     return {
+      showDay:false,
+      showMonth:false,
+      showMonthv1:false,
+      showMonthv2:false,
       year: "2021",
       year_month: "2021-01",
       year_month_day: "2021-01-16",

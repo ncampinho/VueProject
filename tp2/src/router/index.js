@@ -85,6 +85,11 @@ const routes = [
     name: 'GeneralDataChart',
     component: () => import('../views/AdminPages/GeneralDataCharts.vue')
   },
+  {
+    path: '/purchases_table',
+    name: 'TableOfInformationPurchases',
+    component: () => import('../components/TableOfInformationPurchases.vue')
+  },
 ]
 
 const router = new VueRouter({

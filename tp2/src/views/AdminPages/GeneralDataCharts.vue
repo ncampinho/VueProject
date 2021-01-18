@@ -1,11 +1,13 @@
 <template>
   <v-container>
+    <p></p>
+    <h1>General Data</h1>
     <v-row justify="space-around">
       <v-col cols="12" md="4">
         <div class="graph-area">
           <h5>Sales by year</h5>
           <v-container class="horizontal_display">
-            <v-text-field v-model="year" label="Year" outlined rounded></v-text-field>
+            <v-text-field type="number" v-model="year" label="Year" ></v-text-field>
             <v-btn
               rounded
               color="red"
@@ -20,8 +22,8 @@
         <div class="graph-area">
           <h5>Sales by year</h5>
           <v-container class="horizontal_display">
-            <v-text-field v-model="yearComp1" label="Year" outlined rounded></v-text-field>
-            <v-text-field v-model="yearComp2" label="Year" outlined rounded></v-text-field>
+            <v-text-field type="number" v-model="yearComp1" label="Year" ></v-text-field>
+            <v-text-field type="number" v-model="yearComp2" label="Year" ></v-text-field>
             <v-btn
               rounded
               color="red"

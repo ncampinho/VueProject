@@ -1,7 +1,7 @@
 <template>
   <v-container v-if="showItems!==null" id="horizontalDisplay">
     <v-sheet class="mx-auto" elevation="0">
-      <v-slide-group class="pa-4" multiple >
+      <v-slide-group show-arrows>
         <v-slide-item v-for="(show, index) in showItems" :key="index" :loading="loading">
           <v-card >
             <template slot="progress">
@@ -43,13 +43,10 @@
               </v-chip-group>
             </v-card-text>
 
-            <v-card-actions>
-               <v-btn color="red lighten-2" text @click="purchase(index)"
-                >Add To Cart</v-btn
-              >
-              <v-btn class="detail" color="red lighten-2" text :to="'/show/'+ show[0].item.idShow +'/show_info'"
-                >Details</v-btn
-              >
+            <v-card-actions >
+               <v-btn v-if="detectDate(show[0].item.limitPurchaseDate) > 0" color="red lighten-2" text @click="purchase(index)">Add To Cart</v-btn>
+               <v-spacer></v-spacer>
+              <v-btn class="detail" color="red lighten-2" text :to="'/show/'+ show[0].item.idShow +'/show_info'">Details</v-btn>
             </v-card-actions>
           </v-card>
         </v-slide-item>
@@ -67,6 +64,9 @@
 // @ is an alias to /src
 import { mapGetters, mapActions } from "vuex";
 import Login from "@/components/Login.vue";
+import Vue from "vue";
+import VueSimpleAlert from "vue-simple-alert";
+Vue.use(VueSimpleAlert);
 export default {
   name: "HorizontalDisplayer",
   components: {
@@ -120,6 +120,7 @@ export default {
     //Inserts ticket into a shopping cart
     purchase(index) {
       if (localStorage.getItem("user")) {
+        if(this.showItems[index][this.selection[index]]!=null){
         this.loading = true;
         const selectedItem = this.showItems[index][this.selection[index]];
         const requestBody = {
@@ -143,6 +144,14 @@ export default {
           .catch((error) => console.log(error));
 
         setTimeout(() => (this.loading = false), 2000);
+        }else{
+          this.$fire({
+            title: "Cart",
+            text: "Select an hour to add show to cart",
+            type: "error",
+            confirmButtonText: "Confirm",
+          });
+        }
       } else {
         this.loading = true;
         this.dialog = !this.dialog;
@@ -163,6 +172,15 @@ export default {
     imageSource(index){
       return require("../../public/images/" + this.showItems[index][0].item.image + ".png")
     },
+    detectDate(showLimitDate){
+      var now = new Date().getTime();
+      var finalTime = [];
+      finalTime = showLimitDate.split('-')
+      finalTime[1] = finalTime[1] - 1;
+      var limitDate = new Date(finalTime[2], finalTime[1], finalTime[0], '23', '59', '59', '59').getTime() 
+      var tester = limitDate - now;
+      return tester;
+    }
   },
 };
 </script>

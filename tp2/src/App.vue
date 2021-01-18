@@ -4,7 +4,6 @@
       v-if="user === null || user[0].idUserType === 1"
       app
       color="white"
-      flat
     >
       <router-link to="/">
         <v-img
@@ -23,15 +22,27 @@
         <v-tab to="/sports">{{ tabItems[2].type }}</v-tab>
       </v-tabs>
 
-      <!--<v-responsive max-width="300">
-          <v-text-field
-            dense
-            flat
-            hide-details
-            rounded
-            solo-inverted
-          ></v-text-field>
-        </v-responsive>-->
+      <v-responsive min-width=20% >
+        <v-autocomplete
+          dense
+          flat
+          hide-details
+          rounded
+          solo-inverted
+          v-model="model"
+          :items="names"
+          :loading="isLoading"
+          :search-input.sync="search"
+          color="white"
+          hide-no-data
+          hide-selected
+          return-object
+          prepend-icon="mdi-magnify"
+          placeholder="Show search"
+          @change="goToShow(model)"
+          id="search"
+        ></v-autocomplete>
+      </v-responsive>
 
       <v-btn
         v-if="isAuthenticated && user[0].idUserType === 1"
@@ -39,8 +50,12 @@
         icon
       >
         <v-icon>mdi-cart-outline</v-icon>
-        <span v-if="shoppingCart == null" class="btn-circle">0</span>
-        <span v-else class="btn-circle">{{ shoppingCart.length }}</span>
+        <span
+          v-if="shoppingCart == null || shoppingCartTotal == null"
+          class="btn-circle"
+          >0</span
+        >
+        <span v-else class="btn-circle">{{ shoppingCartTotal }}</span>
       </v-btn>
 
       <span
@@ -49,6 +64,15 @@
         class="btn-circle"
         >{{ user[0].name }}</span
       >
+
+      <v-btn
+        to="/purchases_table"
+        v-if="isAuthenticated && user[0].idUserType === 1"
+        icon
+      >
+        <v-icon>mdi-bag-carry-on-check</v-icon>
+      </v-btn>
+
       <v-btn v-if="isAuthenticated" @click="submit()" href="#" icon>
         <v-icon>mdi-logout</v-icon>
       </v-btn>
@@ -86,22 +110,22 @@
 
     <popupcart v-model="cartdialog"></popupcart>
     <v-main>
-      <router-view />
+      <router-view :key="$route.fullPath" @showLoading="showLoading"/>
     </v-main>
 
-    <v-navigation-drawer v-model="drawer" app>
+    <v-navigation-drawer v-model="drawer"  app>
       <v-list>
-        <v-list-item :key="1" to="/admin">
+        <v-list-item @click="drawer = !drawer" :key="1" to="/admin">
           <v-list-item-content>
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item :key="2" to="/new_show">
+        <v-list-item @click="drawer = !drawer" :key="2" to="/new_show">
           <v-list-item-content>
             <v-list-item-title>New Show</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item :key="3" to="/table_information">
+        <v-list-item @click="drawer = !drawer" :key="3" to="/table_information">
           <v-list-item-content>
             <v-list-item-title>All Shows</v-list-item-title>
           </v-list-item-content>
@@ -109,10 +133,10 @@
       </v-list>
     </v-navigation-drawer>
 
-    <br>
+    <br />
 
     <v-footer id="footer" dark padless>
-      <v-card width=100% color=red class=" white--text text-center">
+      <v-card width="100%" color="red" class="white--text text-center">
         <v-card-text>
           <v-btn
             v-for="icon in icons"
@@ -136,7 +160,8 @@
         <v-divider></v-divider>
 
         <v-card-text class="white--text">
-          {{ new Date().getFullYear() }} — <strong>Institute Polytechnic of Viana do Castelo</strong>
+          {{ new Date().getFullYear() }} —
+          <strong>Institute Polytechnic of Viana do Castelo</strong>
         </v-card-text>
       </v-card>
     </v-footer>
@@ -146,6 +171,9 @@
 
 <style lang="scss">
 @import "https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css";
+#search{
+  font-size: 80%;
+}
 figure {
   margin-block-start: 0;
   margin-block-end: 0;
@@ -205,6 +233,7 @@ export default {
       tabItems: [],
       drawer: false,
       icons: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"],
+      names: [],
     };
   },
   beforeMount: function () {
@@ -215,6 +244,7 @@ export default {
       isAuthenticated: "auth/isAuthenticated",
       user: "auth/userData",
       shoppingCart: "cart/getPurchaseLine",
+      shoppingCartTotal: "cart/getTotalProducts",
     }),
   },
   methods: {
@@ -227,23 +257,23 @@ export default {
         this.logout(null);
         this.clearCart(null);
         this.$fire({
-        title: "Logout",
-        text: "Logout sucess",
-        type: "success",
-        confirmButtonText: "Confirm",
-        color: "red"
-      })
+          title: "Logout",
+          text: "Logout sucess",
+          type: "success",
+          confirmButtonText: "Confirm",
+          color: "red",
+        });
       } else {
         this.logout(null);
         this.drawer = false;
         this.$router.push({ path: "/" });
         this.$fire({
-        title: "Logout",
-        text: "Logout sucess",
-        type: "success",
-        confirmButtonText: "Confirm",
-        color: "red"
-      })
+          title: "Logout",
+          text: "Logout sucess",
+          type: "success",
+          confirmButtonText: "Confirm",
+          color: "red",
+        });
       }
     },
     changeDialog() {
@@ -261,6 +291,29 @@ export default {
         })
         .catch((error) => console.log(error));
     },
+    goToShow(model) {
+      console.log(model)
+      var show = model.split(" - ")
+      console.log(show[0])
+      
+      this.$router.push({
+        path: "/show/" + show[0] + "/show_info",
+      });
+    },
+  },
+  created() {
+    this.$axios
+      .get("http://localhost:3000/api/tp2/shows/names")
+      .then((response) => response)
+      .then((data) => {
+        var res = null;
+        res = data.data;
+        res.map(
+          (element) => (this.names.push(element.idShow + " - " + element.showName))
+        );
+      })
+      .catch((error) => console.log(error));
+    0;
   },
 };
 </script>

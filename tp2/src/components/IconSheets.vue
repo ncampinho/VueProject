@@ -2,26 +2,41 @@
   <v-container>
     <v-row justify="space-around">
       <v-col cols="12" md="4">
-        <v-sheet :elevation="6" class="mx-auto" @click="toUserData()">
-          <v-icon large>mdi-account-group</v-icon>
-          <h1>Users</h1>
+         <v-hover v-slot="{ hover }">
+        <v-sheet color="red" dark :elevation="hover ? 12 : 2"
+              :class="{ 'on-hover': hover }"  class="mx-auto" @click="toUserData()">
+          <v-icon>mdi-account-group</v-icon>
+          <h3>Users</h3>
         </v-sheet>
-        <v-sheet :elevation="6" class="mx-auto" @click="toSalesData()">
-          <v-icon large>mdi-cart</v-icon>
-          <h1>Sales</h1>
+         </v-hover>
+         <v-hover v-slot="{ hover }">
+        <v-sheet color="green" dark :elevation="hover ? 12 : 2"
+              :class="{ 'on-hover': hover }" class="mx-auto" @click="toSalesData()">
+          <v-icon>mdi-cart</v-icon>
+          <h3>Sales</h3>
         </v-sheet>
-        <v-sheet :elevation="6" class="mx-auto" @click="toGeneralData()">
-          <v-icon large>mdi-chart-line-variant</v-icon>
-          <h1>General Data</h1>
+        </v-hover>
+        <v-hover v-slot="{ hover }">
+        <v-sheet color="blue" dark :elevation="hover ? 12 : 2"
+              :class="{ 'on-hover': hover }" class="mx-auto" @click="toGeneralData()">
+          <v-icon>mdi-chart-line-variant</v-icon>
+          <h3>General Data</h3>
         </v-sheet>
-        <v-sheet :elevation="6" class="mx-auto" @click="toAddNewAdmin()">
-          <v-icon large>mdi-account-plus</v-icon>
-          <h1>Add new admin</h1>
+        </v-hover>
+        <v-hover v-slot="{ hover }">
+        <v-sheet color="yellow" dark :elevation="hover ? 12 : 2"
+              :class="{ 'on-hover': hover }" class="mx-auto" @click="toAddNewAdmin()">
+          <v-icon>mdi-account-plus</v-icon>
+          <h3>Add new admin</h3>
         </v-sheet>
-        <v-sheet :elevation="6" class="mx-auto" @click="logout()">
-          <v-icon large>mdi-logout</v-icon>
-          <h1>Logout</h1>
+        </v-hover>
+        <v-hover v-slot="{ hover }">
+        <v-sheet color="gray" dark :elevation="hover ? 12 : 2"
+              :class="{ 'on-hover': hover }"  class="mx-auto" @click="logout()">
+          <v-icon>mdi-logout</v-icon>
+          <h3>Logout</h3>
         </v-sheet>
+        </v-hover>
       </v-col>
     </v-row>
   </v-container>

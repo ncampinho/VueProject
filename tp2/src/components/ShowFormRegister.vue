@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <p></p>
-    <h1>{{Text}}</h1>
+    <h1 >{{Text}}</h1>
 
     <v-form ref="form" lazy-validation>
       <v-stepper v-model="e6" vertical>
@@ -14,8 +14,7 @@
           <v-text-field
             v-model="showData.showName"
             label="Show Name"
-            outlined
-            rounded
+            
             style="margin-top: 3%"
           ></v-text-field>
           <v-container class="combobox_container">
@@ -23,16 +22,14 @@
               v-model="selections.selectionLocation"
               :items="items.itemsLocation"
               label="Location"
-              outlined
-              rounded
+              
               style="margin-top: 3%"
             ></v-combobox>
             <v-combobox
               v-model="selections.selectionType"
               :items="items.itemsType"
               label="Type"
-              outlined
-              rounded
+              
               style="margin-top: 3%"
             ></v-combobox>
           </v-container>
@@ -41,15 +38,13 @@
               v-model="selections.selectionRating"
               :items="items.itemsRating"
               label="Rating"
-              outlined
-              rounded
+              
             ></v-combobox>
             <v-combobox
               v-model="selections.selectionSpotlight"
               :items="items.itemsSpotlight"
               label="Is Spotlight?"
-              outlined
-              rounded
+              
             ></v-combobox>
           </v-container>
           <v-textarea
@@ -67,22 +62,22 @@
         <v-stepper-content step="2">
           <v-container class="combobox_container">
             <v-text-field
+            type="number"
               v-model="showData.price"
               label="Price"
-              outlined
-              rounded
+              
               style="margin-top: 3%"
             ></v-text-field>
             <v-text-field
+            type="number"
               v-model="showData.availableTickets"
               label="Available Tickets"
-              outlined
-              rounded
+              
               style="margin-top: 3%"
             ></v-text-field>
           </v-container>
           <v-btn rounded color="red" dark @click="e6=3" style="margin-bottom: 1%">Continue</v-btn>
-          <v-btn text style="margin-bottom: 1%" @click="e6=1">Cancel</v-btn>
+          <v-btn text style="margin-bottom: 1%" @click="e6=1">Back</v-btn>
         </v-stepper-content>
 
         <v-stepper-step color="red" dark :complete="e6 > 3" step="3">Select dates</v-stepper-step>
@@ -105,21 +100,32 @@
                   readonly
                   v-bind="attrs"
                   v-on="on"
-                  outlined
-                  rounded
                   style="margin-top: 3%"
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="dateForShow" @input="dateShow = false"></v-date-picker>
+              <v-date-picker color="red" v-model="dateForShow" @input="dateShow = false"></v-date-picker>
             </v-menu>
+            
+            <v-menu
+              v-model="timeShow"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+            <template v-slot:activator="{ on, attrs }">
             <v-text-field
               v-model="showData.showTime"
               label="Time of the show"
-              hint="Format: HHhMM"
-              outlined
-              rounded
+              v-bind="attrs"
+              v-on="on"
               style="margin-top: 3%"
             ></v-text-field>
+            </template>
+            <v-time-picker color="red" format="24hr" v-model="showData.showTime" @input="timeShow = false"></v-time-picker>
+            </v-menu>
+
           </v-container>
           <v-menu
             v-model="datePurchase"
@@ -137,15 +143,13 @@
                 readonly
                 v-bind="attrs"
                 v-on="on"
-                outlined
-                rounded
               ></v-text-field>
             </template>
-            <v-date-picker v-model="dateForPurchase" @input="datePurchase= false"></v-date-picker>
+            <v-date-picker color="red" v-model="dateForPurchase" @input="datePurchase= false"></v-date-picker>
           </v-menu>
 
           <v-btn rounded color="red" dark @click="e6=4" style="margin-bottom: 1%">Continue</v-btn>
-          <v-btn text style="margin-bottom: 1%" @click="e6=2">Cancel</v-btn>
+          <v-btn text style="margin-bottom: 1%" @click="e6=2">Back</v-btn>
         </v-stepper-content>
 
         <v-stepper-step color="red" dark step="4">
@@ -156,27 +160,24 @@
           <v-container class="combobox_container">
             <v-file-input
               label="Add new image (Horizontal)"
-              outlined
-              rounded
+              
               prepend-icon="mdi-camera"
               v-model="showData.imageLocationHorizontal"
               style="margin-top: 3%"
             ></v-file-input>
             <v-file-input
               label="Add new image (Vertical)"
-              outlined
-              rounded
+              
               prepend-icon="mdi-camera"
               v-model="showData.imageLocationVertical"
               style="margin-top: 3%"
             ></v-file-input>
           </v-container>
           <v-btn rounded color="red" dark @click="submit()" style="margin-bottom: 1%">Submit</v-btn>
-          <v-btn text style="margin-bottom: 1%" @click="e6=3">Cancel</v-btn>
+          <v-btn text style="margin-bottom: 1%" @click="e6=3">Back</v-btn>
         </v-stepper-content>
       </v-stepper>
     </v-form>
-    <v-btn rounded color="red" dark @click="submit()">Submit</v-btn>
   </v-container>
 </template>
 
@@ -217,6 +218,7 @@ export default {
     temp: null,
     dateForShow: new Date().toISOString().substr(0, 10),
     dateShow: false,
+    timeShow: false,
     dateForPurchase: new Date().toISOString().substr(0, 10),
     datePurchase: false,
     //Rules for each field of the form -> helps validate and warn the users input before submiting
@@ -314,6 +316,7 @@ export default {
         .catch((error) => console.log(error));
     },
     createShow() {
+      this.getHour();
       const requestBody = {
         showName: this.showData.showName,
         showDescription: this.showData.showDescription,
@@ -340,6 +343,11 @@ export default {
     goToHome() {
       this.$router.push({ path: "/admin" });
     },
+    getHour(){
+      var hour = this.showData.showTime.split(":");
+      this.showData.showTime = hour[0] + "h" + hour[1];
+      console.log(this.showData.showTime)
+    }
   },
 };
 </script>

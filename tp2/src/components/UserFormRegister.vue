@@ -15,25 +15,22 @@
             label="Name"
             :rules="[rules.required]"
             hint="Example: Jonh Doe"
-            outlined
-            rounded
+            
           ></v-text-field>
-          <v-combobox v-model="selection" :items="items" label="City" outlined rounded></v-combobox>
+          <v-combobox v-model="selection" :items="items" label="City" ></v-combobox>
           <v-text-field
             v-model="userData.email"
             label="Email"
             :rules="[rules.required, rules.emailValidation]"
             hint="Example: example@gmail.com"
-            outlined
-            rounded
+            
           ></v-text-field>
           <v-text-field
             v-model="userData.nif"
             label="NIF"
             :rules="[rules.required, rules.nifValidation]"
             hint="Example: 000000000"
-            outlined
-            rounded
+            
           ></v-text-field>
           <v-btn rounded color="red" dark @click="e6=2" style="margin-bottom: 1%">Continue</v-btn>
           <v-btn text style="margin-bottom: 1%" @click="goToHome()">Cancel</v-btn>
@@ -50,8 +47,7 @@
             label="Username"
             :rules="[rules.required, rules.minUser]"
             hint="Example: username_example"
-            outlined
-            rounded
+            
           ></v-text-field>
           <v-text-field
             v-model="userData.password"
@@ -62,8 +58,7 @@
             label="Password"
             hint="At least 8 characters"
             @click:append="showPassword = !showPassword"
-            outlined
-            rounded
+            
           ></v-text-field>
           <p id="error" v-if="error">{{ error }}</p>
           <v-btn rounded color="red" dark @click="register()" style="margin-bottom: 1%">Submit</v-btn>
@@ -170,7 +165,7 @@ export default {
       }
     },
     goToHome() {
-      this.$router.push({ path: "/" });
+      this.$router.push({ path: "/admin" });
     },
     checkIfRequiredAreFill() {
       if (
