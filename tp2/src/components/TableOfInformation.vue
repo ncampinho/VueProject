@@ -122,7 +122,7 @@ export default {
         this.editedSelections.selectionSpotlight = item.isSpotlight
         
         console.log(this.editedShow)
-
+        console.log(this.editedShow)
         this.dialog = true
       },
       

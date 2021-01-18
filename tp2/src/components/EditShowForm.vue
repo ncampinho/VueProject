@@ -209,6 +209,7 @@ export default {
   }),
   //When component is mounted -> Fetches all data from different tables to insert into a combobox
   mounted() {
+    console.log(typeof this.editedDateForShow)
     this.getLocations();
     this.getShowTypes();
     this.getShowRatings();

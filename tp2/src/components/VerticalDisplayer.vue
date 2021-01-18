@@ -1,8 +1,9 @@
 <template>
-  <v-container v-if="showItems!==null" style="max-width: 87%;">
+  <v-container v-if="visibleShows!==null" style="max-width: 87%;">
+    
     <v-row>
       <template>
-        <v-col v-for="(show, index) in showItems" :key="index" :loading="loading" cols="10" md="3">
+        <v-col v-for="(show, index) in visibleShows" :key="index" :loading="loading" cols="10" md="3">
           <v-sheet max-width="350px" elevation="2">
             <template slot="progress">
               <v-progress-linear color="red" height="10" indeterminate></v-progress-linear>
@@ -60,6 +61,13 @@
       </template>
     </v-row>
     <login v-model="dialog"></login>
+    <v-pagination
+    style="margin-top: 3%;"
+      v-model="page"
+      :length="numberPages"
+      circle
+      color="red lighten-2"
+    ></v-pagination>
   </v-container>
   <v-container v-else>No data to show</v-container>
 </template>
@@ -80,7 +88,12 @@ export default {
   data: () => ({
     dialog: false,
     showItems: [],
+    page: 1,
+    numberPages: 0,
     purchaseItem: {},
+    currentPage: 0,
+    pageSize: 3,
+    visibleShows: [],
     items: [
       {
         src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
@@ -98,8 +111,9 @@ export default {
     loading: false,
     selection: [],
   }),
-  created() {
+  beforeMount() {
     this.getShows();
+    setTimeout(() => (this.updateVisibleShows()), 1000)
   },
   computed: {
     ...mapGetters({
@@ -107,11 +121,16 @@ export default {
       shoppingCart: "cart/getPurchaseLine",
     }),
     allShows() {
-      return this.showItems;
+      //return this.showItems;
     },
     style() {
       return this.Color;
     },
+  },
+  watch: {
+    page: function(){
+      this.updatePage(this.page)
+    }
   },
   methods: {
     ...mapActions({
@@ -164,14 +183,15 @@ export default {
         .get(this.URL)
         .then((response) => response)
         .then((data) => {
+          console.log(data.data)
           this.showItems = data.data;
-          console.log(this.showItems);
         })
         .catch((error) => console.log(error));
+      
     },
     imageSource(index) {
       return require("../../public/images/" +
-        this.showItems[index][0].item.image +
+        this.visibleShows[index][0].item.image +
         ".png");
     },
     detectDate(showLimitDate){
@@ -180,9 +200,23 @@ export default {
       finalTime = showLimitDate.split('-')
       finalTime[1] = finalTime[1] - 1;
       var limitDate = new Date(finalTime[2], finalTime[1], finalTime[0], '23', '59', '59', '59').getTime() 
-      console.log(now + "-" + limitDate)
       var tester = limitDate - now;
       return tester;
+    },
+    updatePage(pageNumber){
+      console.log(pageNumber + "here")
+      this.currentPage = pageNumber-1;
+      this.updateVisibleShows()
+    },
+    updateVisibleShows(){
+      var tempArray = []
+      tempArray = Object.values(JSON.parse(JSON.stringify(this.showItems)))
+      this.numberPages = Math.ceil(tempArray.length / this.pageSize);
+      this.visibleShows = tempArray.slice(this.currentPage * this.pageSize, (this.currentPage * this.pageSize) + this.pageSize);
+      //In case there are no more items left to page
+      if(this.visibleShows.length == 0 && this.currentPage > 0){
+        this.updatePage(this.currentPage - 1)
+      }
     }
   },
 };
