@@ -3,35 +3,35 @@
     <v-row justify="space-around">
       <v-col cols="12" md="4">
          <v-hover v-slot="{ hover }">
-        <v-sheet color="red" dark :elevation="hover ? 12 : 2"
+        <v-sheet color="red" dark :elevation="hover ? 12 : 12"
               :class="{ 'on-hover': hover }"  class="mx-auto" @click="toUserData()">
           <v-icon>mdi-account-group</v-icon>
           <h3>Users</h3>
         </v-sheet>
          </v-hover>
          <v-hover v-slot="{ hover }">
-        <v-sheet color="green" dark :elevation="hover ? 12 : 2"
+        <v-sheet color="green" dark :elevation="hover ? 12 : 12"
               :class="{ 'on-hover': hover }" class="mx-auto" @click="toSalesData()">
           <v-icon>mdi-cart</v-icon>
           <h3>Sales</h3>
         </v-sheet>
         </v-hover>
         <v-hover v-slot="{ hover }">
-        <v-sheet color="blue" dark :elevation="hover ? 12 : 2"
+        <v-sheet color="blue" dark :elevation="hover ? 12 : 12"
               :class="{ 'on-hover': hover }" class="mx-auto" @click="toGeneralData()">
           <v-icon>mdi-chart-line-variant</v-icon>
           <h3>General Data</h3>
         </v-sheet>
         </v-hover>
         <v-hover v-slot="{ hover }">
-        <v-sheet color="yellow" dark :elevation="hover ? 12 : 2"
+        <v-sheet color="yellow" dark :elevation="hover ? 12 : 12"
               :class="{ 'on-hover': hover }" class="mx-auto" @click="toAddNewAdmin()">
           <v-icon>mdi-account-plus</v-icon>
           <h3>Add new admin</h3>
         </v-sheet>
         </v-hover>
         <v-hover v-slot="{ hover }">
-        <v-sheet color="gray" dark :elevation="hover ? 12 : 2"
+        <v-sheet color="gray" dark :elevation="hover ? 12 : 12"
               :class="{ 'on-hover': hover }"  class="mx-auto" @click="logout()">
           <v-icon>mdi-logout</v-icon>
           <h3>Logout</h3>
@@ -96,5 +96,8 @@ export default {
 }
 h1 {
   padding-bottom: 100%;
+}
+.on-hover{
+  opacity: 0.5;
 }
 </style>
