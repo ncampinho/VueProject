@@ -41,7 +41,7 @@
           <template>
             <v-list-item v-for="(comment, index) in commentsall" :key="index">
               <v-list-item-avatar>
-                <v-img src="@/assets/person.png"></v-img>
+                <v-img :src="imageSource(comment.image)"></v-img>
               </v-list-item-avatar>
 
               <v-list-item-content align="left">
@@ -168,6 +168,9 @@ export default {
     },
     changeDialog() {
       this.dialog = !this.dialog;
+    },
+    imageSource(index){
+      return require("../../public/personImages/" + index + ".png")
     },
   },
   created() {

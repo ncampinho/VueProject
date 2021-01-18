@@ -142,33 +142,21 @@
               <fieldset>
                 <legend>Images</legend>
                 <v-container class="combobox_container">
-                  <v-text-field
-                      v-model="image"
-                      label="Previous Horizontal Image"
-                      readonly
-                    ></v-text-field>
                   <v-file-input
                     label="Add new image (Horizontal)"
                     prepend-icon="mdi-camera"
                     v-model="editedShow.image"
                     :value="editedShow.image"
                     style="margin-top: 3%"
-                    @change="image=editedShow.image.name.split('.')[0]"
                   ></v-file-input>
                 </v-container>
                   <v-container class="combobox_container">
-                  <v-text-field
-                      v-model="imageVert"
-                      label="Previous Vertical Image"
-                      readonly
-                    ></v-text-field>
                   <v-file-input
                     label="Add new image (Vertical)"
                     prepend-icon="mdi-camera"
                     v-model="editedShow.imageVert"
                     :value="editedShow.imageVert"
                     style="margin-top: 3%"
-                    @change="imageVert=editedShow.imageVert.name.split('.')[0]"
                   ></v-file-input>
                 </v-container>
               </fieldset>
@@ -327,8 +315,8 @@ export default {
             limitPurchaseDate:this.editedShow.date,
             showDate:this.editedShow.limitPurchaseDate,
             isSpotlight: this.getIdSpotlight(),
-            image: this.image,
-            imageVert: this.imageVert,
+            image: this.editedShow.image.name.split('.')[0],
+            imageVert: this.editedShow.imageVert.name.split('.')[0],
             showTime: this.editedShow.showTime
         }
         var state = false;

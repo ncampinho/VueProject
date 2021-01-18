@@ -34,6 +34,12 @@
             hint="Example: 000000000"
             
           ></v-text-field>
+          <v-file-input
+              label="Add new image"
+              prepend-icon="mdi-camera"
+              v-model="userData.image"
+              style="margin-top: 3%"
+            ></v-file-input>
           <v-btn rounded color="red" dark @click="e6=2" style="margin-bottom: 1%">Continue</v-btn>
           <v-btn text style="margin-bottom: 1%" @click="goToHome()">Cancel</v-btn>
         </v-stepper-content>
@@ -86,6 +92,7 @@ export default {
       email: "",
       idZipCode: "",
       idUserType: null,
+      image: null,
     },
     error: "",
     errors: {
@@ -136,6 +143,9 @@ export default {
   methods: {
     //Executes the register -> uses api to register a new user
     register() {
+      console.log(this.userData.image)
+      this.userData.image = this.userData.image.name.split(".")[0];
+      console.log(this.userData.image)
       var route = "";
       console.log(localStorage.getItem('user'))
       if (this.checkIfRequiredAreFill()) {

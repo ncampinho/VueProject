@@ -40,8 +40,8 @@ db.register = (userData) => {
             if(results.length > 0){
                 return resolve("Username or email already exists")
             }
-            pool.query('INSERT INTO user(username,password,name,nif,email,idZipCode,idUserType) VALUES(?, ?, ?, ?, ?, ?, 1)', 
-            [userData.username, userData.password, userData.name, userData.nif, userData.email, userData.idZipCode], (err, results) => {
+            pool.query('INSERT INTO user(username,password,name,nif,email,idZipCode,idUserType, image) VALUES(?, ?, ?, ?, ?, ?, ?,?)', 
+            [userData.username, userData.password, userData.name, userData.nif, userData.email, userData.idZipCode, userData.idUserType, userData.image], (err, results) => {
            if(err){
                return reject(err);
            }

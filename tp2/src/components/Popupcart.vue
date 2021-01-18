@@ -35,7 +35,7 @@
             </v-list-item-content>
         </v-list-item>
       </v-list>
-    <v-list-item v-if="shoppingCart != null">
+    <v-list-item v-if="shoppingCart !== null">
       <v-list-item-content>
               <v-list-item-title>Total: </v-list-item-title>
               <v-list-item-subtitle>{{shoppingCartTotal}} €</v-list-item-subtitle>

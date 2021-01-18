@@ -120,15 +120,15 @@
       </v-stepper-content>
 
       <v-stepper-content step="3">
-        <v-item-group>
+        <v-item-group v-model="emailValue">
           <v-container>
             <v-row>
-              <v-item v-slot="{ active, toggle }">
+              <v-item :key="1" v-slot="{ active, toggle }">
                 <v-card
                   :color="active ? 'red' : ''"
                   dark
                   @click="toggle"
-                  :key="index"
+                  
                   style="padding: 5%; margin: 1%"
                 >
                   <v-card-item>
@@ -144,13 +144,12 @@
                   </v-card-item>
                 </v-card>
               </v-item>
-              <v-item v-slot="{ active, toggle }">
+              <v-item :key="2" v-slot="{ active, toggle }">
                 <v-card
                   :color="active ? 'red' : ''"
                   dark
                   style="padding: 5%; margin: 1%"
                   @click="toggle"
-                  :key="index"
                 >
                   <v-card-item>
                     <v-card-title> User Email </v-card-title>
@@ -165,7 +164,7 @@
           </v-container>
         </v-item-group>
 
-        <v-btn style="margin: 1%" color="secundary" dark @click="changeScreen(4)"
+        <v-btn style="margin: 1%" color="secundary" dark @click="changeScreenVerified(4)"
           >Go to Payment</v-btn
         >
 
@@ -262,6 +261,8 @@ export default {
       ref: null,
       numb: null,
       quantity:[],
+      emailValue: 1,
+      email:null,
     };
   },
   name: "Modal",
@@ -290,6 +291,9 @@ export default {
              
            })
            this.updateCart(temp)
+           if(this.shoppingCart.length==0){
+              this.$router.push({ path: "/" });
+           }
           }
         })
         .catch((error) => console.log(error));
@@ -415,7 +419,23 @@ export default {
     },
     changeScreen(id){
       this.e1 = id;
-    }
+    },
+    changeScreenVerified(id){
+      if(this.emailValue==null){
+        this.$fire({
+            title: "Email Definition",
+            text: "Define one mail to send products",
+            type: "error",
+            confirmButtonText: "Confirm",
+          });
+      }else{
+        if(this.emailValue==1){
+          this.email = this.user[0].email
+        }
+        console.log(this.email)
+        this.e1 = id;
+      }
+    },
   },
   computed: {
     ...mapGetters({

@@ -10,7 +10,7 @@ let db = {}
 db.allComments = id => {
   return new Promise((resolve, reject) => {
     pool.query(
-      'SELECT * FROM comment, user WHERE comment.idUser=user.idUser and comment.idShow = ? ORDER BY date, hour DESC',
+      'SELECT * FROM comment, user WHERE comment.idUser=user.idUser and comment.idShow = ? ORDER BY date DESC',
       [id],
       (err, results) => {
         if (err) {

@@ -62,6 +62,7 @@
         style="color: grey; font-size: 10px"
         v-if="user"
         class="btn-circle"
+        @click="changeUserDialog()"
         >{{ user[0].name }}</span
       >
 
@@ -84,18 +85,21 @@
     <v-app-bar v-else app color="white">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
+<router-link to="/admin">
       <v-img
         src="@/assets/logo.png"
         max-height="100"
         max-width="100"
         contain
       ></v-img>
+</router-link>
       <v-spacer></v-spacer>
 
       <span
         style="color: grey; font-size: 10px"
         v-if="user"
         class="btn-circle"
+        @click="changeUserDialog()"
         >{{ user[0].name }}</span
       >
       <v-btn v-if="isAuthenticated" @click="submit()" href="#" icon>
@@ -107,6 +111,8 @@
     </v-app-bar>
 
     <login v-model="dialog"></login>
+
+    <user-details v-if="isAuthenticated" v-model="userdialog" :USER="user[0]"></user-details>
 
     <popupcart v-model="cartdialog"></popupcart>
     <v-main>
@@ -212,10 +218,10 @@ body {
 </style>
 
 <script>
-import { mapGetters } from "vuex";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import Login from "@/components/Login.vue";
 import Popupcart from "@/components/Popupcart.vue";
+import UserDetails from "@/components/UserDetails.vue";
 import Vue from "vue";
 import VueSimpleAlert from "vue-simple-alert";
 Vue.use(VueSimpleAlert);
@@ -224,11 +230,13 @@ export default {
   components: {
     Login,
     Popupcart,
+    UserDetails,
   },
   data() {
     return {
       dialog: false,
       cartdialog: false,
+      userdialog: false,
       snackbardialog: false,
       tabItems: [],
       drawer: false,
@@ -281,6 +289,9 @@ export default {
     },
     changeCartDialog() {
       this.cartdialog = !this.cartdialog;
+    },
+    changeUserDialog() {
+      this.userdialog = !this.userdialog;
     },
     getTabItems() {
       this.$axios
