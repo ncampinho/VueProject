@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <p></p>
+    <br>
+    <br>
     <h1>General Data</h1>
     <v-row justify="space-around">
       <v-col cols="12" md="4">

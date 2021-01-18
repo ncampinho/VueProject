@@ -1,6 +1,8 @@
 <!--Component for a register form to create a new user-->
 <template>
   <v-container>
+    <br>
+    <br>
     <h1>{{Text}}</h1>
     <v-form ref="form" lazy-validation>
       <v-stepper v-model="e6" vertical>

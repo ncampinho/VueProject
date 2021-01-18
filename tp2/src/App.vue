@@ -81,7 +81,7 @@
       </v-btn>
     </v-app-bar>
 
-    <v-app-bar v-else app color="white" flat>
+    <v-app-bar v-else app color="white">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-img

@@ -13,8 +13,7 @@
                 <v-text-field
                   v-model="editedShow.showName"
                   label="Show Name"
-                  outlined
-                  rounded
+                  
                   style="margin-top: 3%"
                 ></v-text-field>
                 <v-container class="combobox_container">
@@ -49,7 +48,6 @@
                 </v-container>
                 <v-textarea
                   v-model="editedShow.showDescription"
-                  outlined
                   name="input-7-4"
                   label="Show description"
                 ></v-textarea>
@@ -60,13 +58,13 @@
                   <v-text-field
                     v-model="editedShow.price"
                     label="Price"
-                    
+                    type="number"
                     style="margin-top: 3%"
                   ></v-text-field>
                   <v-text-field
                     v-model="editedShow.availableTickets"
                     label="Available Tickets"
-                    
+                    type="number"
                     style="margin-top: 3%"
                   ></v-text-field>
                 </v-container>
@@ -84,26 +82,38 @@
                   >
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
-                        v-model="editedShow.date"
+                        :value="editedShow.date"
                         label="Select a date for the show"
                         prepend-icon="mdi-calendar"
                         readonly
                         v-bind="attrs"
                         v-on="on"
-                        outlined
-                        rounded
                         style="margin-top: 3%"
                       ></v-text-field>
                     </template>
-                    <v-date-picker v-model="editedShow.date" @input="editedDateShow = false"></v-date-picker>
+                    <v-date-picker color="red" v-model="editedShow.date" @input="editedDateShow = false"></v-date-picker>
                   </v-menu>
-                  <v-text-field
-                    v-model="editedShow.showTime"
-                    label="Time of the show"
-                    hint="Format: HHhMM"
-                    
-                    style="margin-top: 3%"
-                  ></v-text-field>
+
+                  <v-menu
+              v-model="timeShow"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+            <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="editedShow.showTime"
+              label="Time of the show"
+              v-bind="attrs"
+              v-on="on"
+              style="margin-top: 3%"
+            ></v-text-field>
+            </template>
+            <v-time-picker color="red" format="24hr" v-model="editedShow.showTime" @input="timeShow = false"></v-time-picker>
+            </v-menu>
+            
                 </v-container>
                 <v-menu
                   v-model="editedDatePurchase"
@@ -121,39 +131,51 @@
                       readonly
                       v-bind="attrs"
                       v-on="on"
-                      outlined
-                      rounded
                     ></v-text-field>
                   </template>
-                  <v-date-picker v-model="editedShow.limitPurchaseDate" @input="editedDatePurchase= false"></v-date-picker>
+                  <v-date-picker color="red" v-model="editedShow.limitPurchaseDate" @input="editedDatePurchase= false"></v-date-picker>
                 </v-menu>
+
+                
               </fieldset>
 
               <fieldset>
                 <legend>Images</legend>
                 <v-container class="combobox_container">
+                  <v-text-field
+                      v-model="image"
+                      label="Previous Horizontal Image"
+                      readonly
+                    ></v-text-field>
                   <v-file-input
                     label="Add new image (Horizontal)"
-                    
                     prepend-icon="mdi-camera"
                     v-model="editedShow.image"
                     :value="editedShow.image"
                     style="margin-top: 3%"
+                    @change="image=editedShow.image.name.split('.')[0]"
                   ></v-file-input>
+                </v-container>
+                  <v-container class="combobox_container">
+                  <v-text-field
+                      v-model="imageVert"
+                      label="Previous Vertical Image"
+                      readonly
+                    ></v-text-field>
                   <v-file-input
                     label="Add new image (Vertical)"
-                    
                     prepend-icon="mdi-camera"
                     v-model="editedShow.imageVert"
                     :value="editedShow.imageVert"
                     style="margin-top: 3%"
+                    @change="imageVert=editedShow.imageVert.name.split('.')[0]"
                   ></v-file-input>
                 </v-container>
               </fieldset>
             </v-form>
           </v-container>
         </v-card-text>
-        <v-btn rounded color="red" dark @click="submit()" style="margin-bottom: 1%">Submit</v-btn>
+        <v-btn rounded color="red" dark @click="submit()"  style="margin-bottom: 1%">Submit</v-btn>
       </v-card>
       <button @click.prevent="close" class="border-b border-teal font-semibold" id="close">Close</button>
     </v-dialog>
@@ -170,6 +192,8 @@ export default {
     editedSelections: Object
   },
   data: () => ({
+    image: null,
+    imageVert: null,
     editedItems: {
       itemsLocation: [],
       itemsRating: [],
@@ -180,13 +204,29 @@ export default {
     editedDateShow: false,
     editedDateForPurchase: new Date().toISOString().substr(0, 10),
     editedDatePurchase: false,
+    timeShow: false,
+    
   }),
   //When component is mounted -> Fetches all data from different tables to insert into a combobox
   mounted() {
     this.getLocations();
     this.getShowTypes();
     this.getShowRatings();
+    
+    console.log("entrou")
+    this.image=this.editedShow.image 
+    console.log(this.image)
+    this.imageVert=this.editedShow.imageVert 
   },
+  created(){
+    this.image=this.editedShow.image;
+    this.imageVert=this.editedShow.imageVert;
+  },
+  watch(){
+    this.image=this.editedShow.image;
+    this.imageVert=this.editedShow.imageVert;
+  },
+  
   methods: {
     close() {
       this.$emit("input", !this.value);
@@ -225,7 +265,7 @@ export default {
       this.getIdLocation();
       this.getIdRating();
       this.getIdType();
-
+      this.getHour();
       setTimeout(() => this.createShow(), 1000);
     },
     getIdRating() {
@@ -286,14 +326,38 @@ export default {
             limitPurchaseDate:this.editedShow.date,
             showDate:this.editedShow.limitPurchaseDate,
             isSpotlight: this.getIdSpotlight(),
-            image: this.editedShow.image.name.split('.')[0],
-            imageVert: this.editedShow.imageVert.name.split('.')[0],
+            image: this.image,
+            imageVert: this.imageVert,
             showTime: this.editedShow.showTime
         }
-
+        var state = false;
         this.$axios.post('http://localhost:3000/api/tp2/show/update_show', requestBody)
         .then((response) => response)
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          state = true;
+          this.$emit("input", !this.value);
+        this.$fire({
+          title: "Error",
+          text: "Editing Error",
+          type: "error",
+          confirmButtonText: "Confirm",
+        }); 
+          console.log(error)});
+
+          if(!state){
+            this.$emit("input", !this.value);
+          this.$fire({
+          title: "Show edited",
+          text: "Show edited with sucess",
+          type: "success",
+          confirmButtonText: "Confirm",
+        }); 
+          }
+        
+    },
+    getHour(){
+      var hour = this.editedShow.showTime.split(":");
+      this.editedShow.showTime = hour[0] + "h" + hour[1];
     },
   },
 };

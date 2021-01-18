@@ -1,6 +1,7 @@
 <template>
   <div>
-    <p></p>
+    <br>
+    <br>
     <h1>{{Text}}</h1>
     <v-data-table
       :headers="headers"
@@ -113,15 +114,22 @@ export default {
       
         this.editedShowIndex= this.shows.indexOf(item)
         this.editedShow = Object.assign({}, item)
+        this.getHourWithH();
 
         this.editedSelections.selectionLocation = item.building
         this.editedSelections.selectionRating = item.rating
         this.editedSelections.selectionType = item.type
         this.editedSelections.selectionSpotlight = item.isSpotlight
+        
         console.log(this.editedShow)
 
         this.dialog = true
       },
+      
+    getHourWithH(){
+      var hour = this.editedShow.showTime.split("h");
+      this.editedShow.showTime = hour[0] + ":" + hour[1];
+    }
   },
 };
 </script>

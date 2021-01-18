@@ -1,6 +1,7 @@
 <template>
 <v-container>
-  <p></p>
+  <br>
+    <br>
     <h1>Users</h1>
 <div class="graph-area">
 

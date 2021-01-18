@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <p></p>
+    <br>
+    <br>
     <h1 >{{Text}}</h1>
 
     <v-form ref="form" lazy-validation>

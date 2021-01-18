@@ -279,7 +279,7 @@ db.deleteLine = id => {
 db.newPurchaseAll = purchaseData => {
   return new Promise((resolve, reject) => {
     pool.query(
-      'INSERT INTO purchase(purchaseDate, purchaseState, totalPayed, idUser) VALUES(CURDATE(),1,0,?)',
+      'INSERT INTO purchase(purchaseDate, purchaseState, totalPayed, idUser) VALUES( NOW(),1,0,?)',
       [purchaseData.idUser],
       (err, results) => {
         if (err) {

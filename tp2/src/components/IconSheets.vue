@@ -64,6 +64,13 @@ export default {
     },
     logout(){
       this.loggingOut(null)
+      this.$fire({
+          title: "Logout",
+          text: "Logout sucess",
+          type: "success",
+          confirmButtonText: "Confirm",
+          color: "red",
+        });
       this.$router.push({ path: "/" });
     }
   },

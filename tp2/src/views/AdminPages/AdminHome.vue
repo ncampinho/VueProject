@@ -1,6 +1,7 @@
 <template>
 <v-container>
-    <p></p>
+    <br>
+    <br>
     <h1>Dashboard</h1>
     <icon-sheets />
     </v-container>
