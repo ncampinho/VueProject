@@ -68,6 +68,7 @@ export default {
           value: "isSpotlight",
         },
         { text: "Show Date", value: "date" },
+        { text: "Time", value: "showTime"},
         { text: "Type", value: "type" },
         { text: "Rating", value: "rating" },
         { text: "Location", value: "building" },
@@ -92,12 +93,12 @@ export default {
     //Uses API to get all shows on the database
     getShows() {
       this.$axios
-        .get("http://localhost:3000/api/tp2/shows")
+        .get("http://localhost:3000/api/tp2/shows/no_group")
         .then((response) => response)
         .then((data) => {
-          var temp = Object.values(data.data);
-          this.shows = temp.map((element) => {
-            var temp = element[0].item;
+          console.log(data.data)
+          this.shows = data.data.map((element) => {
+            var temp = element;
 
             if (temp.isSpotlight === 1) {
               temp.isSpotlight = "Yes";
@@ -111,10 +112,8 @@ export default {
         .catch((error) => console.log(error));
     },
     editItem (item) {
-      
         this.editedShowIndex= this.shows.indexOf(item)
         this.editedShow = Object.assign({}, item)
-        this.getHourWithH();
 
         this.editedSelections.selectionLocation = item.building
         this.editedSelections.selectionRating = item.rating
@@ -125,11 +124,6 @@ export default {
         console.log(this.editedShow)
         this.dialog = true
       },
-      
-    getHourWithH(){
-      var hour = this.editedShow.showTime.split("h");
-      this.editedShow.showTime = hour[0] + ":" + hour[1];
-    }
   },
 };
 </script>

@@ -7,7 +7,7 @@ const pool = require('../../dbconnection');
 
 let db = {};
 
-//Returns all shows created
+//Returns all shows created -> If a show has multiple dates, groups the dates to create an array inside the object
 db.all = () => {
     return new Promise((resolve, reject) => {
         pool.query('Select * from shows, showdate, dates, rating, showtype, location where shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType AND shows.idLocation = location.idLocation',
@@ -32,6 +32,19 @@ db.all = () => {
             })
     })
 };
+//Returns all shows created
+db.allNoGroup = () => {
+    return new Promise((resolve, reject) => {
+        pool.query('Select * from shows, showdate, dates, rating, showtype, location where shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType AND shows.idLocation = location.idLocation',
+            (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(results);
+            })
+    })
+};
+
 
 db.showNames = () => {
     return new Promise((resolve, reject) => {
@@ -88,6 +101,7 @@ db.newShow = (showData) => {
 //Updates a show
 db.updateShow = (showData) => {
     console.log(showData)
+    var showDateId;
     return new Promise((resolve, reject) => {
         pool.query('Select * from shows WHERE shows.idShow = ?', [showData.idShow],
             (err, results) => {
@@ -101,7 +115,48 @@ db.updateShow = (showData) => {
                             return reject(err)
                         }
 
-                        return resolve(results)
+                        pool.query('Select * from dates WHERE dates.date = ? AND dates.showTime = ?',
+                            [showData.showDate, showData.showTime], (err, results) => {
+                                if (err) {
+                                    return reject(err)
+                                }
+                                if (results.length === 0) {
+                                    console.log("here1")
+                                    pool.query('Insert Into dates(date, showTime) VALUES(?, ?)', [showData.showDate, showData.showTime],
+                                        (err, results) => {
+                                            if (err) {
+                                                return reject(err)
+                                            }
+                                            pool.query('UPDATE showdate SET showdate.limitPurchaseDate = ?, showdate.idDate = ? WHERE showdate.idShow = ? AND showdate.idDate = ?',
+                                                [showData.limitPurchaseDate, results.insertId, showData.idShow, showData.idDate], (err, results) => {
+                                                    if (err) {
+                                                        return reject(err)
+                                                    }
+
+                                                    return resolve(results)
+                                                })
+                                        })
+                                } else {
+                                    console.log("here")
+                                    pool.query('Select idDate from dates where dates.date = ? AND dates.showTime = ?', [showData.showDate, showData.showTime],
+                                        (err, results) => {
+                                            if (err) {
+                                                return reject(err)
+                                            }
+                                            console.log(results[0].idDate)
+                                            pool.query('UPDATE showdate SET showdate.limitPurchaseDate = ?, showdate.idDate = ? WHERE showdate.idShow = ? AND showdate.idDate = ?',
+                                                [showData.limitPurchaseDate, results[0].idDate, showData.idShow, showData.idDate], (err, results) => {
+                                                    if (err) {
+                                                        return reject(err)
+                                                    }
+
+                                                    return resolve(results)
+                                                })
+
+                                        })
+                                }
+                            })
+
                     })
             })
     })
@@ -249,6 +304,17 @@ db.byRating = (rating) => {
 db.byNameRating = (name, rating) => {
     return new Promise((resolve, reject) => {
         pool.query("Select * from shows, showdate, dates, rating, showtype  where shows.showName LIKE CONCAT('%',?,'%') AND rating.rating = ? AND shows.idShow = showdate.idShow AND showdate.idDate = dates.idDate AND shows.idRating = rating.idRating AND shows.idShowType = showtype.idShowType", [name, rating], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(results);
+        })
+    })
+};
+//Return shows time 
+db.showHours = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query("SELECT * FROM showdate, dates where showdate.idShow = ? AND showdate.idDate = dates.idDate;", [id], (err, results) => {
             if (err) {
                 return reject(err);
             }

@@ -300,7 +300,7 @@ export default {
         .then((response) => {
           var j = 0
           if (response.data.length === 0) {
-            this.datacollection_ym = {
+            this.datacollection_between_m = {
               labels: [],
               datasets: [
                 {

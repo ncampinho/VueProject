@@ -21,6 +21,17 @@ router.get('/shows', async (rq, res, next) =>{
         res.sendStatus(500);
     }
 });
+//Endpoint that gets all shows created
+router.get('/shows/no_group', async (rq, res, next) =>{
+    try{
+        
+        let results = await db.allNoGroup();
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
 
 
 router.get('/shows/names', async (rq, res, next) =>{
@@ -137,6 +148,17 @@ router.get('/show/rating/:rating', async (rq, res, next) =>{
 router.get('/show/nameRating/:name,:rating', async (rq, res, next) =>{
     try{
         let results = await db.byNameRating(rq.params.name, rq.params.rating);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+//Endpoint that gets a shows hour
+router.get('/shows/time/:id', async (rq, res, next) =>{
+    try{
+        let results = await db.showHours(rq.params.id);
         res.json(results);
     } catch(e){
         console.log(e);
