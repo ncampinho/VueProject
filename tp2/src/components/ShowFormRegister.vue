@@ -106,29 +106,7 @@
               </template>
               <v-date-picker color="red" v-model="dateForShow" @input="dateShow = false"></v-date-picker>
             </v-menu>
-            
             <v-menu
-              v-model="timeShow"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-            <template v-slot:activator="{ on, attrs }">
-            <v-text-field
-              v-model="showData.showTime"
-              label="Time of the show"
-              v-bind="attrs"
-              v-on="on"
-              style="margin-top: 3%"
-            ></v-text-field>
-            </template>
-            <v-time-picker color="red" format="24hr" v-model="showData.showTime" @input="timeShow = false"></v-time-picker>
-            </v-menu>
-
-          </v-container>
-          <v-menu
             v-model="datePurchase"
             :close-on-content-click="false"
             :nudge-right="40"
@@ -144,10 +122,43 @@
                 readonly
                 v-bind="attrs"
                 v-on="on"
+                style="margin-top: 3%"
               ></v-text-field>
             </template>
             <v-date-picker color="red" v-model="dateForPurchase" @input="datePurchase= false"></v-date-picker>
           </v-menu>
+           
+
+          </v-container>
+          <v-container class="combobox_container">
+           <v-menu
+              v-model="timeShow"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+            <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="showData.showTime"
+              label="Time of the show"
+              v-bind="attrs"
+              v-on="on"
+                            style="max-width: 10rem;"
+
+            ></v-text-field>
+            </template>
+            <v-time-picker color="red" format="24hr" v-model="showData.showTime" @input="timeShow = false"></v-time-picker>
+            </v-menu>
+            <v-btn rounded color="red" dark @click="addHour()" style="margin-bottom: 1%">Add</v-btn>
+          <div v-if="typedHours.length > 0" style="display: contents;">
+            <div v-for="(hour, index) in typedHours" :key="index">
+            <p @click="popHour(index)">{{hour}}</p>
+            </div>
+          </div>
+          
+          </v-container>
 
           <v-btn rounded color="red" dark @click="e6=4" style="margin-bottom: 1%">Continue</v-btn>
           <v-btn text style="margin-bottom: 1%" @click="e6=2">Back</v-btn>
@@ -190,6 +201,7 @@ export default {
   },
   data: () => ({
     e6: 1,
+    typedHours: [],
     showData: {
       showName: "",
       showDate: "",
@@ -331,15 +343,15 @@ export default {
         isSpotlight: this.getIdSpotlight(),
         image: this.showData.imageLocationHorizontal.name.split(".")[0],
         imageVert: this.showData.imageLocationVertical.name.split(".")[0],
-        showTime: this.showData.showTime,
+        showTime: this.typedHours,
       };
 
       console.log(requestBody);
 
-      this.$axios
+      /*this.$axios
         .post("http://localhost:3000/api/tp2/show/new_show", requestBody)
         .then((response) => response)
-        .catch((error) => console.log(error));
+        .catch((error) => console.log(error));*/
     },
     goToHome() {
       this.$router.push({ path: "/admin" });
@@ -348,6 +360,16 @@ export default {
       var hour = this.showData.showTime.split(":");
       this.showData.showTime = hour[0] + "h" + hour[1];
       console.log(this.showData.showTime)
+    },
+    addHour(){
+      console.log(this.typedHours.indexOf(this.showData.showTime))
+      if(this.typedHours.indexOf(this.showData.showTime) !== -1){
+        return;
+      }
+      this.typedHours.push(this.showData.showTime)
+    },
+    popHour(index){
+      this.typedHours.pop(index)
     }
   },
 };
@@ -379,4 +401,15 @@ export default {
 .container > h1 {
   margin-bottom: 15px;
 }
+
+p{
+  padding: 8px;
+    margin-left: 2%;
+    cursor: pointer;
+}
+
+p:hover{
+  text-decoration: underline;
+}
+
 </style>
