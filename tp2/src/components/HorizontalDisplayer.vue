@@ -177,7 +177,7 @@ export default {
       var finalTime = [];
       finalTime = showLimitDate.split('-')
       finalTime[1] = finalTime[1] - 1;
-      var limitDate = new Date(finalTime[2], finalTime[1], finalTime[0], '23', '59', '59', '59').getTime() 
+      var limitDate = new Date(finalTime[0], finalTime[1], finalTime[2], '23', '59', '59', '59').getTime() 
       var tester = limitDate - now;
       return tester;
     }
@@ -194,6 +194,14 @@ export default {
   max-width: 350px;
   float: left;
   margin: 0px 10px 10px 0px;
+}
+
+.v-card:first-child{
+  margin-left: 10px;
+}
+
+v-card:last-child{
+  margin-right: 10px;
 }
 .v-application--is-ltr .v-card__actions > .v-btn.v-btn + .v-btn {
     margin-left: auto;

@@ -329,7 +329,6 @@ export default {
         .catch((error) => console.log(error));
     },
     createShow() {
-      this.getHour();
       const requestBody = {
         showName: this.showData.showName,
         showDescription: this.showData.showDescription,
@@ -348,18 +347,13 @@ export default {
 
       console.log(requestBody);
 
-      /*this.$axios
+      this.$axios
         .post("http://localhost:3000/api/tp2/show/new_show", requestBody)
         .then((response) => response)
-        .catch((error) => console.log(error));*/
+        .catch((error) => console.log(error));
     },
     goToHome() {
       this.$router.push({ path: "/admin" });
-    },
-    getHour(){
-      var hour = this.showData.showTime.split(":");
-      this.showData.showTime = hour[0] + "h" + hour[1];
-      console.log(this.showData.showTime)
     },
     addHour(){
       console.log(this.typedHours.indexOf(this.showData.showTime))

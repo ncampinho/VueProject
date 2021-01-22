@@ -60,7 +60,7 @@ export default {
     var finalTime = [] 
     finalTime = this.endtime.split("-");
     finalTime[1] = finalTime[1] - 1;
-    this.end = new Date(finalTime[2], finalTime[1], finalTime[0], '23', '59', '59', '59').getTime();
+    this.end = new Date(finalTime[0], finalTime[1], finalTime[2], '23', '59', '59', '59').getTime();
     // Update the count down every 1 second
     this.timerCount(this.end);
     this.interval = setInterval(() => {

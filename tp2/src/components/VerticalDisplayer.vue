@@ -92,7 +92,7 @@ export default {
     numberPages: 0,
     purchaseItem: {},
     currentPage: 0,
-    pageSize: 3,
+    pageSize: 12,
     visibleShows: [],
     items: [
       {
@@ -199,7 +199,7 @@ export default {
       var finalTime = [];
       finalTime = showLimitDate.split('-')
       finalTime[1] = finalTime[1] - 1;
-      var limitDate = new Date(finalTime[2], finalTime[1], finalTime[0], '23', '59', '59', '59').getTime() 
+      var limitDate = new Date(finalTime[0], finalTime[1], finalTime[2], '23', '59', '59', '59').getTime() 
       var tester = limitDate - now;
       return tester;
     },

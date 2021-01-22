@@ -60,43 +60,51 @@ db.showNames = () => {
 
 //Creates a new show
 db.newShow = (showData) => {
-    var showDateId = null;
-    console.log(showData)
+
     return new Promise((resolve, reject) => {
-        pool.query('Select * from dates WHERE dates.date = ? AND dates.showTime = ?', [showData.showDate, showData.showTime],
-            (err, results) => {
+        var showId = null;
+        pool.query('Insert Into shows(showName, showDescription, price, availableTickets, idRating, idShowType, idLocation, image, isSpotlight, imageVert) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [showData.showName, showData.showDescription, showData.price, showData.availableTickets, showData.idRating, showData.idShowType, showData.idLocation, showData.image, showData.isSpotlight, showData.imageVert],
+            (err, resultsShow) => {
                 if (err) {
                     return reject(err)
                 }
-                if (results.length > 0) {
-                    showDateId = results[0].idDate;
-                } else {
-                    pool.query('Insert Into dates(date, showTime) VALUES(?, ?)', [showData.showDate, showData.showTime],
-                        (err, results) => {
-                            if (err) {
-                                return reject(err)
-                            }
-                            showDateId = results.insertId
-
-                        })
-                }
-                pool.query('Insert Into shows(showName, showDescription, price, availableTickets, idRating, idShowType, idLocation, image, isSpotlight, imageVert) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                    [showData.showName, showData.showDescription, showData.price, showData.availableTickets, showData.idRating, showData.idShowType, showData.idLocation, showData.image, showData.isSpotlight, showData.imageVert],
-                    (err, results) => {
-                        if (err) {
-                            return reject(err)
-                        }
-
-                        pool.query('Insert Into showdate(idShow, idDate, limitPurchaseDate) VALUES(?, ?, ?)', [results.insertId, showDateId, showData.limitPurchaseDate],
+        showData.showTime.forEach((element) => {  
+            pool.query('Select * from dates WHERE dates.date = ? AND dates.showTime = ?', [showData.showDate, element],
+                (err, results) => {
+                    if (err) {
+                        return reject(err)
+                    }
+                    if (results.length > 0) {
+                        pool.query('Insert Into showdate(idShow, idDate, limitPurchaseDate) VALUES(?, ?, ?)', [resultsShow.insertId, results[0].idDate, showData.limitPurchaseDate],
                             (err, results) => {
                                 if (err) {
                                     return reject(err)
                                 }
                                 return resolve(results)
                             })
-                    })
-            })
+                    } else {
+                        pool.query('Insert Into dates(date, showTime) VALUES(?, ?)', [showData.showDate, element],
+                            (err, results) => {
+                                if (err) {
+                                    return reject(err)
+                                }
+                                pool.query('Insert Into showdate(idShow, idDate, limitPurchaseDate) VALUES(?, ?, ?)', [resultsShow.insertId, results.insertId, showData.limitPurchaseDate],
+                                    (err, results) => {
+                                        if (err) {
+                                            return reject(err)
+                                        }
+                                        return resolve(results)
+                                    })
+
+                            })
+                    }
+
+                })
+        })
     })
+})
+
 }
 //Updates a show
 db.updateShow = (showData) => {
@@ -143,7 +151,6 @@ db.updateShow = (showData) => {
                                             if (err) {
                                                 return reject(err)
                                             }
-                                            console.log(results[0].idDate)
                                             pool.query('UPDATE showdate SET showdate.limitPurchaseDate = ?, showdate.idDate = ? WHERE showdate.idShow = ? AND showdate.idDate = ?',
                                                 [showData.limitPurchaseDate, results[0].idDate, showData.idShow, showData.idDate], (err, results) => {
                                                     if (err) {
