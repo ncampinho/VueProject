@@ -63,7 +63,7 @@
             >
             <template v-slot:activator="{ on, attrs }">
             <v-text-field v-model="betweenMonthPrev" v-bind="attrs"
-                  v-on="on" label="Inicial Month" readonly ></v-text-field>
+                  v-on="on" label="Inicial Month" readonly style="margin-right: 0.8rem;" ></v-text-field>
                   </template>
             <v-date-picker
               v-model="betweenMonthPrev"
