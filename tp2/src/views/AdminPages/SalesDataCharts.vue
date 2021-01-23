@@ -154,8 +154,8 @@ export default {
       showMonth:false,
       showMonthv1:false,
       showMonthv2:false,
-      year: "2021",
-      year_month: "2021-01",
+      year: new Date().getFullYear(),
+      year_month: new Date().getFullYear() + "-" + this.getMonth(new Date()),
       year_month_day: "2021-01-16",
       datacollection: null,
       datacollection_ym: null,
@@ -167,8 +167,8 @@ export default {
       chart_data_ym: [],
       chart_data_between_m: [],
       chart_labels_between_m: [],
-      betweenMonthPrev: "2020-01",
-      betweenMonthAfter: "2021-01",
+      betweenMonthPrev: new Date().getFullYear() - 1 + "-" + this.getMonth(new Date()),
+      betweenMonthAfter: new Date().getFullYear() + "-" + this.getMonth(new Date()),
       color: ["red", "blue"],
       charts_background: ["rgba(255,0,0,0.2)", "rgba(0,255,0,0.2)", "rgba(0,0,255,0.2)", "rgba(255,255,0,0.2)"],
       charts_line_color: ["rgba(255,0,0,1)", "rgba(0,255,0,1)", "rgba(0,0,255,1)", "rgba(255,255,0,1)"]
@@ -196,7 +196,7 @@ export default {
               labels: [],
               datasets: [
                 {
-                  label: "Yearly purchases",
+                  label: "No data",
                   data: [],
                 },
               ],
@@ -249,7 +249,7 @@ export default {
               labels: [],
               datasets: [
                 {
-                  label: "Monthly purchases",
+                  label: "No data",
                   data: [],
                 },
               ],
@@ -265,8 +265,8 @@ export default {
               datasets: [
                 {
                   label: "Monthly purchases",
-                  backgroundColor: this.charts_background,
-                  borderColor: this.charts_line_color,
+                  backgroundColor: this.charts_background[0],
+                  borderColor: this.charts_line_color[0],
                   pointBackgroundColor: "blue",
                   borderWidth: 1,
                   pointBorderColor: "blue",
@@ -304,7 +304,7 @@ export default {
               labels: [],
               datasets: [
                 {
-                  label: "Monthly purchases",
+                  label: "No data",
                   data: [],
                 },
               ],
@@ -391,7 +391,11 @@ export default {
       if(!localStorage.getItem('user') || localStorage.getItem('user').idUserType === 1){
         this.$router.push( {path: '/' })
       }
-    }
+    },
+    getMonth(date) {
+  var month = date.getMonth() + 1;
+  return month < 10 ? '0' + month : '' + month; // ('' + month) for string result
+}  
   },
 };
 </script>
@@ -399,11 +403,11 @@ export default {
 <style scoped>
 .graph-area {
   width: 33% !important;
-  height: 150px !important;
+  /*height: 150px !important;*/
   margin-right: auto;
   margin-left: auto;
   margin-top: 50px;
-  margin-bottom: 300px;
+  /*margin-bottom: 300px;*/
   padding: 2%;
 }
 .horizontal_display {

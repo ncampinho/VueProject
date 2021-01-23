@@ -167,7 +167,7 @@
 
         <v-card-text class="white--text">
           {{ new Date().getFullYear() }} —
-          <strong>Institute Polytechnic of Viana do Castelo</strong>
+          <strong>Polytechnic Institute of Viana do Castelo</strong>
         </v-card-text>
       </v-card>
     </v-footer>

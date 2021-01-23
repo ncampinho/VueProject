@@ -23,7 +23,7 @@
         <div class="graph-area">
           <h5>Sales by year</h5>
           <v-container class="horizontal_display">
-            <v-text-field type="number" v-model="yearComp1" label="Year" ></v-text-field>
+            <v-text-field type="number" v-model="yearComp1" label="Year" style="margin-right: 0.8rem;"></v-text-field>
             <v-text-field type="number" v-model="yearComp2" label="Year" ></v-text-field>
             <v-btn
               rounded
@@ -47,9 +47,9 @@ import LineChart from "../../components/Charts/LineChart.js";
 export default {
   components: { PieChart, LineChart },
   data: () => ({
-    year: "2021",
-    yearComp1: "2020",
-    yearComp2: "2021",
+    year: new Date().getFullYear(),
+    yearComp1: new Date().getFullYear() - 1,
+    yearComp2: new Date().getFullYear(),
     datacollection: null,
     datacollection_comp: null,
     loaded: false,
@@ -195,11 +195,11 @@ export default {
 <style scoped>
 .graph-area {
   width: 33% !important;
-  height: 150px !important;
+  /*height: 150px !important;*/
   margin-right: auto;
   margin-left: auto;
   margin-top: 50px;
-  margin-bottom: 500px;
+  /*margin-bottom: 300px;*/
   padding: 2%;
 }
 .horizontal_display {
