@@ -307,6 +307,19 @@ db.newPurchaseLineAll = (lineData) => {
                     if (err) {
                         return reject(err)
                     }
+                    pool.query(
+                      'UPDATE shows SET availableTickets=? where idShow=?',
+                      [
+                          item.availableTickets - item.quantity,
+                          item.idShow
+                      ],
+                      (err, results) => {
+                        if (err) {
+                          return reject(err)
+                        }
+                      }
+                    )
+
                 })
             });
             

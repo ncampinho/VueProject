@@ -47,12 +47,12 @@
                 active-class="red accent-4 white--text"
                 column
               >
-                <v-chip v-for="(hour, index) in show" :key="index">{{hour.item.showTime}}m</v-chip>
+                <v-chip v-for="(hour, index) in show" :key="index">{{hour.item.showTime}}</v-chip>
               </v-chip-group>
             </v-card-text>
 
             <v-card-actions >
-               <v-btn v-if="detectDate(show[0].item.limitPurchaseDate) > 0" color="red lighten-2" text @click="purchase(index)">Add To Cart</v-btn>
+               <v-btn v-if="detectDate(show[0].item.limitPurchaseDate) > 0 || show[0].item.availableTickets>0 " color="red lighten-2" text @click="purchase(show[0].item.idShow, index)">Add To Cart</v-btn>
                <v-spacer></v-spacer>
               <v-btn class="detail" color="red lighten-2" text :to="'/show/'+ show[0].item.idShow +'/show_info'">Details</v-btn>
             </v-card-actions>
@@ -137,11 +137,11 @@ export default {
       insertCart: "cart/fetchProducts",
     }),
     //Inserts ticket into a shopping cart
-    purchase(index) {
-      if (localStorage.getItem("user")) {
-        if(this.showItems[index][this.selection[index]]!=null){
+    purchase(id, index) {
+if (localStorage.getItem("user")) {
+        if(this.showItems[id][this.selection[index]]!=null){
         this.loading = true;
-        const selectedItem = this.showItems[index][this.selection[index]];
+        const selectedItem = this.showItems[id][this.selection[index]];
         const requestBody = {
           idShow: selectedItem.item.idShow,
           idUser: this.user[0].idUser,
@@ -176,6 +176,7 @@ export default {
         this.dialog = !this.dialog;
         setTimeout(() => (this.loading = false), 2000);
       }
+      
     },
     //Uses API to get all shows on the database
     getShows() {

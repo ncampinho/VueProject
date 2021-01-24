@@ -40,13 +40,13 @@
            }}'
          ></timer>
          </v-card-item>
-         <v-card-item v-if="status === 'running'">
+         <v-card-item v-if="status === 'running' || show[this.ID][0].item.availableTickets>0">
       <v-card-text class="mx-2">
         Availability
         </v-card-text>
         <v-card-text class="my-0">
         <v-chip-group v-model="selection[0]" active-class="red accent-4 white--text" column>
-          <v-chip v-for="(hour, index) in show[this.ID]" :key="index">{{ hour.item.showTime }}PM</v-chip>
+          <v-chip v-for="(hour, index) in show[this.ID]" :key="index">{{ hour.item.showTime }}</v-chip>
         </v-chip-group>
         <v-spacer></v-spacer>
         <v-card-actions>
@@ -107,6 +107,7 @@ export default {
         .catch((error) => console.log(error));
     },
     purchase() {
+      if(this.show[this.ID][this.selection[0]].availableTickets >= 1){
       if (localStorage.getItem("user")) {
         this.loading = true;
         const selectedItem = this.show[this.ID][this.selection[0]];
@@ -136,6 +137,14 @@ export default {
         this.loading = true;
         this.dialog = !this.dialog;
         setTimeout(() => (this.loading = false), 2000);
+      }
+      }else{
+        this.$fire({
+            title: "Cart",
+            text: "Tickets unavailable",
+            type: "error",
+            confirmButtonText: "Confirm",
+          });
       }
     },
     imageSource(index){

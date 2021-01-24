@@ -63,7 +63,7 @@
           </v-container>
         </template>
 
-        <v-btn style="margin: 1%" color="secundary" dark @click="changeScreen(2)"
+        <v-btn style="margin: 1%" color="secundary" dark @click="changeScreenCheckTickets(2)"
           >Go to Confirm Products</v-btn
         >
       </v-stepper-content>
@@ -189,7 +189,8 @@
               <v-form>
                 <v-card flat>
                   <v-card-item>
-                    <v-card-subtitle>
+                    <v-card-subtitle>Total: 
+                      {{ shoppingCartTotal }} €
                       <v-text-field
                         v-model="numb"
                         ref="numb"
@@ -225,6 +226,7 @@
                     <v-card-subtitle
                       >Entity: 13475
                       <p>Referency: {{ this.ref }}</p>
+                      <p>Total: {{ shoppingCartTotal }} €</p>
                     </v-card-subtitle>
                   </v-card-item>
                 </v-card>
@@ -409,8 +411,9 @@ export default {
             price: this.shoppingCart[index].price,
             quantity: parseInt(this.quantity[index]),
         }
-        this.shoppingCart[index].quantity = this.quantity[index];
-        this.shoppingCart[index].subtotal = this.quantity[index] * this.shoppingCart[index].price;
+        this.shoppingCart[index].quantity = parseInt(this.quantity[index]);
+        this.shoppingCart[index].subtotal = parseInt(this.quantity[index]) * this.shoppingCart[index].price;
+        this.shoppingCart[index].subtotal = parseFloat(this.shoppingCart[index].subtotal).toFixed(2)
         this.updateCart(this.shoppingCart);
         
         this.$axios.post('http://localhost:3000/api/tp2/user/purchase/update_purchase_templine', requestBody)
@@ -419,6 +422,28 @@ export default {
     },
     changeScreen(id){
       this.e1 = id;
+    },
+    changeScreenCheckTickets(id){
+      var message = "";
+      var active = false;
+      this.shoppingCart.map((element) => {
+        if(element.quantity > element.availableTickets){
+          message += element.showName + ", ";
+          active = true;
+        }
+        if(active){
+          this.$fire({
+            title: "Error Quantity",
+            text: "Unavailable quantity in: " + message + "please correct.",
+            type: "error",
+            confirmButtonText: "Confirm",
+          });
+        }else{
+          this.e1 = id;
+        }
+      })
+
+      
     },
     changeScreenVerified(id){
       if(this.emailValue==null){

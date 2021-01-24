@@ -32,7 +32,7 @@ export default {
             state.total = null
             state.totalProducts = null
             cartInfo.forEach(product => {
-                state.total += product.subtotal
+                state.total += parseFloat(product.subtotal)
                 state.totalProducts += product.quantity
             });
         }
