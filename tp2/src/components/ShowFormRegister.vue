@@ -340,8 +340,8 @@ export default {
         limitPurchaseDate: this.dateForPurchase,
         showDate: this.dateForShow,
         isSpotlight: this.getIdSpotlight(),
-        image: this.showData.imageLocationHorizontal.name.split(".")[0],
-        imageVert: this.showData.imageLocationVertical.name.split(".")[0],
+        image: this.showData.imageLocationHorizontal.name,
+        imageVert: this.showData.imageLocationVertical.name,
         showTime: this.typedHours,
       };
 

@@ -2,6 +2,7 @@ const pool = require('../../dbconnection');
 
 let db = {};
 
+//Returns all locations available
 db.allLocations = () => {
     return new Promise((resolve, reject) => {
        pool.query('Select * from location', (err, results) => {

@@ -3,6 +3,7 @@ const db = require('../../db/tables/Rating');
 
 const router = express.Router();
 
+//Endpoint that returns all rating available
 router.get('/ratings', async (rq, res, next) =>{
     try{
         let results = await db.allRatings();

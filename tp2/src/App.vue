@@ -303,9 +303,7 @@ export default {
         .catch((error) => console.log(error));
     },
     goToShow(model) {
-      console.log(model)
       var show = model.split(" - ")
-      console.log(show[0])
       
       this.$router.push({
         path: "/show/" + show[0] + "/show_info",

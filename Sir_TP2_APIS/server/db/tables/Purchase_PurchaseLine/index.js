@@ -290,7 +290,7 @@ db.newPurchaseAll = purchaseData => {
     )
   })
 }
-
+/**Creates a number of purchase lines equals to the one existing on the temporary table */
 db.newPurchaseLineAll = (lineData) => {
   return new Promise((resolve, reject) => {
     pool.query(
@@ -345,6 +345,7 @@ db.newPurchaseLineAll = (lineData) => {
 
 /** From this point foward all methods return data for charts-------------------------------- */
 db.countByYear = (year) => {
+  //Gets sales by year
   return new Promise((resolve, reject) => {
       
      pool.query('SELECT COUNT(*) as count, month(str_to_date(purchaseDate, "%Y-%m-%d")) as date from sir_tp2.purchase where year(str_to_date(purchaseDate, "%Y-%m-%d")) = ? group by date ;  ',
@@ -359,6 +360,7 @@ db.countByYear = (year) => {
 };
 
 db.countByYearMonth = (year, month) => {
+  //Get sales by month from a certain year
   return new Promise((resolve, reject) => {
       
      pool.query('SELECT COUNT(*) as count, day(str_to_date(purchaseDate, "%Y-%m-%d")) as date from sir_tp2.purchase where year(str_to_date(purchaseDate, "%Y-%m-%d")) = ? AND month(str_to_date(purchaseDate, "%Y-%m-%d")) = ? group by date ; ',
@@ -372,8 +374,8 @@ db.countByYearMonth = (year, month) => {
   })
 };
 db.countBetweenMonths = (year1, year2, month1, month2) => {
+  //Gets sales between months of certain years
   return new Promise((resolve, reject) => {
-      console.log(year1, year2, month1, month2)
      pool.query('SELECT COUNT(*) as count, year(str_to_date(purchaseDate, "%Y-%m-%d")) as year, month(str_to_date(purchaseDate, "%Y-%m-%d")) as month, day(str_to_date(purchaseDate, "%Y-%m-%d")) as day from sir_tp2.purchase where year(str_to_date(purchaseDate, "%Y-%m-%d")) BETWEEN ? AND ? AND month(str_to_date(purchaseDate, "%Y-%m-%d")) BETWEEN ? AND ? group by year,month,day;',
      [year1, year2, month1, month2], 
       (err, results) => {
@@ -386,6 +388,7 @@ db.countBetweenMonths = (year1, year2, month1, month2) => {
 };
 
 db.countByTypeYear = (year) => {
+  //Gets sales by type for a year
   return new Promise((resolve, reject) => {
       
      pool.query('SELECT showtype.type, SUM(purchaseLine.quantity) as count FROM sir_tp2.purchase, purchaseLine, shows, showtype WHERE purchase.idPurchase = purchaseLine.idPurchase AND purchaseLine.idShow = shows.idShow AND shows.idShowType = showtype.idShowType AND year(str_to_date(purchase.purchaseDate, "%Y-%m-%d")) = ? group by showtype.type; ',
@@ -399,7 +402,7 @@ db.countByTypeYear = (year) => {
   })
 };
 db.countByTypeCompare = (year1, year2) => {
-
+  //Compares sales from types between two years
   return new Promise((resolve, reject) => {
       
      pool.query('SELECT showtype.type, year(str_to_date(purchase.purchaseDate, "%Y-%m-%d")) as year,SUM(purchaseLine.quantity) as count FROM sir_tp2.purchase, purchaseLine, shows, showtype WHERE purchase.idPurchase = purchaseLine.idPurchase AND purchaseLine.idShow = shows.idShow AND shows.idShowType = showtype.idShowType AND year(str_to_date(purchase.purchaseDate, "%Y-%m-%d")) BETWEEN ? AND ? group by showtype.type, year;',

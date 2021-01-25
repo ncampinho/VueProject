@@ -55,7 +55,7 @@ export default {
     loaded: false,
     chart_labels: [],
     chart_data: [],
-    chart_labels_comp: ['Sport', 'Music and Festivals', 'Cinema and Arts'],
+    chart_labels_comp: ['Cinema and Arts', 'Sports', 'Music and Festivals'],
     chart_data_comp: [],
     charts_background: [
       "rgba(255,0,0,0.5)",
@@ -154,7 +154,6 @@ export default {
               var auxDatasetItem
               
               response.data.forEach((element) => {
-                console.log(element.year, i)
                 if(element.year === i){
                   auxData.push(element.count)
                 }

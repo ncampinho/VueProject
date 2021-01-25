@@ -44,7 +44,7 @@
             </v-card-text>
 
             <v-card-actions >
-               <v-btn v-if="detectDate(show[0].item.limitPurchaseDate) > 0 || show[0].item.availableTickets<=0 " color="red lighten-2" text @click="purchase(show[0].item.idShow,index)">Add To Cart</v-btn>
+               <v-btn v-if="detectDate(show[0].item.limitPurchaseDate) > 0 && show[0].item.availableTickets > 0 " color="red lighten-2" text @click="purchase(show[0].item.idShow,index)">Add To Cart</v-btn>
                <v-spacer></v-spacer>
               <v-btn class="detail" color="red lighten-2" text :to="'/show/'+ show[0].item.idShow +'/show_info'">Details</v-btn>
             </v-card-actions>
@@ -170,7 +170,7 @@ export default {
         .catch((error) => console.log(error));
     },
     imageSource(index){
-      return require("../../public/images/" + this.showItems[index][0].item.image + ".png")
+      return require("../../public/images/" + this.showItems[index][0].item.image)
     },
     detectDate(showLimitDate){
       var now = new Date().getTime();

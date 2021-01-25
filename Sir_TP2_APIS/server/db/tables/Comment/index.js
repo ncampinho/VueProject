@@ -7,6 +7,7 @@ const pool = require('../../dbconnection')
 
 let db = {}
 
+//Return all comments for a certain show
 db.allComments = id => {
   return new Promise((resolve, reject) => {
     pool.query(
@@ -22,6 +23,7 @@ db.allComments = id => {
   })
 }
 
+//Create a new comment for a show
 db.newComment = (commentData) => {
   return new Promise((resolve, reject) => {
     pool.query(

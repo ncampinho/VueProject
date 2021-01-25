@@ -148,7 +148,7 @@ export default {
       }
     },
     imageSource(index){
-      return require("../../public/images/" + this.show[this.ID][0].item.imageVert + ".png")
+      return require("../../public/images/" + this.show[this.ID][0].item.imageVert)
     },
     active (value) {
       this.status = value;

@@ -3,6 +3,7 @@ const db = require('../../db/tables/Location');
 
 const router = express.Router();
 
+//Endpoint that returns all locations
 router.get('/locations', async (rq, res, next) =>{
     try{
         let results = await db.allLocations();

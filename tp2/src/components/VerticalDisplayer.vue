@@ -52,7 +52,7 @@
             </v-card-text>
 
             <v-card-actions >
-               <v-btn v-if="detectDate(show[0].item.limitPurchaseDate) > 0 || show[0].item.availableTickets>0 " color="red lighten-2" text @click="purchase(show[0].item.idShow, index)">Add To Cart</v-btn>
+               <v-btn v-if="detectDate(show[0].item.limitPurchaseDate) > 0 && show[0].item.availableTickets>0 " color="red lighten-2" text @click="purchase(show[0].item.idShow, index)">Add To Cart</v-btn>
                <v-spacer></v-spacer>
               <v-btn class="detail" color="red lighten-2" text :to="'/show/'+ show[0].item.idShow +'/show_info'">Details</v-btn>
             </v-card-actions>
@@ -192,8 +192,7 @@ if (localStorage.getItem("user")) {
     },
     imageSource(index) {
       return require("../../public/images/" +
-        this.visibleShows[index][0].item.image +
-        ".png");
+        this.visibleShows[index][0].item.image);
     },
     detectDate(showLimitDate){
       var now = new Date().getTime();
@@ -201,11 +200,13 @@ if (localStorage.getItem("user")) {
       finalTime = showLimitDate.split('-')
       finalTime[1] = finalTime[1] - 1;
       var limitDate = new Date(finalTime[0], finalTime[1], finalTime[2], '23', '59', '59', '59').getTime() 
+      console.log(limitDate)
+      console.log(now)
       var tester = limitDate - now;
+      console.log(tester)
       return tester;
     },
     updatePage(pageNumber){
-      console.log(pageNumber + "here")
       this.currentPage = pageNumber-1;
       this.updateVisibleShows()
     },

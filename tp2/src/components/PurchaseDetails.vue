@@ -74,7 +74,7 @@ export default {
       this.$emit("input", !this.value);
     },
     imageSource(index) {
-      return require("../../public/images/" + this.LINES[index].image + ".png");
+      return require("../../public/images/" + this.LINES[index].image);
     },
     detailsShow(index) {
       this.$router.push({

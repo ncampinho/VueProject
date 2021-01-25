@@ -127,8 +127,7 @@ export default {
     },
     imageSource(index) {
       return require("../../public/images/" +
-        this.shoppingCart[index].image +
-        ".png");
+        this.shoppingCart[index].image);
     },
   },
 };
