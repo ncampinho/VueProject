@@ -67,12 +67,20 @@ export default {
           var temp = Object.values(data.data);
           this.purchases = temp.map((element) => {
             var temp = element;
+            var date = null;
+            var hour = null;
 
             if (temp.paymentMethod === 1) {
               temp.paymentMethod = "MBWay";
             } else {
               temp.paymentMethod = "Bank Reference";
             }
+
+            date = (temp.purchaseDate).split("T")[0];
+            hour = ((temp.purchaseDate).split("T")[1]).split(".")[0];
+
+            temp.purchaseDate = date + " | " + hour;
+
             return temp;
           });
           console.log(this.purchases);
