@@ -122,7 +122,7 @@
       <v-stepper-content step="3">
         <v-item-group v-model="emailValue">
           <v-container>
-            <v-row>
+            <v-row style="justify-content: center;">
               <v-item :key="1" v-slot="{ active, toggle }">
                 <v-card
                   :color="active ? 'red' : ''"

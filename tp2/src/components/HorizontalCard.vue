@@ -22,7 +22,8 @@
         <v-card-text class="my-0 mx-2 ">{{show[this.ID][0].item.showDescription}}</v-card-text>
         <v-divider ></v-divider>
         <br>
-        <timer 
+        <timer style="width: 300px;
+    margin: auto;"
           @changed="active"
          :endtime="show[this.ID][0].item.limitPurchaseDate"
          trans='{  
@@ -107,7 +108,7 @@ export default {
         .catch((error) => console.log(error));
     },
     purchase() {
-      if(this.show[this.ID][this.selection[0]].availableTickets >= 1){
+      if(this.show[this.ID][this.selection[0]].item.availableTickets >= 1){
       if (localStorage.getItem("user")) {
         this.loading = true;
         const selectedItem = this.show[this.ID][this.selection[0]];
@@ -203,4 +204,5 @@ export default {
 .v-application--is-ltr .v-card__actions > .v-btn.v-btn + .v-btn {
   margin-left: auto;
 }
+
 </style>
