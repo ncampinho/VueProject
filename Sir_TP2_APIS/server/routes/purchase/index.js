@@ -151,9 +151,9 @@ router.get('/purchase/count/byYearMonth/:year,:month', async (rq, res, next) =>{
         res.sendStatus(500);
     }
   });
-router.get('/purchase/count/byBetweenMonths/:years1,:years2,:months1,:months2', async (rq, res, next) =>{
+router.get('/purchase/count/byBetweenMonths/:years1,:years2', async (rq, res, next) =>{
     try{
-        let results = await db.countBetweenMonths(rq.params.years1, rq.params.years2, rq.params.months1, rq.params.months2);
+        let results = await db.countBetweenMonths(rq.params.years1, rq.params.years2);
         res.json(results);
     } catch(e){
         console.log(e);
@@ -173,6 +173,15 @@ router.get('/purchase/count/byBetweenMonths/:years1,:years2,:months1,:months2', 
   router.get('/purchase/count/byTypeCompare/:year1,:year2', async (rq, res, next) =>{
     try{
         let results = await db.countByTypeCompare(rq.params.year1, rq.params.year2);
+        res.json(results);
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+  });
+  router.get('/purchase/count/earns_yearly/:year1,:year2', async (rq, res, next) =>{
+    try{
+        let results = await db.countEarnsYearly(rq.params.year1, rq.params.year2);
         res.json(results);
     } catch(e){
         console.log(e);

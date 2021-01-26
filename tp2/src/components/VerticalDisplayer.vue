@@ -213,6 +213,7 @@ if (localStorage.getItem("user")) {
     updateVisibleShows(){
       var tempArray = []
       tempArray = Object.values(JSON.parse(JSON.stringify(this.showItems)))
+      tempArray = tempArray.reverse()
       this.numberPages = Math.ceil(tempArray.length / this.pageSize);
       this.visibleShows = tempArray.slice(this.currentPage * this.pageSize, (this.currentPage * this.pageSize) + this.pageSize);
       //In case there are no more items left to page
@@ -229,6 +230,18 @@ if (localStorage.getItem("user")) {
   max-width: 350px;
   float: left;
   margin: 0px 4.21rem 2rem 0px;
+}
+
+.v-card__title {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.0125em;
+    line-height: 2rem;
+    height: 85px;
+    word-break: normal;
 }
 
 .v-application--is-ltr .v-card__actions > .v-btn.v-btn + .v-btn {

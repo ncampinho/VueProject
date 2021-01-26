@@ -373,11 +373,11 @@ db.countByYearMonth = (year, month) => {
      }) 
   })
 };
-db.countBetweenMonths = (year1, year2, month1, month2) => {
+db.countBetweenMonths = (year1, year2) => {
   //Gets sales between months of certain years
   return new Promise((resolve, reject) => {
-     pool.query('SELECT COUNT(*) as count, year(str_to_date(purchaseDate, "%Y-%m-%d")) as year, month(str_to_date(purchaseDate, "%Y-%m-%d")) as month, day(str_to_date(purchaseDate, "%Y-%m-%d")) as day from sir_tp2.purchase where year(str_to_date(purchaseDate, "%Y-%m-%d")) BETWEEN ? AND ? AND month(str_to_date(purchaseDate, "%Y-%m-%d")) BETWEEN ? AND ? group by year,month,day;',
-     [year1, year2, month1, month2], 
+     pool.query('SELECT COUNT(*) as count, year(str_to_date(purchaseDate, "%Y-%m-%d")) as year, month(str_to_date(purchaseDate, "%Y-%m-%d")) as month from sir_tp2.purchase where year(str_to_date(purchaseDate, "%Y-%m-%d")) BETWEEN ? AND ? group by year,month;',
+     [year1, year2], 
       (err, results) => {
          if(err){
              return reject(err);
@@ -406,6 +406,20 @@ db.countByTypeCompare = (year1, year2) => {
   return new Promise((resolve, reject) => {
       
      pool.query('SELECT showtype.type, year(str_to_date(purchase.purchaseDate, "%Y-%m-%d")) as year,SUM(purchaseLine.quantity) as count FROM sir_tp2.purchase, purchaseLine, shows, showtype WHERE purchase.idPurchase = purchaseLine.idPurchase AND purchaseLine.idShow = shows.idShow AND shows.idShowType = showtype.idShowType AND year(str_to_date(purchase.purchaseDate, "%Y-%m-%d")) BETWEEN ? AND ? group by showtype.type, year;',
+     [year1, year2], 
+      (err, results) => {
+         if(err){
+             return reject(err);
+         }
+         return resolve(results);
+     }) 
+  })
+};
+db.countEarnsYearly = (year1, year2) => {
+  //Compares sales from types between two years
+  return new Promise((resolve, reject) => {
+      
+     pool.query('SELECT SUM(purchase.totalPayed) as total, year(str_to_date(purchaseDate, "%Y-%m-%d")) as year, month(str_to_date(purchaseDate, "%Y-%m-%d")) as month from sir_tp2.purchase where year(str_to_date(purchaseDate, "%Y-%m-%d")) BETWEEN ? AND ? group by year,month;',
      [year1, year2], 
       (err, results) => {
          if(err){

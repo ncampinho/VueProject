@@ -7,7 +7,7 @@
         <div class="graph-area">
           <h5>Sales by year</h5>
           <v-container class="horizontal_display">
-            <v-text-field type="number" v-model="year" label="Year" ></v-text-field>
+            <v-text-field type="number" v-model="year" label="Year"></v-text-field>
             <v-btn rounded color="red" dark @click="submitYear()" style="margin-bottom: 1%">Submit</v-btn>
           </v-container>
 
@@ -16,7 +16,7 @@
         <div class="graph-area">
           <h5>Sales by month</h5>
           <v-container class="horizontal_display">
-             <v-menu
+            <v-menu
               v-model="showMonth"
               :close-on-content-click="false"
               :nudge-right="40"
@@ -24,19 +24,17 @@
               offset-y
               min-width="auto"
             >
-            <template v-slot:activator="{ on, attrs }">
-            <v-text-field v-model="year_month" v-bind="attrs"
-                  v-on="on" label="Month" readonly ></v-text-field>
-                  </template>
-            <v-date-picker
-              v-model="year_month"
-              type="month"
-              color="red"
-              @input="showMonth=!showMonth"
-            ></v-date-picker>
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field v-model="year_month" v-bind="attrs" v-on="on" label="Month" readonly></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="year_month"
+                type="month"
+                color="red"
+                @input="showMonth=!showMonth"
+              ></v-date-picker>
             </v-menu>
-            
-            
+
             <v-btn
               rounded
               color="red"
@@ -52,47 +50,13 @@
         <div class="graph-area">
           <h5>Between months</h5>
           <v-container class="horizontal_display">
-
-            <v-menu
-              v-model="showMonthv1"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-            <template v-slot:activator="{ on, attrs }">
-            <v-text-field v-model="betweenMonthPrev" v-bind="attrs"
-                  v-on="on" label="Inicial Month" readonly style="margin-right: 0.8rem;" ></v-text-field>
-                  </template>
-            <v-date-picker
-              v-model="betweenMonthPrev"
-              type="month"
-              color="red"
-              @input="showMonthv1=!showMonthv1"
-            ></v-date-picker>
-            </v-menu>
-
-            <v-menu
-              v-model="showMonthv2"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-            <template v-slot:activator="{ on, attrs }">
-            <v-text-field v-model="betweenMonthAfter" v-bind="attrs"
-                  v-on="on" label="End Month" readonly ></v-text-field>
-                  </template>
-            <v-date-picker
-              v-model="betweenMonthAfter"
-              type="month"
-              color="red"
-              @input="showMonthv2=!showMonthv2"
-            ></v-date-picker>
-            </v-menu>
-
+            <v-text-field type="number" v-model="yearBetween1" label="Year"></v-text-field>
+            <v-text-field
+              style="margin-left: 0.8rem;"
+              type="number"
+              v-model="yearBetween2"
+              label="Year"
+            ></v-text-field>
             <v-btn
               rounded
               color="red"
@@ -104,39 +68,25 @@
           <line-chart :chart-data="datacollection_between_m" />
         </div>
         <div class="graph-area">
+          <h5>Sales (€) between years</h5>
           <v-container class="horizontal_display">
-
-              <v-menu
-              v-model="showDay"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-            <template v-slot:activator="{ on, attrs }">
-            <v-text-field v-model="year_month_day" v-bind="attrs"
-                  v-on="on" label="Year of results" readonly ></v-text-field>
-                  </template>
-            <v-date-picker
-              v-model="year_month_day"
-              color="red"
-              @input="showDay=!showDay"
-            ></v-date-picker>
-            </v-menu>
-
-
-
+            <v-text-field type="number" v-model="yearPrice1" label="Year"></v-text-field>
+            <v-text-field
+              style="margin-left: 0.8rem;"
+              type="number"
+              v-model="yearPrice2"
+              label="Year"
+            ></v-text-field>
             <v-btn
               rounded
               color="red"
               dark
-              @click="submitYearMonthDay()"
+              @click="submitYearPrice()"
               style="margin-bottom: 1%"
             >Submit</v-btn>
           </v-container>
 
-          <bar-chart :chart-data="datacollection" />
+          <line-chart :chart-data="datacollection_earns" />
         </div>
       </v-col>
     </v-row>
@@ -150,16 +100,18 @@ export default {
   components: { BarChart, LineChart },
   data() {
     return {
-      showDay:false,
-      showMonth:false,
-      showMonthv1:false,
-      showMonthv2:false,
+      showDay: false,
+      showMonth: false,
+      showMonthv1: false,
+      showMonthv2: false,
       year: new Date().getFullYear(),
       year_month: new Date().getFullYear() + "-" + this.getMonth(new Date()),
-      year_month_day: "2021-01-16",
+      yearPrice1: new Date().getFullYear() - 1,
+      yearPrice2: new Date().getFullYear(),
       datacollection: null,
       datacollection_ym: null,
       datacollection_between_m: null,
+      datacollection_earns: null,
       loaded: false,
       chart_labels: [],
       chart_data: [],
@@ -167,18 +119,46 @@ export default {
       chart_data_ym: [],
       chart_data_between_m: [],
       chart_labels_between_m: [],
-      betweenMonthPrev: new Date().getFullYear() - 1 + "-" + this.getMonth(new Date()),
-      betweenMonthAfter: new Date().getFullYear() + "-" + this.getMonth(new Date()),
+      chart_labels_earns: [],
+      yearBetween1: new Date().getFullYear() - 1,
+      yearBetween2: new Date().getFullYear(),
       color: ["red", "blue"],
-      charts_background: ["rgba(255,0,0,0.2)", "rgba(0,255,0,0.2)", "rgba(0,0,255,0.2)", "rgba(255,255,0,0.2)"],
-      charts_line_color: ["rgba(255,0,0,1)", "rgba(0,255,0,1)", "rgba(0,0,255,1)", "rgba(255,255,0,1)"]
+      charts_background: [
+        "rgba(255,0,0,0.2)",
+        "rgba(0,255,0,0.2)",
+        "rgba(0,0,255,0.2)",
+        "rgba(255,255,0,0.2)",
+        "rgba(255,0,0,0.2)",
+        "rgba(0,255,0,0.2)",
+        "rgba(0,0,255,0.2)",
+        "rgba(255,255,0,0.2)",
+        "rgba(255,0,0,0.2)",
+        "rgba(0,255,0,0.2)",
+        "rgba(0,0,255,0.2)",
+        "rgba(255,255,0,0.2)",
+      ],
+      charts_line_color: [
+        "rgba(255,0,0,1)",
+        "rgba(0,255,0,1)",
+        "rgba(0,0,255,1)",
+        "rgba(255,255,0,1)",
+        "rgba(255,0,0,1)",
+        "rgba(0,255,0,1)",
+        "rgba(0,0,255,1)",
+        "rgba(255,255,0,1)",
+        "rgba(255,0,0,1)",
+        "rgba(0,255,0,1)",
+        "rgba(0,0,255,1)",
+        "rgba(255,255,0,1)",
+      ],
     };
   },
   mounted() {
     this.checkValidAccess();
     this.submitYear();
     this.submitYearMonth();
-    this.submitBetweenMonth()
+    this.submitBetweenMonth();
+    this.submitYearPrice();
   },
   methods: {
     /**Data for yearly bar chart */
@@ -261,7 +241,7 @@ export default {
             });
 
             this.datacollection_ym = {
-              labels: this.chart_labels_ym,
+              labels: this.chart_labels_ym.reverse(),
               datasets: [
                 {
                   label: "Monthly purchases",
@@ -283,22 +263,18 @@ export default {
     /**------------------------------------------- */
     /** Fetch data to compare between months*/
     submitBetweenMonth() {
-      var insertedDatePrev = this.betweenMonthPrev.split("-");
-      var insertedDateAfter = this.betweenMonthAfter.split("-");
-
-      var array_of_years = [insertedDatePrev[0], insertedDateAfter[0]];
-      var array_of_months = [insertedDatePrev[1], insertedDateAfter[1]];
+      var array_of_years = [this.yearBetween1, this.yearBetween2];
 
       (this.chart_data_between_m = []), (this.chart_labels_between_m = []);
-      this.fetchDataBetweenMonth(array_of_years, array_of_months);
+      this.fetchDataBetweenMonth(array_of_years);
     },
-    fetchDataBetweenMonth(array_of_years, array_of_months) {
+    fetchDataBetweenMonth(array_of_years) {
       this.$axios
         .get(
-          `http://localhost:3000/api/tp2/purchase/count/byBetweenMonths/${array_of_years[0]},${array_of_years[1]},${array_of_months[0]},${array_of_months[1]}`
+          `http://localhost:3000/api/tp2/purchase/count/byBetweenMonths/${array_of_years[0]},${array_of_years[1]}`
         )
         .then((response) => {
-          var j = 0
+          var j = 0;
           if (response.data.length === 0) {
             this.datacollection_between_m = {
               labels: [],
@@ -310,30 +286,46 @@ export default {
               ],
             };
           } else {
-            this.chart_labels_between_m = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Oct', 'Nov', 'Dec']
-            var auxDataset = []
+            this.chart_labels_between_m = [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Oct",
+              "Nov",
+              "Dec",
+            ];
+            var auxDataset = [];
 
-            for(var i = parseInt(array_of_years[1]); i>= parseInt(array_of_years[0]); i--){
-              var auxData = []
-              var auxDatasetItem
-              
+            for (
+              var i = parseInt(array_of_years[1]);
+              i >= parseInt(array_of_years[0]);
+              i--
+            ) {
+              var auxData = [];
+              var auxDatasetItem;
+
               response.data.forEach((element) => {
-                console.log(element.year, i)
-                if(element.year === i){
-                  auxData.push(element.count)
+                console.log(element.year, i);
+                if (element.year === i) {
+                  auxData.push(element.count);
                 }
-              })
-              auxDatasetItem = {
-                  label: "Purchases of: " + i,
-                  backgroundColor: "rgba(255,255,255,0)",
-                  borderColor: this.charts_line_color[j],
-                  pointBackgroundColor: this.charts_background[j],
-                  borderWidth: 1,
-                  pointBorderColor: this.charts_background[j],
-                  data: auxData,
-                },
-              auxDataset.push(auxDatasetItem)
-              j = j + 1
+              });
+              (auxDatasetItem = {
+                label: "Purchases of: " + i,
+                backgroundColor: "rgba(255,255,255,0)",
+                borderColor: this.charts_line_color[j],
+                pointBackgroundColor: this.charts_background[j],
+                borderWidth: 1,
+                pointBorderColor: this.charts_background[j],
+                data: auxData,
+              }),
+                auxDataset.push(auxDatasetItem);
+              j = j + 1;
             }
 
             this.datacollection_between_m = {
@@ -347,6 +339,78 @@ export default {
         .catch((error) => console.log(error));
     },
     /**-------------------------------------------- */
+    /** Fetch data to compare between months*/
+    submitYearPrice() {
+      this.fetchMoneyEarnedYear(this.yearPrice1, this.yearPrice2);
+    },
+    fetchMoneyEarnedYear(yearprice1, yearprice2) {
+      console.log(yearprice1, yearprice2);
+      this.$axios
+        .get(
+          `http://localhost:3000/api/tp2/purchase/count/earns_yearly/${yearprice1}, ${yearprice2}`
+        )
+        .then((response) => {
+          var j = 0;
+          if (response.data.length === 0) {
+            this.datacollection_earns = {
+              labels: [],
+              datasets: [
+                {
+                  label: "No data",
+                  data: [],
+                },
+              ],
+            };
+          } else {
+            this.chart_labels_earns = [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Oct",
+              "Nov",
+              "Dec",
+            ];
+            var auxDataset = [];
+
+            for (var i = parseInt(yearprice1); i <= parseInt(yearprice2); i++) {
+              console.log("here");
+              var auxData = [];
+              var auxDatasetItem;
+
+              response.data.forEach((element) => {
+                if (element.year === i) {
+                  auxData.push(parseFloat(element.total).toFixed(2));
+                }
+              });
+                (auxDatasetItem = {
+                  label: "Purchases of: " + i,
+                  backgroundColor: "rgba(255,255,255,0)",
+                  borderColor: this.charts_line_color[j],
+                  pointBackgroundColor: this.charts_background[j],
+                  borderWidth: 1,
+                  pointBorderColor: this.charts_background[j],
+                  data: auxData,
+                })
+              
+                auxDataset.push(auxDatasetItem);
+              j = j + 1;
+            }
+
+            this.datacollection_earns = {
+              labels: this.chart_labels_earns,
+              datasets: auxDataset,
+            };
+          }
+
+          this.loaded = true;
+        })
+        .catch((error) => console.log(error));
+    },
     changeLabelsToMonth(month) {
       switch (month) {
         case 1:
@@ -387,15 +451,18 @@ export default {
           break;
       }
     },
-    checkValidAccess(){
-      if(!localStorage.getItem('user') || localStorage.getItem('user').idUserType === 1){
-        this.$router.push( {path: '/' })
+    checkValidAccess() {
+      if (
+        !localStorage.getItem("user") ||
+        localStorage.getItem("user").idUserType === 1
+      ) {
+        this.$router.push({ path: "/" });
       }
     },
     getMonth(date) {
-  var month = date.getMonth() + 1;
-  return month < 10 ? '0' + month : '' + month; // ('' + month) for string result
-}  
+      var month = date.getMonth() + 1;
+      return month < 10 ? "0" + month : "" + month; // ('' + month) for string result
+    },
   },
 };
 </script>

@@ -105,6 +105,7 @@
                       <v-text-field
                         v-model="editedShow.showTime"
                         label="Time of the show"
+                        prepend-icon="mdi-clock-time-five-outline"
                         v-bind="attrs"
                         v-on="on"
                         style="margin-top: 3%"

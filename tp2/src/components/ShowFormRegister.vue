@@ -143,9 +143,10 @@
             <v-text-field
               v-model="showData.showTime"
               label="Time of the show"
+              prepend-icon="mdi-clock-time-five-outline"
               v-bind="attrs"
               v-on="on"
-                            style="max-width: 10rem;"
+              style="max-width: 10rem;"
 
             ></v-text-field>
             </template>
@@ -363,7 +364,7 @@ export default {
       this.typedHours.push(this.showData.showTime)
     },
     popHour(index){
-      this.typedHours.pop(index)
+      this.typedHours.splice(index, 1)
     }
   },
 };

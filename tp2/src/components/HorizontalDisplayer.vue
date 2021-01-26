@@ -196,6 +196,18 @@ export default {
   margin: 0px 10px 10px 0px;
 }
 
+.v-card__title {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.0125em;
+    line-height: 2rem;
+    height: 85px;
+    word-break: normal;
+}
+
 .v-card:first-child{
   margin-left: 10px;
 }
