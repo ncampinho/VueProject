@@ -22,7 +22,7 @@
 
                 <v-list-item-content>
                   <v-list-item-title>Show: {{ line.showName }}</v-list-item-title>
-                  <v-list-item-title>Date: {{ line.date }}</v-list-item-title>
+                  <v-list-item-title>Date: {{ line.date }} Time: {{line.showTime}}</v-list-item-title>
                   <v-list-item-title>Price: {{ line.price }} €</v-list-item-title>
                 </v-list-item-content>
 
@@ -74,7 +74,7 @@
 
                 <v-list-item-content>
                   <v-list-item-title>Show: {{ line.showName }}</v-list-item-title>
-                  <v-list-item-title>Date: {{ line.date }}</v-list-item-title>
+                  <v-list-item-title>Date: {{ line.date }} Time: {{line.showTime}}</v-list-item-title>
                 </v-list-item-content>
 
                 <v-list-tile>
@@ -213,7 +213,7 @@
                   <v-card-item>
                     <v-card-subtitle>
                       Entity: 13475
-                      <p>Referency: {{ this.ref }}</p>
+                      <p>Reference: {{ this.ref }}</p>
                       <p>Total: {{ shoppingCartTotal }} €</p>
                     </v-card-subtitle>
                   </v-card-item>
