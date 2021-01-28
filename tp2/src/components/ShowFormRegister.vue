@@ -378,7 +378,8 @@ export default {
           this.$refs["form"].reset();
           this.text = "Show inserted with success"
           this.snackbar=true;
-          setTimeout(this.$router.push({ path: "/admin" }),1000);
+          this.e6 = 1;
+          this.typedHours = [];
         })
         .catch((error) => {
           console.log(error)

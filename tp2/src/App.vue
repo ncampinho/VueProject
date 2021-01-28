@@ -280,10 +280,9 @@ export default {
           type: "success",
           confirmButtonText: "Confirm",
           color: "red",
-        });
-        this.$router.push({ path: "/" });
-        
+        });      
       }
+      this.$router.push({ path: "/" });
     },
     changeDialog() {
       this.dialog = !this.dialog;

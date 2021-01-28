@@ -45,7 +45,7 @@ db.newComment = (commentData) => {
             if (err) {
               return reject(err)
             }
-            pool.query('Update shows set ratingValue=? where idShow=?',
+            pool.query('Update shows set valueRating=? where idShow=?',
                     [results[0].media, commentData.idShow],
                     (err, results) => {
                         if (err) {

@@ -9,8 +9,8 @@
           <div>{{show[this.ID][0].item.type}} - {{show[this.ID][0].item.rating}}</div>
         </v-card-title>
         <v-row align="left" class="mx-3">
-          <v-rating :value="show[this.ID][0].item.ratingValue" color="amber" dense half-increments readonly size="14"></v-rating>
-            <div class="grey--text ml-4">{{show[this.ID][0].item.ratingValue}}</div>
+          <v-rating :value="show[this.ID][0].item.valueRating" color="amber" dense half-increments readonly size="14"></v-rating>
+            <div class="grey--text ml-4">{{show[this.ID][0].item.valueRating}}</div>
         </v-row>
 
         <v-card-text>

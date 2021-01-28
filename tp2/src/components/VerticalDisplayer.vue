@@ -16,7 +16,7 @@
             <v-card-text>
               <v-row align="center" class="mx-0">
                 <v-rating
-                  :value="show[0].item.ratingValue"
+                  :value="show[0].item.valueRating"
                   color="amber"
                   dense
                   half-increments
@@ -25,7 +25,7 @@
                 ></v-rating>
                 <!--VER RATING-->
 
-                <div class="grey--text ml-6">{{show[0].item.ratingValue}}</div>
+                <div class="grey--text ml-6">{{show[0].item.valueRating}}</div>
               </v-row>
 
               <div align="left" class="my-4">Price: {{show[0].item.price}} €</div>

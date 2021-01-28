@@ -170,7 +170,7 @@ export default {
       this.dialog = !this.dialog;
     },
     imageSource(index){
-      return require("../../public/personImages/" + index + ".png")
+      return require("../../public/personImages/" + index)
     },
   },
   created() {
