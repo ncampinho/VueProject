@@ -159,7 +159,7 @@ db.newPurchase = purchaseData => {
         }
         if (results.length === 0) {
           pool.query(
-            'INSERT INTO purchase(purchaseDate, purchaseState, Payed, idUser) VALUES(CURDATE(),1,0,?)',
+            'INSERT INTO purchase(purchaseDate, purchaseState, Payed, idUser) VALUES(CURTIME(),1,0,?)',
             [purchaseData.idUser],
             (err, results) => {
               if (err) {

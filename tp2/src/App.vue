@@ -262,8 +262,6 @@ export default {
     }),
     submit() {
       if (this.user[0].idUserType === 1) {
-        this.logout(null);
-        this.clearCart(null);
         this.$fire({
           title: "Logout",
           text: "Logout sucess",
@@ -271,10 +269,11 @@ export default {
           confirmButtonText: "Confirm",
           color: "red",
         });
+        this.logout(null);
+        this.clearCart(null);
       } else {
         this.logout(null);
         this.drawer = false;
-        this.$router.push({ path: "/" });
         this.$fire({
           title: "Logout",
           text: "Logout sucess",
@@ -282,6 +281,8 @@ export default {
           confirmButtonText: "Confirm",
           color: "red",
         });
+        this.$router.push({ path: "/" });
+        
       }
     },
     changeDialog() {

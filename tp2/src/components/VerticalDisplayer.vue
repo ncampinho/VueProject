@@ -9,7 +9,7 @@
               <v-progress-linear color="red" height="10" indeterminate></v-progress-linear>
             </template>
 
-            <v-img contain max-height="200" :src="imageSource(index)"></v-img>
+            <v-img max-height="200" :src="imageSource(index)"></v-img>
 
             <v-card-title>{{show[0].item.showName}}</v-card-title>
 
@@ -60,6 +60,13 @@
         </v-col>
       </template>
     </v-row>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      bottom
+      right
+    >Product added to cart</v-snackbar>
+
     <login v-model="dialog"></login>
     <v-pagination
     style="margin-top: 3%;"
@@ -110,6 +117,8 @@ export default {
     ],
     loading: false,
     selection: [],
+    snackbar: false,
+      timeout: 2000,
   }),
   beforeMount() {
     this.getShows();
@@ -158,6 +167,7 @@ if (localStorage.getItem("user")) {
           .then((data) => {
             if (data.statusText === "OK") {
               this.insertCart(this.user[0].idUser);
+              this.snackbar=true;
             }
           })
           .catch((error) => console.log(error));
@@ -200,10 +210,10 @@ if (localStorage.getItem("user")) {
       finalTime = showLimitDate.split('-')
       finalTime[1] = finalTime[1] - 1;
       var limitDate = new Date(finalTime[0], finalTime[1], finalTime[2], '23', '59', '59', '59').getTime() 
-      console.log(limitDate)
-      console.log(now)
+      //console.log(limitDate)
+      //console.log(now)
       var tester = limitDate - now;
-      console.log(tester)
+      //console.log(tester)
       return tester;
     },
     updatePage(pageNumber){

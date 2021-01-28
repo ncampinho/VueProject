@@ -191,6 +191,12 @@
         </v-stepper-content>
       </v-stepper>
     </v-form>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      bottom
+      right
+    >{{text}}</v-snackbar>
   </v-container>
 </template>
 
@@ -216,6 +222,9 @@ export default {
       imageLocationVertical: "",
       isSpotlight: 0,
       showTime: "",
+      snackbar: false,
+      timeout: 2000,
+      text: ""
     },
     items: {
       itemsLocation: [],
@@ -293,7 +302,7 @@ export default {
         "/",
         "%2F"
       );
-      console.log(newRatingRequest);
+      //console.log(newRatingRequest);
 
       this.$axios
         .get(`http://localhost:3000/api/tp2/rating/` + newRatingRequest)
@@ -302,7 +311,12 @@ export default {
             this.showData.idRating = element.idRating;
           });
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error)
+           this.$refs["form"].reset();
+          this.text = "Empty inputs"
+          this.snackbar=true;
+          });
     },
     getIdType() {
       this.$axios
@@ -314,7 +328,12 @@ export default {
             this.showData.idShowType = element.idShowType;
           });
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error)
+           this.$refs["form"].reset();
+          this.text = "Empty inputs"
+          this.snackbar=true;
+          });
     },
     getIdLocation() {
       this.$axios
@@ -327,7 +346,12 @@ export default {
             this.showData.idLocation = element.idLocation;
           });
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error)
+           this.$refs["form"].reset();
+          this.text = "Empty inputs"
+          this.snackbar=true;
+          });
     },
     createShow() {
       const requestBody = {
@@ -346,12 +370,22 @@ export default {
         showTime: this.typedHours,
       };
 
-      console.log(requestBody);
+      //console.log(requestBody);
 
       this.$axios
         .post("http://localhost:3000/api/tp2/show/new_show", requestBody)
-        .then((response) => response)
-        .catch((error) => console.log(error));
+        .then((response) => {
+          this.$refs["form"].reset();
+          this.text = "Show inserted with success"
+          this.snackbar=true;
+          setTimeout(this.$router.push({ path: "/admin" }),1000);
+        })
+        .catch((error) => {
+          console.log(error)
+          this.$refs["form"].reset();
+          this.text = "Empty inputs"
+          this.snackbar=true;
+        });
     },
     goToHome() {
       this.$router.push({ path: "/admin" });

@@ -11,7 +11,7 @@
 
             <v-list-item-content>
               <v-list-item-title>Show: {{line.showName}}</v-list-item-title>
-              <v-list-item-subtitle>Date: {{line.date}}</v-list-item-subtitle>
+              <v-list-item-subtitle>Date: {{line.date}} | Time: {{line.showTime}}</v-list-item-subtitle>
               <v-list-item-subtitle>{{line.price}} x {{ line.quantity}} = {{ line.subtotal }} €</v-list-item-subtitle>
             </v-list-item-content>
 
@@ -23,7 +23,8 @@
           </v-list-item>
           <v-divider></v-divider>
         </v-list>
-        <v-list v-else-if="shoppingCart === null">
+        
+        <v-list v-else-if="shoppingCart === null || shoppingCart.length === 0">
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>No products</v-list-item-title>
@@ -52,6 +53,12 @@
         </v-card-actions>
       </v-card>
     </v-menu>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      bottom
+      right
+    >{{text}}</v-snackbar>
   </div>
 </template>
 
@@ -69,6 +76,12 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    text: "",
+    snackbarx: false,
+    snackbar: false,
+      timeout: 2000,
+  }),
   computed: {
     ...mapGetters({
       shoppingCart: "cart/getPurchaseLine",
@@ -102,7 +115,17 @@ export default {
                 return element;
               }
             });
-            this.updateCart(temp);
+            
+            if(this.shoppingCart.length == 0){
+              this.text = "Cart successfully cleaned"
+              this.snackbar=true;
+              this.updateCart(null);
+            }else{
+              this.text = "Cart item successfully removed"
+              this.snackbar=true;
+              this.updateCart(temp);
+            }
+            
           }
         })
         .catch((error) => console.log(error));
@@ -120,6 +143,8 @@ export default {
         .then((response) => response)
         .then((data) => {
           if (data.statusText === "OK") {
+            this.text = "Cart successfully cleaned"
+            this.snackbar=true;
             this.updateCart(null);
           }
         })

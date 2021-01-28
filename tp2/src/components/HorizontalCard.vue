@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card v-model="show" class="mx-auto" max-width="344" outlined>
-      <v-img heigth=400 width=400 contain :src="imageSource(index)" alt=""></v-img>
+      <v-img heigth=400 width=400 :src="imageSource(index)" alt=""></v-img>
       <v-container>
         <v-card-item>
         <v-card-title class="mx-0">
@@ -50,14 +50,19 @@
           <v-chip v-for="(hour, index) in show[this.ID]" :key="index">{{ hour.item.showTime }}</v-chip>
         </v-chip-group>
         <v-spacer></v-spacer>
-        <v-card-actions>
-          <v-btn color="red lighten-2" text @click="purchase()">Add To Cart</v-btn>
+        <v-card-actions v-if="status === 'running' && show[this.ID][0].item.availableTickets>0">
+          <v-btn  color="red lighten-2" text @click="purchase()">Add To Cart</v-btn>
         </v-card-actions>
       </v-card-text>
       </v-card-item>
       </v-container>
     </v-card>
-
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      bottom
+      right
+    >Product added to cart</v-snackbar>
     <login v-model="dialog"></login>
   </v-container>
 </template>
@@ -79,6 +84,8 @@ export default {
     selection: [],
     dialog: false,
     status : null,
+    snackbar: false,
+      timeout: 2000,
   }),
   created() {
     this.getSingleShow();
@@ -129,6 +136,7 @@ export default {
           .then((data) => {
             if(data.statusText === "OK"){
               this.insertCart(this.user[0].idUser)
+              this.snackbar=true;
             }
           })
           .catch((error) => console.log(error));

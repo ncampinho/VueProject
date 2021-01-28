@@ -8,8 +8,8 @@
     <v-card>
         <v-list>
           <v-list-item >
-            <v-avatar height=120px width=150px>
-              <img contain :src="imageSource(USER)" alt="">
+            <v-avatar contain height=130px width=160px>
+              <img :src="imageSource(USER)" alt="">
             </v-avatar>
 
             <v-list-item-content>
@@ -45,7 +45,7 @@ export default {
       this.$emit("input", !this.value);
     },
     imageSource(user){
-      return require("../../public/personImages/" + user.image + ".png")
+      return require("../../public/personImages/" + user.image)
     },
     
   },

@@ -8,7 +8,7 @@
               <v-progress-linear color="red" height="2" indeterminate></v-progress-linear>
             </template>
 
-            <v-img contain max-height="200" :src="imageSource(index)" ></v-img>
+            <v-img max-height="200" :src="imageSource(index)" ></v-img>
 
             <v-card-title>{{show[0].item.showName}}</v-card-title>
 
@@ -52,12 +52,20 @@
         </v-slide-item>
       </v-slide-group>
     </v-sheet>
+    
 
     <login v-model="dialog"></login>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      bottom
+      right
+    >Product added to cart</v-snackbar>
   </v-container>
   <v-container v-else id="horizontalDisplay">
     No data spotlighted
   </v-container>
+  
 </template>
 
 <script>
@@ -97,6 +105,8 @@ export default {
     ],
     loading: false,
     selection: [],
+    snackbar: false,
+      timeout: 2000,
   }),
   created() {
     this.getShows();
@@ -139,6 +149,7 @@ export default {
           .then((data) => {
             if(data.statusText === "OK"){
               this.insertCart(this.user[0].idUser)
+              this.snackbar=true;
             }
           })
           .catch((error) => console.log(error));

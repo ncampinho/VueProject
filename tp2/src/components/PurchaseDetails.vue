@@ -22,11 +22,11 @@
                     >Show: {{ line.showName }}</v-list-item-title
                   >
                   <v-list-item-subtitle
-                    >Date: {{ line.date }}</v-list-item-subtitle
+                    >Date: {{ line.date }}  | Time: {{line.showTime}}</v-list-item-subtitle
                   >
                   <v-list-item-subtitle
                     >{{ line.price }} x {{ line.quantity }} =
-                    {{ line.subTotal }} €</v-list-item-subtitle
+                    {{ line.subtotal }} €</v-list-item-subtitle
                   >
                 </v-list-item-content>
 

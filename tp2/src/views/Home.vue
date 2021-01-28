@@ -43,16 +43,16 @@ export default {
   data: () => ({
     items: [
       {
-        src: "https://images.impresa.pt/postal/2020-03-16-Cinemas-NOS-encerram-salas-em-todo-o-pais.jpg",
+        src: "https://www.agendartecultura.com.br/wp-content/uploads/2017/07/cinema.jpg",
       },
       {
-        src: "https://informacoeseservicos.lisboa.pt/fileadmin/espacos/imagens/ALA_4256.jpg",
+        src: "https://www.4rentargentina.com/blog/es/wp-content/uploads/Teatro-Colon.jpg",
       },
       {
-        src: "https://thumbs.web.sapo.io/?W=775&H=0&delay_optim=1&webp=1&epic=MmVj2y09/K4jhR0RsFXkTumVBgVCNBRpZk/9Yfu/GdvrHEamZOjCY298oZYRWMmUXZxfT0tl097DVVKLnGCExufdVOXrVKrQxl2m5y1fR5mW0fo=",
+        src: "https://media-manager.noticiasaominuto.com/naom_58fb8089d66b8.jpg?&w=1920",
       },
       {
-        src: "https://www.internetdj.com/assets/images/6a825cf4aece5045c8d589abfe636267.png",
+        src: "https://th.bing.com/th/id/Rf97427737fc72ae5cb64cda82c8bc7ec?rik=37rQIhMoGxquSw&riu=http%3a%2f%2fcdn.relentlessbeats.com%2fwp-content%2fuploads%2f2017%2f05%2fdimitri-vegas-like-mike-release-170507-030-1200x800.jpg&ehk=NA6h6RyPL48GRbZ8hEFeebfqYACb0mksrCMH86MKWws%3d&risl=&pid=ImgRaw",
       },
     ],
   }),
