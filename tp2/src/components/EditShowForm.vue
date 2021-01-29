@@ -317,11 +317,10 @@ export default {
         limitPurchaseDate: this.editedShow.limitPurchaseDate,
         showDate: this.editedShow.date,
         isSpotlight: this.getIdSpotlight(),
-        image: this.editedShow.image.name.split(".")[0],
-        imageVert: this.editedShow.imageVert.name.split(".")[0],
+        image: this.editedShow.image.name,
+        imageVert: this.editedShow.imageVert.name,
         showTime: this.editedShow.showTime,
       };
-      console.log(requestBody)
       var state = false;
       this.$axios
         .post("http://localhost:3000/api/tp2/show/update_show", requestBody)

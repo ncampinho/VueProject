@@ -143,11 +143,8 @@ export default {
   methods: {
     //Executes the register -> uses api to register a new user
     register() {
-      console.log(this.userData.image)
-      this.userData.image = this.userData.image.name.split(".")[0];
-      console.log(this.userData.image)
+      this.userData.image = this.userData.image.name;
       var route = "";
-      console.log(localStorage.getItem('user'))
       if (this.checkIfRequiredAreFill()) {
         const zipcode = this.selection.split(" - ");
         this.userData.idZipCode = zipcode[0];
@@ -157,7 +154,7 @@ export default {
           route = '/admin'
         }else{
           this.userData.idUserType = 1
-          route = '/login'
+          route = '/'
         }
         this.$axios
           .post(
@@ -169,6 +166,12 @@ export default {
               this.error = response.data;
             } else {
               this.$router.push({ path: route });
+              this.$fire({
+          title: "Registration",
+          text: "New user created successfully",
+          type: "success",
+          confirmButtonText: "Confirm",
+        });
             }
           })
           .catch((error) => console.log(error));

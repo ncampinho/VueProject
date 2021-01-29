@@ -105,7 +105,10 @@ export default {
     submit() {
       this.login(this.userData);
       setTimeout(() => this.checkUserType(), 1000);
-      this.$emit("input", !this.value);
+      setTimeout(() => {if(localStorage.getItem('user')){
+        this.$emit("input", !this.value);
+      }}, 1000)      
+      
     },
   },
 };
